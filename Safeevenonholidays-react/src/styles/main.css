@@ -1,0 +1,47 @@
+.full-page {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.section {
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+  scroll-snap-align: start;
+}
+
+.section1-card-left {
+  height: 81vh; 
+}
+
+.section1-card-right {
+  height: 40vh;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-title, .card-text {
+  text-align: left;
+}
+
+.card-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1.2rem;
+  color: #696969;
+}

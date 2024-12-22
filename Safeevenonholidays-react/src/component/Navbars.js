@@ -8,7 +8,7 @@ const Navbars = () => {
     <>
       <Navbar collapseOnSelect expand="lg" className="bg-body-white navbar">
         <Container className="border-border border-2">
-          <img src="../images/logo.png" alt="logo" className="logo" />
+          <img src="/images/logo.png" alt="logo" className="logo" />
           <Navbar.Brand href="/" className="ms-3">
             휴일도안심
           </Navbar.Brand>

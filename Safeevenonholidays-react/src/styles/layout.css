@@ -28,13 +28,12 @@
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background-color: #f9fafb;
-  text-align: center;
-  justify-content: center;
-  padding: 10px 0;
+  width: 100%;       
+  background-color: #f9fafb; 
+  text-align: center; 
+  padding: 10px 0;    
+  position: relative; 
+  bottom: 0;          
 }
 
 .footer p {
