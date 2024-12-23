@@ -1,5 +1,6 @@
 package safe_holiday.safe_holiday.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import safe_holiday.safe_holiday.domain.*;
@@ -16,10 +17,13 @@ import java.util.stream.Collectors;
 public class SafeMemberDTO {
     private Long id;
 
+    @NotEmpty(message = "아이디를 적어주세요.")
     private String email;
 
+    @NotEmpty(message = "비밀번호를 적어주세요.")
     private String password;
 
+    @NotEmpty(message = "이름을 적어주세요.")
     private String name;
 
     private String nickName;

@@ -20,6 +20,7 @@ public interface MemberService {
     //삭제
     void remove(Long id);
 
+
     default SafeMemberDTO entityToDTO(SafeMember safeMember){
         SafeMemberDTO safeMemberDTO = SafeMemberDTO.builder()
                 .id(safeMember.getId())
