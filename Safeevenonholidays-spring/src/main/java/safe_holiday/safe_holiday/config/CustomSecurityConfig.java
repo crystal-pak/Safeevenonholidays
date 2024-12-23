@@ -10,6 +10,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import safe_holiday.safe_holiday.security.filter.JWTCheckFilter;
+import safe_holiday.safe_holiday.security.handler.APILoginFailureHandler;
+import safe_holiday.safe_holiday.security.handler.APILoginSuccessHandler;
 
 import java.util.Arrays;
 
@@ -28,15 +32,15 @@ public class CustomSecurityConfig {
         //CSRF 사용하지 않음
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
-//        //뷰가 없으므로 시큐리티가 제공하는 LoginForm을 사용한다.
-//        http.formLogin(config -> {
-//            config.loginPage("/api/member/login");
-//            config.successHandler(new APILoginSuccessHandler());
-//            config.failureHandler(new APILoginFailHandler());
-//        });
-//
-//        //사용자 아이다와 패스워드를 검증하는 필터전에 우리가 만든 필터를 동작시킨다.
-//        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class); //JWT 체크
+        //뷰가 없으므로 시큐리티가 제공하는 LoginForm을 사용한다.
+        http.formLogin(config -> {
+            config.loginPage("/api/member/login");
+            config.successHandler(new APILoginSuccessHandler());
+            config.failureHandler(new APILoginFailureHandler());
+        });
+
+        //사용자 아이다와 패스워드를 검증하는 필터전에 우리가 만든 필터를 동작시킨다.
+        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class); //JWT 체크
 
         return http.build();
     }
@@ -63,14 +67,12 @@ public class CustomSecurityConfig {
         //true로 설정되면, 서버는 자격 증명이 있는 요청을 신뢰
         configuration.setAllowCredentials(true);
 
-//        //URL 패턴에 따라 CorsConfiguration을 매핑할 수 있는 객체를 생성
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//        // "/**"로 지정하여 모든 URL 경로에 대해 이 CORS 정책을 적용
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-        return null;
-    }
+        //URL 패턴에 따라 CorsConfiguration을 매핑할 수 있는 객체를 생성
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
+        // "/**"로 지정하여 모든 URL 경로에 대해 이 CORS 정책을 적용
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 }

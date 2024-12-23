@@ -13,6 +13,7 @@ import safe_holiday.safe_holiday.util.JWTUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 public class JWTCheckFilter extends OncePerRequestFilter {
@@ -51,17 +52,17 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String accessToken = authHeaderStr.substring(7); //앞의 7개는 짤라냄
             Map<String, Object> claims = JWTUtil.validateToken(accessToken);
 
-
             //성공하면 다음 목적지를 부른다.
             //filterChain.doFilter(request, response); //통과
             String email = (String) claims.get("email");
             String password = (String) claims.get("password");
             String nickName = (String) claims.get("nickName");
             Boolean social = (Boolean) claims.get("social");
+            List<String> roleNames = (List<String>) claims.get("roleNames");
 
-            SafeMemberDTO memberDTO = new SafeMemberDTO(email, password, nickName, social.booleanValue());
+            SafeMemberDTO memberDTO = new SafeMemberDTO(email, password, nickName, social.booleanValue(), roleNames);
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberDTO, password);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberDTO, password, memberDTO.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
