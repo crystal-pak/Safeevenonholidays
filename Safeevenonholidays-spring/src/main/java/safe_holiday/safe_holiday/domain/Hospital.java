@@ -24,6 +24,8 @@ public class Hospital {
     @Column(unique = true) // UNIQUE 제약 조건으로 설정
     private String hospitalId;
 
+    private String hospitalName;
+
     @OneToMany(mappedBy = "hospitalId", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 

@@ -26,6 +26,8 @@ public class QPharmacy extends EntityPathBase<Pharmacy> {
 
     public final StringPath pharmacyId = createString("pharmacyId");
 
+    public final StringPath pharmacyName = createString("pharmacyName");
+
     public final ListPath<Review, QReview> reviewList = this.<Review, QReview>createList("reviewList", Review.class, QReview.class, PathInits.DIRECT2);
 
     public QPharmacy(String variable) {

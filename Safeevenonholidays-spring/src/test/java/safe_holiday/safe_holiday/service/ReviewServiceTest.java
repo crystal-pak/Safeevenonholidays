@@ -4,9 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import safe_holiday.safe_holiday.domain.Hospital;
+import safe_holiday.safe_holiday.domain.Pharmacy;
 import safe_holiday.safe_holiday.domain.Review;
 import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.ReviewDTO;
+import safe_holiday.safe_holiday.repository.HospitalRepository;
+import safe_holiday.safe_holiday.repository.PharmacyRepository;
 import safe_holiday.safe_holiday.repository.ReviewRepository;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
@@ -27,14 +31,23 @@ class ReviewServiceTest {
     @Autowired
     SafeMemberRepository safeMemberRepository;
 
+    @Autowired
+    HospitalRepository hospitalRepository;
+
+    @Autowired
+    PharmacyRepository pharmacyRepository;
+
     @Test
     void 리뷰등록() {
         Optional<SafeMember> member = safeMemberRepository.findById(1L);
+        Optional<Hospital> hospital = hospitalRepository.findById(1L);
+        Optional<Pharmacy> pharmacy = pharmacyRepository.findById(1L);
 
         ReviewDTO reviewDTO = ReviewDTO.builder()
                 .rating(5)
                 .content("리뷰테스트")
                 .author(member.get())
+                .pharmacyId(pharmacy.get())
                 .createDate(LocalDateTime.now())
                 .build();
 

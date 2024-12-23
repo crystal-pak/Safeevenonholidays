@@ -19,6 +19,8 @@ public class HospitalDTO {
 
     private String hospitalId;
 
+    private String hospitalName;
+
     private List<Review> reviewList = new ArrayList<>();
 
     private List<Favorite> favoriteList = new ArrayList<>();
