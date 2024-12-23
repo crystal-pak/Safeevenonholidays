@@ -12,7 +12,7 @@ public interface ReviewService {
     Long register(ReviewDTO reviewDTO);
 
     //수정
-    void moidfy(ReviewDTO reviewDTO);
+    void modify(ReviewDTO reviewDTO);
 
     //삭제
     void remove(Long id);

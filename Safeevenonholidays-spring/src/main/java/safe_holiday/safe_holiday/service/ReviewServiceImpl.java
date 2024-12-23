@@ -32,7 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //수정
     @Override
-    public void moidfy(ReviewDTO reviewDTO) {
+    public void modify(ReviewDTO reviewDTO) {
         Optional<Review> result = reviewRepository.findById(reviewDTO.getId());
         Review review = result.orElseThrow();
 
