@@ -8,9 +8,6 @@ public interface MemberService {
     //고유 번호 조회
     SafeMemberDTO get(Long id);
 
-    //이메일 조회
-    SafeMemberDTO getEmail(String email);
-
     //가입
     Long register(SafeMemberDTO safeMemberDTO);
 
@@ -27,7 +24,6 @@ public interface MemberService {
                 .email(safeMember.getEmail())
                 .name(safeMember.getName())
                 .nickName(safeMember.getNickName())
-                .grade(safeMember.getGrade())
                 .social(safeMember.isSocial())
                 .password(safeMember.getPassword())
                 .build();
@@ -40,7 +36,6 @@ public interface MemberService {
                 .email(safeMemberDTO.getEmail())
                 .name(safeMemberDTO.getName())
                 .nickName(safeMemberDTO.getNickName())
-                .grade(safeMemberDTO.getGrade())
                 .social(safeMemberDTO.isSocial())
                 .password(safeMemberDTO.getPassword())
                 .build();

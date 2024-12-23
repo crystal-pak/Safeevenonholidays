@@ -1,5 +1,6 @@
 package safe_holiday.safe_holiday.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 public interface SafeMemberRepository extends JpaRepository<SafeMember, Long> {
 
+    @EntityGraph(attributePaths = {"memberRoleList"})
     @Query("select m from SafeMember m where m.email = :email")
     SafeMember getWithRoles(@Param("email") String email);
 

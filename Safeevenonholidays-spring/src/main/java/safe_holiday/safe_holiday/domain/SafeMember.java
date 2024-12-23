@@ -29,6 +29,21 @@ public class SafeMember {
 
     private boolean social;
 
+    //memberRoleList가 실제로 사용될 때 데이터 로드
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<MemberRole> memberRoleList = new ArrayList<>();
+
+    //권한 부여
+    public void addRole(MemberRole memberRole){
+        memberRoleList.add(memberRole);
+    }
+
+    //권한 삭제
+    public void clearRole(){
+        memberRoleList.clear();
+    }
+
     //new ArrayList<>() : NullPointerException을 방지하기 위해 리스트 초기화 설정
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Question> questionList = new ArrayList<>();
@@ -45,12 +60,6 @@ public class SafeMember {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Favorite> favoriteList = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING) // enum 값을 문자열로 저장
-    private Grade grade;
-
-    public enum Grade {
-        ADMIN, USER;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -70,9 +79,5 @@ public class SafeMember {
 
     public void setSocial(boolean social) {
         this.social = social;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
     }
 }

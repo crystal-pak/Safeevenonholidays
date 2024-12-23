@@ -3,6 +3,7 @@ package safe_holiday.safe_holiday.dto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import safe_holiday.safe_holiday.domain.*;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 @Getter @Setter
 @ToString
 @Builder
-public class SafeMemberDTO {
+public class SafeMemberDTO extends User {
     private Long id;
 
     @NotEmpty(message = "아이디를 적어주세요.")
@@ -30,6 +31,8 @@ public class SafeMemberDTO {
 
     private boolean social;
 
+    private List<String> roleNames = new ArrayList<>();
+
     private List<Question> questionList = new ArrayList<>();
 
     private List<Answer> answerList = new ArrayList<>();
@@ -40,16 +43,15 @@ public class SafeMemberDTO {
 
     private List<Favorite> favoriteList = new ArrayList<>();
 
-    private SafeMember.Grade grade;
-
     //우리는 문자로 권한을 받으면 되는데 시큐리티는 객체로 받아야 함. 그래서 new SimpleGrantedAuthority("ROLE_" + str) 문자를 객체로 생성해 준다.
-    public SafeMemberDTO(String email, String password, String nickName, boolean social) {
-        super();
+    public SafeMemberDTO(String email, String password, String nickName, boolean social, List<String> roleNames) {
+        super(email, password, roleNames.stream().map(str -> new SimpleGrantedAuthority("ROLE_" + str)).collect(Collectors.toList()));
 
         this.email = email;
         this.password = password;
         this.nickName = nickName;
         this.social = social;
+        this.roleNames = roleNames;
     }
 
     //JWT 문자열을 만들어서 데이터를 주고 받는다.
@@ -61,6 +63,7 @@ public class SafeMemberDTO {
         dataMap.put("password", password);
         dataMap.put("nickName", nickName);
         dataMap.put("social", social);
+        dataMap.put("roleNames", roleNames);
 
         return dataMap;
     }

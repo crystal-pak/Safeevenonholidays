@@ -22,14 +22,6 @@ public class MemberServiceImpl implements MemberService {
         return entityToDTO(safeMember);
     }
 
-    //이메일 조회
-    @Override
-    public SafeMemberDTO getEmail(String email) {
-        Optional<SafeMember> result = safeMemberRepository.findByEmail(email);
-        SafeMember safeMember = result.orElseThrow();
-        return entityToDTO(safeMember);
-    }
-
     //가입
     @Override
     public Long register(SafeMemberDTO safeMemberDTO) {
@@ -54,8 +46,6 @@ public class MemberServiceImpl implements MemberService {
         Optional<SafeMember> result = safeMemberRepository.findById(safeMemberDTO.getId());
         SafeMember safeMember = result.orElseThrow();
 
-        safeMember.setEmail(safeMemberDTO.getEmail());
-        safeMember.setGrade(safeMemberDTO.getGrade());
         safeMember.setPassword(safeMemberDTO.getPassword());
 
         safeMemberRepository.save(safeMember);
