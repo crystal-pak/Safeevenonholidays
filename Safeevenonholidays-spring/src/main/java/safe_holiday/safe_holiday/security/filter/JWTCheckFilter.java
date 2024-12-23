@@ -13,7 +13,6 @@ import safe_holiday.safe_holiday.util.JWTUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Map;
 
 public class JWTCheckFilter extends OncePerRequestFilter {
@@ -38,7 +37,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
 
-        log.info("체크 url {}", path);
         return false; //체크함
     }
 
