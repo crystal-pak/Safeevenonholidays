@@ -19,6 +19,8 @@ public class PharmacyDTO {
 
     private String pharmacyId;
 
+    private String pharmacyName;
+
     private List<Review> reviewList = new ArrayList<>();
 
     private List<Favorite> favoriteList = new ArrayList<>();

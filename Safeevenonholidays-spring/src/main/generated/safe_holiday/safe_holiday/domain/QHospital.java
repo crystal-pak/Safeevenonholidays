@@ -24,6 +24,8 @@ public class QHospital extends EntityPathBase<Hospital> {
 
     public final StringPath hospitalId = createString("hospitalId");
 
+    public final StringPath hospitalName = createString("hospitalName");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<Review, QReview> reviewList = this.<Review, QReview>createList("reviewList", Review.class, QReview.class, PathInits.DIRECT2);
