@@ -1,12 +1,29 @@
 package safe_holiday.safe_holiday.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import safe_holiday.safe_holiday.domain.Hospital;
+import safe_holiday.safe_holiday.dto.*;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class HospitalService {
+public interface HospitalService {
 
+    PageResponseDTO<HospitalDTO> getlist(PageRequestDTO pageRequestDTO);
+
+    default HospitalDTO entityToDTO(Hospital hospital){
+        HospitalDTO hospitalDTO = HospitalDTO.builder()
+                .id(hospital.getId())
+                .hospitalId(hospital.getHospitalId())
+                .hospitalName(hospital.getHospitalName())
+                .build();
+
+        return hospitalDTO;
+    }
+
+    default Hospital DTOToEntity(HospitalDTO hospitalDTO){
+        Hospital hospital = Hospital.builder()
+                .id(hospitalDTO.getId())
+                .hospitalId(hospitalDTO.getHospitalId())
+                .hospitalName(hospitalDTO.getHospitalName())
+                .build();
+
+        return hospital;
+    }
 }
