@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import safe_holiday.safe_holiday.domain.Info;
+import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.dto.PageResponseDTO;
@@ -31,6 +32,12 @@ public class InfoServiceImpl implements InfoService {
     //등록
     @Override
     public Long register(InfoDTO infoDTO) {
+        // 임시로 "1번 멤버"를 author에 설정, 나중에 수정할 것 **
+        SafeMember member = new SafeMember();
+        member.setId(1L);
+
+        infoDTO.setAuthor(member);
+
         Info info = DTOToEntity(infoDTO);
         Info result = infoRepository.save(info);
         return result.getId();
