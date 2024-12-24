@@ -1,6 +1,7 @@
 package safe_holiday.safe_holiday.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -39,6 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                         .stream()
                         .map(memberRole -> memberRole.name()).collect(Collectors.toList()));
 
-        return (UserDetails) safeMemberDTO;
+        log.info("로그인한 멤버 {}", safeMemberDTO);
+        return safeMemberDTO;
     }
 }

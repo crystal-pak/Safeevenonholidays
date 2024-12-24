@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,7 +16,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+@Slf4j
 public class JWTCheckFilter extends OncePerRequestFilter {
     //검증(필터)에서 제외하고 싶은 url
     @Override
@@ -33,20 +36,13 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true; //체크하지 않음
         }
 
-        if(path.startsWith("/api/info/")){
-            return true; //체크하지 않음
-        }
-
-        //이미지 조회 경로는 체크하지 않는다
-        if(path.startsWith("/api/products/view")){
-            return true;
-        }
-
+        log.info("체크 url {}", path);
         return false; //체크함
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("doFilterInternal : 검증중^^");
 
         //일단 끄집어 낸다
         String authHeaderStr = request.getHeader("Authorization");
@@ -56,9 +52,11 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String accessToken = authHeaderStr.substring(7); //앞의 7개는 짤라냄
             Map<String, Object> claims = JWTUtil.validateToken(accessToken);
 
-            //성공하면 다음 목적지를 부른다.
-            //filterChain.doFilter(request, response); //통과
-            Long id = (Long) claims.get("id");
+            // ID 값을 안전하게 변환
+            Long id = Optional.ofNullable(claims.get("id"))
+                    .map(obj -> obj instanceof Integer ? ((Integer) obj).longValue() : (Long) obj)
+                    .orElse(null);
+
             String email = (String) claims.get("email");
             String password = (String) claims.get("password");
             String name = (String) claims.get("name");
@@ -67,6 +65,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             List<String> roleNames = (List<String>) claims.get("roleNames");
 
             SafeMemberDTO memberDTO = new SafeMemberDTO(id, email, password, name, nickName, social.booleanValue(), roleNames);
+            log.info("멤버? {}", memberDTO);
+            log.info("멤버 권한? {}", memberDTO.getAuthorities());
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberDTO, password, memberDTO.getAuthorities());
 
@@ -74,6 +74,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
+            log.info("에러 {}", e.getMessage());
             Gson gson = new Gson();
             String msg = gson.toJson(Map.of("error", "ERROR_ACCESS_TOKEN"));
             response.setContentType("application/json");
