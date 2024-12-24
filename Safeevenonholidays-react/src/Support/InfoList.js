@@ -1,8 +1,12 @@
 import React from 'react'
+import InfoListComponent from '../component/info/InfoListComponent'
 
 const InfoList = () => {
   return (
-    <div>InfoList</div>
+    <>
+      <h2>자료실</h2>
+      <InfoListComponent />
+    </>
   )
 }
 
