@@ -1,25 +1,32 @@
 package safe_holiday.safe_holiday.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import safe_holiday.safe_holiday.domain.Info;
 import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.repository.InfoRepository;
+import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
 
     private final InfoRepository infoRepository;
+
+    private final SafeMemberRepository safeMemberRepository;
 
     //조회
     @Override
@@ -32,13 +39,18 @@ public class InfoServiceImpl implements InfoService {
     //등록
     @Override
     public Long register(InfoDTO infoDTO) {
-        // 임시로 "1번 멤버"를 author에 설정, 나중에 수정할 것 **
-        SafeMember member = new SafeMember();
-        member.setId(1L);
+        /// 현재 로그인한 사용자 이름 가져오기
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("현재 로그인된 사용자 이름: {}", username);
 
-        infoDTO.setAuthor(member);
+        // 사용자 정보 조회 및 예외 처리
+        SafeMember member = safeMemberRepository.findByEmail(username)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + username));
 
+        // Info 엔티티 생성 및 저장
         Info info = DTOToEntity(infoDTO);
+        info.setAuthor(member);
+
         Info result = infoRepository.save(info);
         return result.getId();
     }

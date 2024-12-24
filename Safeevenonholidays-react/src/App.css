@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'NanumGothic-Regular';
+    src: url(./fonts/NanumGothic-Regular.ttf);}
+
+    * {
+        font-family: 'NanumGothic-Regular', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'NanumGothic-Regular', sans-serif;
+    }
