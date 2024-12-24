@@ -49,7 +49,6 @@ public class InfoServiceImpl implements InfoService {
         Optional<Info> result = infoRepository.findById(infoDTO.getId());
         Info info = result.orElseThrow();
 
-        info.setAuthor(infoDTO.getAuthor());
         info.setSubject(infoDTO.getSubject());
         info.setContent(infoDTO.getContent());
         info.setModifyDate(LocalDateTime.now());

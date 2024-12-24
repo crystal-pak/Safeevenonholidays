@@ -28,27 +28,34 @@ const useCustomMove = () => {
         }
         setRefresh(!refresh)
         navigate({
-        pathname: `./../list/`,
+        pathname: `../list/`,
         search: queryStr
+        })
+    }
+
+    const add = (id) => {
+        navigate({
+          pathname: `../add/`,
+          search: queryDefault
         })
     }
 
     const modify = (id) => {
         navigate({
-          pathname: `./../modify/${id}`,
+          pathname: `../modify/${id}`,
           search: queryDefault
         })
     }
 
-    const read = (id) => {
+    const detail = (id) => {
         navigate({
-          pathname: `./../read/${id}`,
+          pathname: `../detail/${id}`,
           search: queryDefault
         })
     }
     
     return (
-        { list, modify, read, page, size, refresh }
+        { list, modify, detail, add, page, size, refresh }
     )
 }
 

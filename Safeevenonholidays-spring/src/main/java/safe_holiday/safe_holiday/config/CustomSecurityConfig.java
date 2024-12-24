@@ -32,6 +32,7 @@ public class CustomSecurityConfig {
         //CSRF 사용하지 않음
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
+
         //뷰가 없으므로 시큐리티가 제공하는 LoginForm을 사용한다.
         http.formLogin(config -> {
             config.loginPage("/api/member/login");
