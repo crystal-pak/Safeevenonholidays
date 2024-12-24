@@ -19,7 +19,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final SafeMemberRepository safeMemberRepository;
 
     //loadUserByUsername()에서 사용자 정보를 조회하고 해당 사용자의 인증과 권한을 처리하게 된다.
-    //loadUserByUsername()에서 사용자 정보를 조회하고 해당 사용자의 인증과 권한을 처리하게 된다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -30,8 +29,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         SafeMemberDTO safeMemberDTO = new SafeMemberDTO(
+                member.getId(),
                 member.getEmail(),
                 member.getPassword(),
+                member.getName(),
                 member.getNickName(),
                 member.isSocial(),
                 member.getMemberRoleList()
