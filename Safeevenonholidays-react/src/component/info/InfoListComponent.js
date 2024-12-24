@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import useCustomMove from '../../hooks/useCustomMove'
 import { getList } from '../../api/infoApi'
 import PageComponent from '../common/PageComponent'
@@ -18,7 +18,7 @@ const initState = {
 }
 
 const InfoListComponent = () => {
-  const {page, size, list, refresh, read} = useCustomMove()
+  const {page, size, list, refresh, detail, add} = useCustomMove()
   const [serverData, setServerData] = useState(initState)
 
   useEffect(() => {
@@ -33,8 +33,9 @@ const InfoListComponent = () => {
       <Table striped bordered hover>
       <thead className='text-center'>
         <tr>
-          <th>#</th>
-          <th className='w-75'>title</th>
+          <th>글번호</th>
+          <th className='w-75'>제목</th>
+          <th>작성자</th>
           <th>날짜</th>
         </tr>
       </thead>
@@ -43,14 +44,18 @@ const InfoListComponent = () => {
           <tr>
             <td className='text-center'>{item.id}</td>
             <td
-              onClick={() => read(item.id)}
+              onClick={() => detail(item.id)}
               style={{cursor: 'pointer'}}
             >{item.subject}</td>
+            <td className='text-center'>{item.author.name}</td>
             <td className='text-center'>{item.createDate}</td>
           </tr>
         ))}
       </tbody>
     </Table>
+    <div className='text-end'>
+      <Button onClick={add}>글작성</Button>
+    </div>
     <PageComponent serverData={serverData} list={list} />
     </>
   )

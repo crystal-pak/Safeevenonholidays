@@ -30,31 +30,46 @@ import InfoModify from "./Support/InfoModify";
 function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
-      <Route path="/" element={<Main />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Main />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/login/findid" element={<FindId />} />
-        <Route path="/login/findid" element={<FindPassword />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mypage/modify/:userid" element={<Modify />} />
-        <Route path="/mypage/myreviews/:userid" element={<MyReviews />} />
-        <Route path="/mypage/myfavorites/:userid" element={<MyFavorites />} />
-        <Route path="/mypage/admin" element={<AdminMyPage />} />
-        <Route path="/mypage/member/list" element={<MemberList />} />
-        <Route path="/mypage/member/modify/:userid" element={<MemberModify />} />
-        <Route path="/hospital/search" element={<HospitalSearch />} />
-        <Route path="/hospital/detail/:hospitalid" element={<HospitalDetail />} />
-        <Route path="/pharmacy/search" element={<PharmacySearch />} />
-        <Route path="/pharmacy/detail/:pharmacyid" element={<PharmacyDetail />} />
-        <Route path="/info/list" element={<InfoList />} />
-        <Route path="/info/add" element={<InfoAdd />} />
-        <Route path="/info/detail/modify/:infoid" element={<InfoModify />} />
-        <Route path="/info/detail/:infoid" element={<InfoDetail />} />
-        <Route path="/help/list" element={<HelpList />} />
-        <Route path="/help/add" element={<HelpAdd />} />
-        <Route path="/help/detail" element={<HelpDetail />} />
-        <Route path="/help/detail/modify/:helpid" element={<HelpModify />} />
+        <Route path="/login/" element={<Login />}>
+          <Route path="findid" element={<FindId />} />
+          <Route path="findpassword" element={<FindPassword />} />
+        </Route>
+        
+        <Route path="/mypage/" element={<MyPage />}>
+          <Route path="modify/:id" element={<Modify />} />
+          <Route path="myreviews/:id" element={<MyReviews />} />
+          <Route path="myfavorites/:id" element={<MyFavorites />} />
+          <Route path="admin" element={<AdminMyPage />} />
+          <Route path="member/list" element={<MemberList />} />
+          <Route path="member/modify/:id" element={<MemberModify />} />
+        </Route>
+        
+        <Route path="/hospital/">
+          <Route path="search" element={<HospitalSearch />} />
+          <Route path="detail/:id" element={<HospitalDetail />} />
+        </Route>
+        
+        <Route path="/pharmacy/">
+          <Route path="search" element={<PharmacySearch />} />
+          <Route path="detail/:id" element={<PharmacyDetail />} />
+        </Route>
+
+        <Route path="/info/">
+          <Route path="list" element={<InfoList />} />
+          <Route path="add" element={<InfoAdd />} />
+          <Route path="modify/:id" element={<InfoModify />} />
+          <Route path="detail/:id" element={<InfoDetail />} />
+        </Route>
+        
+        <Route path="/help/">
+          <Route path="list" element={<HelpList />} />
+          <Route path="add" element={<HelpAdd />} />
+          <Route path="detail/:id" element={<HelpDetail />} />
+          <Route path="modify/:id" element={<HelpModify />} />
+        </Route>
       </Route>
     </Routes>
   );
