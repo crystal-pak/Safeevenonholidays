@@ -14,7 +14,6 @@ import java.util.Map;
 public class SafeMemberController {
 
     private final MemberService memberService;
-    private final SafeMemberRepository safeMemberRepository;
 
     //조회
     @GetMapping("/{id}")

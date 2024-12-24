@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import safe_holiday.safe_holiday.domain.Info;
+import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.repository.InfoRepository;
+import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -23,11 +25,17 @@ class InfoServiceTest {
     @Autowired
     InfoRepository infoRepository;
 
+    @Autowired
+    SafeMemberRepository safeMemberRepository;
+
     @Test
     void 등록() {
+        Optional<SafeMember> member = safeMemberRepository.findById(1L);
+
         InfoDTO infoDTO = InfoDTO.builder()
                 .subject("등록테스트")
                 .content("등록테스트")
+                .author(member.get())
                 .createDate(LocalDateTime.now())
                 .build();
 
@@ -36,10 +44,13 @@ class InfoServiceTest {
 
     @Test
     void 등록100개() {
+        Optional<SafeMember> member = safeMemberRepository.findById(1L);
+
         for(int i = 1; i<=100; i++) {
             InfoDTO infoDTO = InfoDTO.builder()
                     .subject("제목" + i)
                     .content("내용" + i)
+                    .author(member.get())
                     .createDate(LocalDateTime.now())
                     .build();
 
