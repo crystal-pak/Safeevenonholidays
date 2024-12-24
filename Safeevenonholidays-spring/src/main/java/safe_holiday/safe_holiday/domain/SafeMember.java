@@ -1,5 +1,6 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = "memberRoleList")
+@ToString(exclude = {"memberRoleList", "questionList", "answerList", "infoList", "reviewList", "favoriteList"})
 public class SafeMember {
 
     @Id
@@ -46,18 +47,23 @@ public class SafeMember {
 
     //new ArrayList<>() : NullPointerException을 방지하기 위해 리스트 초기화 설정
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Question> questionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Answer> answerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    private List<Info> InfoList = new ArrayList<>();
+    @JsonIgnore
+    private List<Info> infoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Favorite> favoriteList = new ArrayList<>();
 
 
