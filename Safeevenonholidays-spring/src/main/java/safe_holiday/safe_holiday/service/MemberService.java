@@ -19,7 +19,7 @@ public interface MemberService {
 
 
     default SafeMemberDTO entityToDTO(SafeMember safeMember){
-        SafeMemberDTO safeMemberDTO = SafeMemberDTO.builder()
+        SafeMemberDTO safeMemberDTO = SafeMemberDTO.memberBuilder()
                 .id(safeMember.getId())
                 .email(safeMember.getEmail())
                 .name(safeMember.getName())

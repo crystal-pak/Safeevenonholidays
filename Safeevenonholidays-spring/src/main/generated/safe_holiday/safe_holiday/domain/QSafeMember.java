@@ -26,11 +26,11 @@ public class QSafeMember extends EntityPathBase<SafeMember> {
 
     public final ListPath<Favorite, QFavorite> favoriteList = this.<Favorite, QFavorite>createList("favoriteList", Favorite.class, QFavorite.class, PathInits.DIRECT2);
 
-    public final EnumPath<SafeMember.Grade> grade = createEnum("grade", SafeMember.Grade.class);
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<Info, QInfo> InfoList = this.<Info, QInfo>createList("InfoList", Info.class, QInfo.class, PathInits.DIRECT2);
+
+    public final ListPath<MemberRole, EnumPath<MemberRole>> memberRoleList = this.<MemberRole, EnumPath<MemberRole>>createList("memberRoleList", MemberRole.class, EnumPath.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 

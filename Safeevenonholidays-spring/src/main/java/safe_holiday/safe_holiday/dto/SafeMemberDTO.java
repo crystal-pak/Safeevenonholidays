@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 
 @Getter @Setter
 @ToString
-@Builder
+@Builder(builderMethodName = "memberBuilder")
 public class SafeMemberDTO extends User {
+
     private Long id;
 
     @NotEmpty(message = "아이디를 적어주세요.")
@@ -31,24 +32,17 @@ public class SafeMemberDTO extends User {
 
     private boolean social;
 
+    @Builder.Default
     private List<String> roleNames = new ArrayList<>();
 
-    private List<Question> questionList = new ArrayList<>();
-
-    private List<Answer> answerList = new ArrayList<>();
-
-    private List<Info> InfoList = new ArrayList<>();
-
-    private List<Review> reviewList = new ArrayList<>();
-
-    private List<Favorite> favoriteList = new ArrayList<>();
-
     //우리는 문자로 권한을 받으면 되는데 시큐리티는 객체로 받아야 함. 그래서 new SimpleGrantedAuthority("ROLE_" + str) 문자를 객체로 생성해 준다.
-    public SafeMemberDTO(String email, String password, String nickName, boolean social, List<String> roleNames) {
+    public SafeMemberDTO(Long id, String email, String password, String name, String nickName, boolean social, List<String> roleNames) {
         super(email, password, roleNames.stream().map(str -> new SimpleGrantedAuthority("ROLE_" + str)).collect(Collectors.toList()));
 
+        this.id = id;
         this.email = email;
         this.password = password;
+        this.name = name;
         this.nickName = nickName;
         this.social = social;
         this.roleNames = roleNames;
@@ -59,8 +53,10 @@ public class SafeMemberDTO extends User {
     public Map<String, Object> getClaims() {
         Map<String, Object> dataMap = new HashMap<>();
 
+        dataMap.put("id", id);
         dataMap.put("email", email);
         dataMap.put("password", password);
+        dataMap.put("name", name);
         dataMap.put("nickName", nickName);
         dataMap.put("social", social);
         dataMap.put("roleNames", roleNames);

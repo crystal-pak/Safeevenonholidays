@@ -7,11 +7,8 @@ spring:
     username: sa
   jpa:
     hibernate:
-<<<<<<<<< Temporary merge branch 1
-      ddl-auto: create #
-=========
       ddl-auto: update
->>>>>>>>> Temporary merge branch 2
+
     properties:
       hibernate:
         format_sql: true
