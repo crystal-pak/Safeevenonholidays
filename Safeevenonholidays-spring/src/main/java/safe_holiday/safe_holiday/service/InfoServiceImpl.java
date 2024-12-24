@@ -14,6 +14,7 @@ import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.repository.InfoRepository;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,7 @@ public class InfoServiceImpl implements InfoService {
 
         info.setSubject(infoDTO.getSubject());
         info.setContent(infoDTO.getContent());
-        info.setModifyDate(LocalDateTime.now());
+        info.setModifyDate(LocalDate.now());
 
         infoRepository.save(info);
     }

@@ -5,6 +5,7 @@ import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.dto.PageResponseDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface InfoService {
@@ -29,8 +30,8 @@ public interface InfoService {
                 .id(info.getId())
                 .subject(info.getSubject())
                 .content(info.getContent())
-                .createDate(LocalDateTime.now())
-                .modifyDate(info.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(info.getAuthor())
                 .build();
         return infoDTO;
@@ -42,8 +43,8 @@ public interface InfoService {
                 .id(infoDTO.getId())
                 .subject(infoDTO.getSubject())
                 .content(infoDTO.getContent())
-                .createDate(LocalDateTime.now())
-                .modifyDate(infoDTO.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(infoDTO.getAuthor())
                 .build();
         return info;
