@@ -1,4 +1,5 @@
 import jwtAxios from '../util/jwtUtil'
+import axios from 'axios'
 
 export const API_SERVER_HOST = 'http://localhost:8080'
 
@@ -6,14 +7,14 @@ const prefix = `${API_SERVER_HOST}/api/info`
 
 //특정번호 조회
 export const getOne = async(id) => {
-    const res = await jwtAxios.get(`${prefix}/${id}`)
+    const res = await axios.get(`${prefix}/${id}`)
     return res.data
 }
 
 //전체 list 조회
 export const getList = async(pageParam) => {
     const {page, size} = pageParam
-    const res = await jwtAxios.get(`${prefix}/list`, {params : {page : page, size : size}})
+    const res = await axios.get(`${prefix}/list`, {params : {page : page, size : size}})
     return res.data
 }
 

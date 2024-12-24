@@ -29,7 +29,7 @@ const InfoModifyComponent = ({id}) => {
         putOne(info).then(data => {
             console.log("수정 결과:", data);
             setResult('Modified')
-            detail()
+            detail(id)
         })
     }
 
