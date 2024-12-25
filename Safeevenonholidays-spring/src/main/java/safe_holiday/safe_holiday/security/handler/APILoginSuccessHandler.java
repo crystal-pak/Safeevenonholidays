@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import safe_holiday.safe_holiday.dto.SafeMemberDTO;
@@ -13,10 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+@Slf4j
 public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
+        log.info("로그인 성공 후 인증 정보 : {}", authentication);
         //인증된 사용자의 정보(authentication.getPrincipal())를 반환
         SafeMemberDTO memberDTO = (SafeMemberDTO) authentication.getPrincipal();
 

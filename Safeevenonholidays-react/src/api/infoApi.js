@@ -1,3 +1,4 @@
+import jwtAxios from '../util/jwtUtil'
 import axios from 'axios'
 
 export const API_SERVER_HOST = 'http://localhost:8080'
@@ -19,18 +20,18 @@ export const getList = async(pageParam) => {
 
 //데이터 추가
 export const postAdd = async(infoobj) => {
-    const res = await axios.post(`${prefix}/`, infoobj)
+    const res = await jwtAxios.post(`${prefix}/`, infoobj)
     return res.data
 }
 
 //수정
 export const putOne = async(info) => {
-    const res = await axios.put(`${prefix}/${info.id}`, info)
+    const res = await jwtAxios.put(`${prefix}/${info.id}`, info)
     return res.data
 }
 
 //삭제
 export const deleteOne = async(info) => {
-    const res = await axios.delete(`${prefix}/${info}`)
+    const res = await jwtAxios.delete(`${prefix}/${info}`)
     return res.data
 }

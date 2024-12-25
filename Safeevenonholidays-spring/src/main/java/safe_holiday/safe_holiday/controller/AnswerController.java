@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/answers")
+@RequestMapping("/api/answer")
 public class AnswerController {
 
     private final AnswerService answerService;

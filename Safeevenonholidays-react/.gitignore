@@ -1,0 +1,10 @@
+# .gitignore 예시
+
+# node_modules 폴더 무시
+node_modules/
+
+# 환경 변수 파일 무시
+.env
+
+# macOS에서 생성되는 .DS_Store 파일 무시
+.DS_Store

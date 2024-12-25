@@ -1,21 +1,19 @@
+/* Main Section1 */
 .full-page {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .section {
-  height: 90vh;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   text-align: center;
-  transition: all 0.5s ease-in-out;
-  scroll-snap-align: start;
+  margin-bottom: 3rem;
 }
 
 .section1-card-left {
-  height: 81vh; 
+  height: 81vh;
 }
 
 .section1-card-right {
@@ -32,7 +30,8 @@
   padding: 1.25rem;
 }
 
-.card-title, .card-text {
+.card-title,
+.card-text {
   text-align: left;
 }
 
@@ -44,4 +43,95 @@
 .card-text {
   font-size: 1.2rem;
   color: #696969;
+}
+
+/* Main Section2 */
+.section2-container {
+  /* background-color: #F9FAFB; */
+  padding: 3rem 1rem;
+  overflow: hidden;
+}
+
+p {
+  margin: 2rem 0 4rem 0;
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.section2-card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  height: 25vh;
+  font-size: 1.2rem;
+  margin: 10px;
+}
+
+/* MyPage */
+.mypage-title {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+.mypage-card-title {
+  font-weight: bold;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.mypage-card-text {
+  text-align: center;
+  font-weight: 100;
+}
+
+.mypage-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+/* My Favorites */
+.myfav-card {
+  margin-bottom: 1rem;
+  height: 300px;
+  padding: 10px;
+  justify-content: center;
+  text-align: start;
+  position: relative;
+}
+
+.myfav-card-header {
+  display: flex;
+  align-items: center;  
+  justify-content: space-between;
+}
+
+.myfav-card-img {
+  height: auto;
+  width: auto;
+}
+
+.myfav-card-title {
+  text-align: start;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.myfav-card-content {
+  text-align: start;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #828282;
+}
+
+.myfav-card-distanc {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-weight: bold;
+  color: black;
 }
