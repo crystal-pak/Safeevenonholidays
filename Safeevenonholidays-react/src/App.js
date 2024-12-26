@@ -44,7 +44,8 @@ function App() {
           <Route path="modify" element={<KakaoModifyPage />}  />
         </Route>
         
-        <Route path="/mypage/" element={<MyPage />}>
+        <Route path="/mypage/">
+          <Route index element={<MyPage />} />
           <Route path="modify/:id" element={<Modify />} />
           <Route path="myreviews/:id" element={<MyReviews />} />
           <Route path="myfavorites/:id" element={<MyFavorites />} />

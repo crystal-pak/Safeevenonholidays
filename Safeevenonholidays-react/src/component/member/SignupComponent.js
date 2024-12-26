@@ -9,7 +9,7 @@ const initState = {
     email : "",
     password: "",
     social : false,
-    roleNames : ["USER"]
+    roleNames : []
   }
 
 const SignupComponent = () => {
@@ -18,13 +18,8 @@ const SignupComponent = () => {
   const {moveToLogin} = useCustomLogin()
 
   const handleChangeMember = (e) => {
-    const { name, value } = e.target;
-
-    setMember((prevMember) => ({
-      ...prevMember,
-      [name]: value,
-      ...(name === "name" && { nickName: value }), // Auto-update nickName
-    }));
+    member[e.target.name] = e.target.value
+    setMember({...member})
   }
 
   const handleClickAdd = () => {
