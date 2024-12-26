@@ -11,6 +11,7 @@ import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.repository.InfoRepository;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ class InfoServiceTest {
                 .subject("등록테스트")
                 .content("등록테스트")
                 .author(member.get())
-                .createDate(LocalDateTime.now())
+                .createDate(LocalDate.now())
                 .build();
 
         infoService.register(infoDTO);
@@ -51,7 +52,7 @@ class InfoServiceTest {
                     .subject("제목" + i)
                     .content("내용" + i)
                     .author(member.get())
-                    .createDate(LocalDateTime.now())
+                    .createDate(LocalDate.now())
                     .build();
 
             infoService.register(infoDTO);
@@ -66,7 +67,7 @@ class InfoServiceTest {
         Info info = findInfo.orElseThrow();
         info.setSubject("수정테스트");
         info.setContent("수정테스트");
-        info.setModifyDate(LocalDateTime.now());
+        info.setModifyDate(LocalDate.now());
 
         infoRepository.save(info);
     }

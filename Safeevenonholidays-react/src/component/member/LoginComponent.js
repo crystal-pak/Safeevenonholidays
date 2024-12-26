@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Button, Card } from 'react-bootstrap'
 import useCustomLogin from '../../hooks/useCustomLogin'
+import KakaoLoginComponent from './KakaoLoginComponent'
 const initState = {
   email : "",
   password : ""
@@ -45,6 +46,8 @@ const LoginComponent = () => {
                         Login
                     </Button>
                 </div>
+
+                <KakaoLoginComponent />
             </Card>
         </div>
     </>

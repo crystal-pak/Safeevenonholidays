@@ -55,4 +55,19 @@ class SafeMemberRepositoryTest {
             safeMemberRepository.save(member);
         }
     }
+
+    @Test
+    void 카카오회원삭제() {
+        String email = "3846973570@email.com";
+
+        SafeMember member = safeMemberRepository.getWithRoles(email);
+        if(member == null){
+            log.info("회원이 존재하지 않습니다. 이메일 : {}", email);
+            return;
+        }
+
+        //회원 삭제
+        safeMemberRepository.delete(member);
+        log.info("회원 삭제 완료 {}", email);
+    }
 }
