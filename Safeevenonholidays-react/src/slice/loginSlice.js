@@ -3,7 +3,8 @@ import { loginPost } from '../api/memberApi'
 import { getCookie, removeCookie, setCookie } from '../util/cookieUtil'
 
 const initState = {
-    email : ''
+    email : '',
+    roleNames : []
 }
 
 //쿠키에서 로그인 정보 로딩
@@ -30,7 +31,7 @@ const loginSlice = createSlice({
         login: (state, action) => {
             console.log("login...")
             const data = action.payload
-            return { email : data.email }
+            return { email : data.email, roleNames : data.roleNames }
         },
         logout: (state, action) => {
             console.log("logout...")
