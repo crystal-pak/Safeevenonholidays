@@ -2,6 +2,9 @@ package safe_holiday.safe_holiday.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import safe_holiday.safe_holiday.dto.InfoDTO;
+import safe_holiday.safe_holiday.dto.PageRequestDTO;
+import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.dto.SafeMemberDTO;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 import safe_holiday.safe_holiday.service.MemberService;
@@ -20,6 +23,12 @@ public class SafeMemberController {
     @GetMapping("/{id}")
     public SafeMemberDTO get(@PathVariable("id") Long id) {
         return memberService.get(id);
+    }
+
+    //리스트
+    @GetMapping("/list")
+    public PageResponseDTO<SafeMemberDTO> list(PageRequestDTO pageRequestDTO){
+        return memberService.getlist(pageRequestDTO);
     }
 
     //가입

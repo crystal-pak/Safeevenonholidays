@@ -1,8 +1,12 @@
 import React from 'react'
+import SignupComponent from '../component/member/SignupComponent'
 
 const Signup = () => {
   return (
-    <div>Signup</div>
+    <>
+    <h2>회원가입</h2>
+    <SignupComponent />
+    </>
   )
 }
 
