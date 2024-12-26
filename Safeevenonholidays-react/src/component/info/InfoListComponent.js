@@ -3,6 +3,7 @@ import { Table, Button } from 'react-bootstrap'
 import useCustomMove from '../../hooks/useCustomMove'
 import { getList } from '../../api/infoApi'
 import PageComponent from '../common/PageComponent'
+import { useSelector } from 'react-redux'
 
 const initState = {
     dtoList: [],
@@ -20,6 +21,7 @@ const initState = {
 const InfoListComponent = () => {
   const {page, size, list, refresh, detail, add} = useCustomMove()
   const [serverData, setServerData] = useState(initState)
+  const loginState = useSelector(state => state.loginSlice)
 
   useEffect(() => {
     getList({page, size}).then(data => {
@@ -54,7 +56,11 @@ const InfoListComponent = () => {
       </tbody>
     </Table>
     <div className='text-end'>
+      {loginState.roleNames.length > 1 ? 
       <Button onClick={add}>글작성</Button>
+      :  
+      <></>
+      }
     </div>
     <PageComponent serverData={serverData} list={list} />
     </>

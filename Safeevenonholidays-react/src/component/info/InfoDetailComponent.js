@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useCustomMove from '../../hooks/useCustomMove'
 import { getOne } from '../../api/infoApi'
 import { Button } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 const initState = {
     id: 0,
@@ -15,6 +16,7 @@ const initState = {
 const InfoDetailComponent = ({id}) => {
   const [info, setInfo] = useState(initState)
   const {list, modify} = useCustomMove()
+  const loginState = useSelector(state => state.loginSlice)
 
   useEffect(() => {
     getOne(id).then(data => {
@@ -33,8 +35,12 @@ const InfoDetailComponent = ({id}) => {
             <p className='p-3'>{info.content}</p>
         </div>
         <div className='text-end my-3'>
-            <Button variant='primary' className='me-3' onClick={() => modify(id)}>수정</Button>
-            <Button variant='secondary' onClick={() => list()}>목록보기</Button>
+          {loginState.roleNames.length > 1 ? 
+          <Button variant='primary' className='me-3' onClick={() => modify(id)}>수정</Button>
+          :
+          <></>
+          }  
+          <Button variant='secondary' onClick={() => list()}>목록보기</Button>
         </div>
     </>
   )
