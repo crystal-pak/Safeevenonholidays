@@ -50,10 +50,10 @@ const Navbars = () => {
                 <i className="bi bi-geo-alt-fill icon"></i>
                 성남동
               </Nav.Link>
-              <Nav.Link href="/login">
+              <Nav.Link href="/member/login">
                 로그인
               </Nav.Link>
-              <Nav.Link href="/signup">
+              <Nav.Link href="/member/signup">
                 회원가입
               </Nav.Link>
               <Nav.Link href="/info/list">

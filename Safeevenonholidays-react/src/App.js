@@ -26,16 +26,22 @@ import HelpDetail from "./Support/HelpDetail";
 import HelpModify from "./Support/HelpModify";
 import InfoAdd from "./Support/InfoAdd";
 import InfoModify from "./Support/InfoModify";
+import KakaoRedirectPage from "./UserAccount/KakaoRedirectPage";
+import KakaoModifyPage from "./UserAccount/KakaoModifyPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Main />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login/" element={<Login />}>
+
+        <Route path="/member/">
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
           <Route path="findid" element={<FindId />} />
           <Route path="findpassword" element={<FindPassword />} />
+          <Route path="kakao" element={<KakaoRedirectPage />} />
+          <Route path="modify" element={<KakaoModifyPage />}  />
         </Route>
         
         <Route path="/mypage/" element={<MyPage />}>

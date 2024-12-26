@@ -26,11 +26,11 @@ public class QInfo extends EntityPathBase<Info> {
 
     public final StringPath content = createString("content");
 
-    public final DateTimePath<java.time.LocalDateTime> createDate = createDateTime("createDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> createDate = createDate("createDate", java.time.LocalDate.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> modifyDate = createDateTime("modifyDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> modifyDate = createDate("modifyDate", java.time.LocalDate.class);
 
     public final StringPath subject = createString("subject");
 

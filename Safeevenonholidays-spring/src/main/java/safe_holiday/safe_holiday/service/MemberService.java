@@ -3,6 +3,8 @@ package safe_holiday.safe_holiday.service;
 import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.SafeMemberDTO;
 
+import java.util.stream.Collectors;
+
 public interface MemberService {
 
     //고유 번호 조회
@@ -17,6 +19,9 @@ public interface MemberService {
     //삭제
     void remove(Long id);
 
+    SafeMemberDTO getKakaoMember(String accessToken);
+
+    void modifyMember(SafeMemberDTO safeMemberDTO);
 
     default SafeMemberDTO entityToDTO(SafeMember safeMember){
         SafeMemberDTO safeMemberDTO = SafeMemberDTO.memberBuilder()
@@ -26,6 +31,7 @@ public interface MemberService {
                 .nickName(safeMember.getNickName())
                 .social(safeMember.isSocial())
                 .password(safeMember.getPassword())
+                .roleNames(safeMember.getMemberRoleList().stream().map(memberRole -> memberRole.name()).collect(Collectors.toList()))
                 .build();
         return safeMemberDTO;
     }
