@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<SafeMember> result = safeMemberRepository.findById(safeMemberDTO.getId());
         SafeMember safeMember = result.orElseThrow();
 
-        safeMember.setPassword(safeMemberDTO.getPassword());
+        safeMember.setPassword(passwordEncoder.encode(safeMemberDTO.getPassword()));
 
         safeMemberRepository.save(safeMember);
     }
@@ -107,6 +107,12 @@ public class MemberServiceImpl implements MemberService {
         log.info("가져온 nickName {}", kakaoUserInfo);
         Optional<SafeMember> result = safeMemberRepository.findByNickName(kakaoUserInfo.getNickname());
 
+        // 결과가 여러 개 있을 경우 처리 (여기서는 첫 번째 항목만 가져오는 방식)
+        if (result.isPresent()) {
+            // 중복된 닉네임이 있을 경우, 예외를 던져 처리하는 방법
+            throw new IllegalStateException("중복된 닉네임이 존재합니다.");
+        }
+        
         //기존 회원의 경우 DTO로 변환한 뒤 반환
         if(result.isPresent()){
             SafeMemberDTO safeMemberDTO = entityToDTO(result.get());

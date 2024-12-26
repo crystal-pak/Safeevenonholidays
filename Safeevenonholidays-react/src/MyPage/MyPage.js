@@ -1,8 +1,17 @@
 import React from 'react';
 import "../styles/main.css";
 import { Button, Row } from "react-bootstrap";
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const loginState = useSelector(state => state.loginSlice)
+  const navigate = useNavigate()
+
+  const handleClickModify = () => {
+    navigate(`/mypage/modify/${loginState.id}`)
+  }
+
   return (
     <>
       <div className="container mt-4 mb-4">
@@ -17,9 +26,9 @@ const MyPage = () => {
                   alt='userprofile'
                   className="mypage-card-img"
                 />
-                <h5 className="mypage-card-title">이기자</h5>
-                <p className="mypage-card-text">test@email.com</p>
-                <Button variant="primary" className="position-absolute bottom-0 end-0 mb-3 me-3 w-25">수정</Button>
+                <h5 className="mypage-card-title">{loginState.name}</h5>
+                <p className="mypage-card-text">{loginState.email}</p>
+                <Button variant="primary" className="position-absolute bottom-0 end-0 mb-3 me-3 w-25" onClick={handleClickModify}>수정</Button>
               </div>
             </div>
           </div>
