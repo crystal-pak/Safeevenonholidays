@@ -2,6 +2,7 @@ package safe_holiday.safe_holiday.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,14 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import safe_holiday.safe_holiday.domain.Hospital;
 import safe_holiday.safe_holiday.domain.MemberRole;
 import safe_holiday.safe_holiday.domain.SafeMember;
-import safe_holiday.safe_holiday.dto.KakaoUserInfoDTO;
-import safe_holiday.safe_holiday.dto.SafeMemberDTO;
+import safe_holiday.safe_holiday.dto.*;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,10 +41,34 @@ public class MemberServiceImpl implements MemberService {
         return entityToDTO(safeMember);
     }
 
+    //페이징 처리
+    @Override
+    public PageResponseDTO<SafeMemberDTO> getlist(PageRequestDTO pageRequestDTO) {
+
+        Page<SafeMember> result = safeMemberRepository.search(pageRequestDTO);
+
+        List<SafeMemberDTO> dtoList = result.get().map(safeMember -> entityToDTO(safeMember)).collect(Collectors.toList());
+
+        PageResponseDTO<SafeMemberDTO> responseDTO = PageResponseDTO.<SafeMemberDTO>withAll()
+                .dtoList(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(result.getTotalElements())
+                .build();
+
+        return responseDTO;
+    }
+
     //가입
     @Override
     public Long register(SafeMemberDTO safeMemberDTO) {
-        SafeMember safeMember = DTOToEntity(safeMemberDTO);
+        SafeMember safeMember = SafeMember.builder()
+                .email(safeMemberDTO.getEmail())
+                .name(safeMemberDTO.getName())
+                .password(passwordEncoder.encode(safeMemberDTO.getPassword()))
+                .nickName(safeMemberDTO.getName())
+                .social(false)
+                .build();
+        safeMember.addRole(MemberRole.USER);
         validateDuplicateMember(safeMember);
         SafeMember result = safeMemberRepository.save(safeMember);
         return result.getId();

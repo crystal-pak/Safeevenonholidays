@@ -1,6 +1,9 @@
 package safe_holiday.safe_holiday.service;
 
 import safe_holiday.safe_holiday.domain.SafeMember;
+import safe_holiday.safe_holiday.dto.HospitalDTO;
+import safe_holiday.safe_holiday.dto.PageRequestDTO;
+import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.dto.SafeMemberDTO;
 
 import java.util.stream.Collectors;
@@ -9,6 +12,8 @@ public interface MemberService {
 
     //고유 번호 조회
     SafeMemberDTO get(Long id);
+
+    PageResponseDTO<SafeMemberDTO> getlist(PageRequestDTO pageRequestDTO);
 
     //가입
     Long register(SafeMemberDTO safeMemberDTO);
