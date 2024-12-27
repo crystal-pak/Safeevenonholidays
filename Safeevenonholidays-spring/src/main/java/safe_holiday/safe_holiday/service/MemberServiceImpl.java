@@ -180,7 +180,7 @@ public class MemberServiceImpl implements MemberService {
         //회원만들기
         SafeMember member = SafeMember.builder()
                 .email(id + "@email.com")
-                .name("신규회원")
+                .name("")
                 .password(passwordEncoder.encode(tempPassword))
                 .nickName(nickname)
                 .social(true)
@@ -209,8 +209,6 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(passwordEncoder.encode(safeMemberDTO.getPassword()));
             member.setSocial(false);
             safeMemberRepository.save(member);
-
-            System.out.println("Member updated: " + member);
         }
     }
 }

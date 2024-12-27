@@ -4,7 +4,8 @@ import { getCookie, removeCookie, setCookie } from '../util/cookieUtil'
 
 const initState = {
     email : '',
-    roleNames : []
+    roleNames : [],
+    socialId : ''
 }
 
 //쿠키에서 로그인 정보 로딩
