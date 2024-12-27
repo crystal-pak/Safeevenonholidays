@@ -61,3 +61,14 @@ export const deleteOne = async(member) => {
     const res = await jwtAxios.delete(`${host}/${member}`)
     return res.data
 }
+
+//아이디 찾기
+export const findEmailByName = async(name) => {
+  try {
+    const res = await axios.get(`${host}/findid`, { params: { name } });
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching member by name:", error.response?.data || error.message);
+    throw error;
+  }
+}

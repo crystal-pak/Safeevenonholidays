@@ -211,4 +211,26 @@ public class MemberServiceImpl implements MemberService {
             safeMemberRepository.save(member);
         }
     }
+
+    //사용자 이름으로 아이디 찾기
+    @Override
+    public List<String> findEmailByName(String name) {
+        List<SafeMember> members = safeMemberRepository.findByName(name);
+        if (members.isEmpty()) {
+            return List.of("No members found with the given name");
+        }
+        return members.stream()
+                .map(member -> maskEmail(member.getEmail()))
+                .toList(); // 마스킹된 이메일 리스트 반환
+    }
+
+    //이메일 마스킹
+    private String maskEmail(String email) {
+        int atIndex = email.indexOf("@");
+        if (atIndex > 4) {
+            return email.substring(0, 4) + "****" + email.substring(atIndex);
+        } else {
+            return email.substring(0, atIndex) + "****" + email.substring(atIndex);
+        }
+    }
 }
