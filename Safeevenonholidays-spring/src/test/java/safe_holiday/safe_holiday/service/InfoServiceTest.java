@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import safe_holiday.safe_holiday.domain.Info;
 import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.dto.InfoDTO;
@@ -44,8 +45,9 @@ class InfoServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@email.com")
     void 등록100개() {
-        Optional<SafeMember> member = safeMemberRepository.findById(1L);
+        Optional<SafeMember> member = safeMemberRepository.findById(9L);
 
         for(int i = 1; i<=100; i++) {
             InfoDTO infoDTO = InfoDTO.builder()

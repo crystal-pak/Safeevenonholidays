@@ -11,7 +11,6 @@ import FindId from "./UserAccount/FindId";
 import FindPassword from "./UserAccount/FindPassword";
 import MyReviews from "./MyPage/MyReviews";
 import MyFavorites from "./MyPage/MyFavorites";
-import AdminMyPage from "./Admin/AdminMyPage";
 import MemberList from "./Admin/MemberList";
 import MemberModify from "./Admin/MemberModify";
 import HospitalSearch from "./Hospital/HospitalSearch";
@@ -49,7 +48,6 @@ function App() {
           <Route path="modify/:id" element={<Modify />} />
           <Route path="myreviews/:id" element={<MyReviews />} />
           <Route path="myfavorites/:id" element={<MyFavorites />} />
-          <Route path="admin" element={<AdminMyPage />} />
           <Route path="member/list" element={<MemberList />} />
           <Route path="member/modify/:id" element={<MemberModify />} />
         </Route>
