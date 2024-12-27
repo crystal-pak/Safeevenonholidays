@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import safe_holiday.safe_holiday.domain.SafeMember;
 import safe_holiday.safe_holiday.repository.search.MemberSearch;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SafeMemberRepository extends JpaRepository<SafeMember, Long>, MemberSearch {
@@ -20,4 +21,6 @@ public interface SafeMemberRepository extends JpaRepository<SafeMember, Long>, M
 
     //사용자 소셜ID로 조회
     Optional<SafeMember> findBySocialId(String socialId);
+
+    List<SafeMember> findByName(String name);
 }

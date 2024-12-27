@@ -2,6 +2,8 @@ package safe_holiday.safe_holiday.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
@@ -11,6 +13,7 @@ import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 import safe_holiday.safe_holiday.service.MemberService;
 import safe_holiday.safe_holiday.util.JWTUtil;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -76,5 +79,12 @@ public class SafeMemberController {
     public Map<String, String> kakaoModify(@RequestBody SafeMemberDTO safeMemberDTO) {
         memberService.modifyMember(safeMemberDTO);
         return Map.of("RESULT", "modified");
+    }
+
+    //아이디 찾기
+    @GetMapping("/findid")
+    public ResponseEntity<List<String>> findIds(@RequestParam String name) {
+        List<String> emails = memberService.findEmailByName(name);
+        return ResponseEntity.ok(emails);
     }
 }
