@@ -33,7 +33,7 @@ const KakaoRedirectPage = () => {
 
   return (
     <>
-    <div className='my-5'>Kakao Login Redirect</div>
+    <div className='my-5'>로그인 중...</div>
     <div>{authCode}</div>
     </>
   )

@@ -3,6 +3,7 @@ import { Card, Form, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { modifyMember } from '../../api/memberApi'
 import useCustomLogin from '../../hooks/useCustomLogin'
+import { logout } from '../../slice/loginSlice'
 
 const initState = {
     email: '',
@@ -16,7 +17,7 @@ const KakaoModifyComponent = () => {
   const [member, setMember] = useState(initState)
   const loginInfo = useSelector(state => state.loginSlice)
 
-  const {moveToPath} = useCustomLogin()
+  const {moveToPath, moveToLogin} = useCustomLogin()
   const [result, setResult] = useState()
   
   useEffect(() => {
@@ -31,7 +32,9 @@ const KakaoModifyComponent = () => {
   const handleClickModify = () => {
     modifyMember(member).then(result => {
       setResult("Modified")
-      moveToPath('/')
+      alert("회원가입이 완료되었습니다. 다시 로그인 해주세요.")
+      logout()
+      moveToLogin('/')
     })
   }
 
@@ -65,7 +68,7 @@ const KakaoModifyComponent = () => {
                 
                 <div className='text-end'>
                     <Button variant="info" type="button" onClick={handleClickModify}>
-                        수정
+                        가입
                     </Button>
                 </div>
             </Card>

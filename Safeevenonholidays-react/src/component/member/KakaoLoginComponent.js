@@ -8,8 +8,7 @@ const KakaoLoginComponent = () => {
   }
   return (
     <>
-    <p className='mt-4'>로그인시에 자동 가입처리 됩니다.</p>
-    <Button variant='warning' onClick={goKakao}>카카오톡으로 로그인하기</Button>
+    <Button variant='warning' onClick={goKakao} className='my-3'>카카오로 시작하기</Button>
     </>
   )
 }

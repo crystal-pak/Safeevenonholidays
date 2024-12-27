@@ -15,7 +15,7 @@ const initState = {
 const SignupComponent = () => {
   const [member, setMember] = useState(initState)
   const [result, setResult] = useState(null)
-  const {moveToLogin} = useCustomLogin()
+  const {moveToLogin, moveToPath} = useCustomLogin()
 
   const handleChangeMember = (e) => {
     member[e.target.name] = e.target.value
@@ -25,13 +25,19 @@ const SignupComponent = () => {
   const handleClickAdd = () => {
     console.log("전송 데이터:", member);
     postAdd(member).then(result => {
+        alert("회원가입을 축하드립니다.")
         setResult(result.id)
         setMember({...initState})
         setResult(null)
         moveToLogin('/')
     }).catch(e => {
+        alert("빈 칸이 없는지 확인하세요.")
         console.error(e)
     })
+  }
+
+  const handleClickHome = () => {
+    moveToPath('/')
   }
 
   return (
@@ -51,8 +57,10 @@ const SignupComponent = () => {
         <Form.Control type={'text'} name='password' placeholder='비밀번호를 입력하세요.' onChange={handleChangeMember} />
         </Form.Group>
 
-
-        <Button variant='primary' type='button' onClick={handleClickAdd}>등록</Button>
+        <div className='d-flex'>
+          <Button variant='secondary' type='button' onClick={handleClickHome} className='w-100 me-2'>취소</Button>
+          <Button variant='primary' type='button' onClick={handleClickAdd} className='w-100'>회원가입</Button>
+        </div>
     </>
   )
 }
