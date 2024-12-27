@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Button, Form } from 'react-bootstrap'
-import { modifyMember } from '../../api/memberApi'
+import { putOne } from '../../api/memberApi'
 import useCustomLogin from '../../hooks/useCustomLogin'
 
 const initState = {
@@ -30,7 +30,7 @@ const MyPageModifyComponent = () => {
   }
 
   const handleClickModify = () => {
-     modifyMember(member).then(result => {
+     putOne(member).then(result => {
           setResult("Modified")
           moveToPath('/mypage')
         })

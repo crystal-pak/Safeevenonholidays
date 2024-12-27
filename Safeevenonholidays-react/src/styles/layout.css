@@ -27,15 +27,34 @@
   outline: none !important;
 }
 
-.footer {
-  width: 100%;       
-  background-color: #f9fafb; 
-  text-align: center; 
-  padding: 10px 0;    
-  position: relative; 
-  bottom: 0;          
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.footer {
+  width: 100%;
+  background-color: #f9fafb;
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
+  bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: auto; 
+}
 .footer p {
   margin-right: 0;
   display: inline;
@@ -47,7 +66,6 @@
   font-weight: bold;
 }
 
-.footer p + p {
+.footer p+p {
   margin-left: 10px;
 }
-

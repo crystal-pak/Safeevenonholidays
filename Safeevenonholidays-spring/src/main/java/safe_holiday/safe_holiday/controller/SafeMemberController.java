@@ -10,6 +10,7 @@ import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.dto.SafeMemberDTO;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
+import safe_holiday.safe_holiday.service.MailService;
 import safe_holiday.safe_holiday.service.MemberService;
 import safe_holiday.safe_holiday.util.JWTUtil;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 public class SafeMemberController {
 
     private final MemberService memberService;
+    private final MailService mailService;
 
     //조회
     @GetMapping("/{id}")
@@ -45,10 +47,10 @@ public class SafeMemberController {
 
     //회원 정보 수정
     @PutMapping("/{id}")
-    public SafeMemberDTO modify(@PathVariable("id") Long id, @RequestBody SafeMemberDTO safeMemberDTO) {
+    public Map<String, String> modify(@PathVariable("id") Long id, @RequestBody SafeMemberDTO safeMemberDTO) {
         safeMemberDTO.setId(id);
         memberService.modify(safeMemberDTO);
-        return memberService.get(id);
+        return Map.of("RESULT", "SUCCESS");
     }
 
     //삭제
@@ -87,4 +89,20 @@ public class SafeMemberController {
         List<String> emails = memberService.findEmailByName(name);
         return ResponseEntity.ok(emails);
     }
+
+    //비밀번호 찾기
+    @PostMapping("/findpassword")
+    public ResponseEntity<String> sendTemporaryPassword(@RequestParam String email) {
+        try {
+            // 임시 비밀번호 전송 서비스 호출
+            memberService.sendPasswordByEmail(email);
+
+            return ResponseEntity.ok("임시 비밀번호가 이메일로 전송되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메일 전송 실패: " + e.getMessage());
+        }
+    }
+
 }

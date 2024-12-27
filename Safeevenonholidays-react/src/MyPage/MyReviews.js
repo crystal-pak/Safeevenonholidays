@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Card, Container, Pagination, Row } from 'react-bootstrap'
+import { Button, Card, Container, Pagination, Row } from 'react-bootstrap'
+import "../styles/mypage.css";
 
 const MyReviews = () => {
     const reivews = [
-        { id: 1, username: "김기자", date: "2024-12-09", content: "일찍 문을 닫아서 아쉬워요." },
-        { id: 2, username: "김기자", date: "2024-12-08", content: "불친절합니다.." },
-        { id: 3, username: "김기자", date: "2024-12-05", content: "가격이 너무 비싸요" },
-        { id: 4, username: "김기자", date: "2024-12-01", content: "대기가 없어서 좋아요." },
+        { id: 1, name: "김기자", date: "2024-12-09", content: "일찍 문을 닫아서 아쉬워요." },
+        { id: 2, name: "김기자", date: "2024-12-08", content: "불친절합니다.." },
+        { id: 3, name: "김기자", date: "2024-12-05", content: "가격이 너무 비싸요" },
+        { id: 4, name: "김기자", date: "2024-12-01", content: "대기가 없어서 좋아요." },
     ];
 
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 변경 페이지
@@ -25,20 +26,28 @@ const MyReviews = () => {
     return (
         <>
             <Container className='mt-4 mb-4'>
-                <p className='mypage-title'>마이 페이지</p>
-                <Row>
+                <p className='mypage-title'>작성 리뷰 목록</p>
+                <Row className="d-flex justify-content-center mt-5">
                     {currentItems.map((item) => (
-                        <Card className="text-center myfav-card">
+                        <Card className="text-center myrev-card">
                             <Card.Body>
                                 <div className="myfav-card-header">
-                                    <Card.Title className="myrev-card-title">{item.username}님의 후기</Card.Title>
+                                    <Card.Title className="myrev-card-title">{item.name}님의 후기</Card.Title>
+
                                 </div>
-                                <Card.Text className="myrev-card-content">{item.date}</Card.Text>
+                                <Card.Text className="myrev-card-date">{item.date}</Card.Text>
                                 <Card.Text className="myrev-card-content">{item.content}</Card.Text>
+                                <div className="d-flex justify-content-end">
+                                    <Button className='w-20 myrev-button'>수정</Button>
+                                    <Button variant='danger' className='w-20 myrev-button'>삭제</Button>
+                                </div>
                             </Card.Body>
                         </Card>
                     ))}
                 </Row>
+                <div className="d-flex justify-content-end mt-5">
+                    <Button className='w-20 myrev-move-button'>마이 페이지로 이동</Button>
+                </div>
                 <Pagination className="justify-content-center mt-5">
                     <Pagination.Prev
                         onClick={() => handlePageChange(currentPage - 1)}
