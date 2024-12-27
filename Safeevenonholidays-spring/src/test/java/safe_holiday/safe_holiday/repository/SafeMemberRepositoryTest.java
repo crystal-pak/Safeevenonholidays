@@ -28,6 +28,7 @@ class SafeMemberRepositoryTest {
                 .email("admin@email.com")
                 .password(encodedPassword)
                 .name("관리자")
+                .nickName("관리자")
                 .social(false)
                 .build();
 

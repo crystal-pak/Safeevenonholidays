@@ -62,6 +62,12 @@ export const deleteOne = async(member) => {
     return res.data
 }
 
+//관리자 삭제
+export const deleteOneByAdmin = async(id) => {
+  const res = await jwtAxios.delete(`${host}/${id}`)
+  return res.data
+}
+
 //아이디 찾기
 export const findEmailByName = async(name) => {
   try {
