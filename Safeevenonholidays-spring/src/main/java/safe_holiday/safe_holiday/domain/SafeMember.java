@@ -31,6 +31,8 @@ public class SafeMember {
 
     private boolean social;
 
+    private String socialId;
+
     //memberRoleList가 실제로 사용될 때 데이터 로드
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -89,5 +91,9 @@ public class SafeMember {
 
     public void setSocial(boolean social) {
         this.social = social;
+    }
+
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
     }
 }
