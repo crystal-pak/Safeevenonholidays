@@ -23,6 +23,7 @@ const useCustomLogin = () => {
     //로그아웃 함수
     const doLogout = () => {
         dispatch(logout())
+        navigate("/")
     }
 
     //페이지 이동

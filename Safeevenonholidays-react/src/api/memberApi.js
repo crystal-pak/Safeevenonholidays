@@ -58,7 +58,7 @@ export const putOne = async(member) => {
 
 //삭제
 export const deleteOne = async(member) => {
-    const res = await jwtAxios.delete(`${host}/${member}`)
+    const res = await jwtAxios.delete(`${host}/${member.id}`, member)
     return res.data
 }
 
