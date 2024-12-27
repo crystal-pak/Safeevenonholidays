@@ -1,5 +1,5 @@
 import React from 'react';
-import "../styles/main.css";
+import "../styles/mypage.css";
 import { Button, Row } from "react-bootstrap";
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';

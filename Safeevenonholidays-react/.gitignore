@@ -8,3 +8,4 @@ node_modules/
 
 # macOS에서 생성되는 .DS_Store 파일 무시
 .DS_Store
+/public/.DS_Store
