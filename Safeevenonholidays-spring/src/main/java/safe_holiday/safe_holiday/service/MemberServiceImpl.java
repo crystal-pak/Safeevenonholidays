@@ -33,6 +33,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final MailService mailService;
+
     //고유 번호 조회
     @Override
     public SafeMemberDTO get(Long id) {
@@ -85,13 +87,15 @@ public class MemberServiceImpl implements MemberService {
 
     //회원 정보 수정
     @Override
-    public void modify(SafeMemberDTO safeMemberDTO) {
+    public SafeMemberDTO modify(SafeMemberDTO safeMemberDTO) {
         Optional<SafeMember> result = safeMemberRepository.findById(safeMemberDTO.getId());
         SafeMember safeMember = result.orElseThrow();
 
         safeMember.setPassword(passwordEncoder.encode(safeMemberDTO.getPassword()));
 
-        safeMemberRepository.save(safeMember);
+        SafeMember updateMember = safeMemberRepository.save(safeMember);
+
+        return entityToDTO(updateMember);
     }
 
     //삭제
@@ -106,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
         KakaoUserInfoDTO kakaoUserInfo = getNicknameFromKakaoAccessToken(accessToken);
 
         Optional<SafeMember> result = safeMemberRepository.findBySocialId(kakaoUserInfo.getId());
-        
+
         //기존 회원의 경우 DTO로 변환한 뒤 반환
         if(result.isPresent()){
             SafeMemberDTO safeMemberDTO = entityToDTO(result.get());
@@ -232,5 +236,24 @@ public class MemberServiceImpl implements MemberService {
         } else {
             return email.substring(0, atIndex) + "****" + email.substring(atIndex);
         }
+    }
+
+    //비밀번호 이메일로 전송
+    @Override
+    public void sendPasswordByEmail(String email) {
+        // 데이터베이스에서 이메일로 회원 조회
+        SafeMember safeMember = safeMemberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Member not found with email : " + email));
+
+        // 임시 비밀번호 설정
+        String temporaryPassword = "1234"; // 임시 비밀번호
+        String encryptedPassword = passwordEncoder.encode(temporaryPassword);
+
+        // 비밀번호 업데이트
+        safeMember.setPassword(encryptedPassword);
+        safeMemberRepository.save(safeMember);
+
+        // 이메일로 임시 비밀번호 전송
+        mailService.sendPasswordEmail(email, temporaryPassword);
     }
 }

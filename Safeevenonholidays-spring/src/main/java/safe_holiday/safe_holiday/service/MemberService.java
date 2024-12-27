@@ -19,7 +19,7 @@ public interface MemberService {
     Long register(SafeMemberDTO safeMemberDTO);
 
     //회원 정보 수정
-    void modify(SafeMemberDTO safeMemberDTO);
+    SafeMemberDTO modify(SafeMemberDTO safeMemberDTO);
 
     //삭제
     void remove(Long id);
@@ -29,6 +29,8 @@ public interface MemberService {
     void modifyMember(SafeMemberDTO safeMemberDTO);
 
     public List<String> findEmailByName(String name);
+
+    public void sendPasswordByEmail(String email);
 
     default SafeMemberDTO entityToDTO(SafeMember safeMember){
         SafeMemberDTO safeMemberDTO = SafeMemberDTO.memberBuilder()
