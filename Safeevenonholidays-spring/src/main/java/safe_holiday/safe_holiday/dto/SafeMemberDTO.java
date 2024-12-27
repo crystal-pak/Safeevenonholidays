@@ -29,12 +29,14 @@ public class SafeMemberDTO extends User {
 
     private boolean social;
 
+    private String socialId;
+
     @Builder.Default
     private List<String> roleNames = new ArrayList<>();
 
 
     //우리는 문자로 권한을 받으면 되는데 시큐리티는 객체로 받아야 함. 그래서 new SimpleGrantedAuthority("ROLE_" + str) 문자를 객체로 생성해 준다.
-    public SafeMemberDTO(Long id, String email, String password, String name, String nickName, boolean social, List<String> roleNames) {
+    public SafeMemberDTO(Long id, String email, String password, String name, String nickName, boolean social, String socialId, List<String> roleNames) {
         super(email, password, roleNames.stream().map(str -> new SimpleGrantedAuthority("ROLE_" + str)).collect(Collectors.toList()));
         this.id = id;
         this.email = email;
@@ -42,6 +44,7 @@ public class SafeMemberDTO extends User {
         this.name = name;
         this.nickName = nickName;
         this.social = social;
+        this.socialId = socialId;
         this.roleNames = roleNames;
     }
 
@@ -56,6 +59,7 @@ public class SafeMemberDTO extends User {
         dataMap.put("name", name);
         dataMap.put("nickName", nickName);
         dataMap.put("social", social);
+        dataMap.put("socialId", socialId);
         dataMap.put("roleNames", roleNames);
 
         return dataMap;

@@ -104,14 +104,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public SafeMemberDTO getKakaoMember(String accessToken) {
         KakaoUserInfoDTO kakaoUserInfo = getNicknameFromKakaoAccessToken(accessToken);
-        log.info("가져온 nickName {}", kakaoUserInfo);
-        Optional<SafeMember> result = safeMemberRepository.findByNickName(kakaoUserInfo.getNickname());
 
-        // 결과가 여러 개 있을 경우 처리 (여기서는 첫 번째 항목만 가져오는 방식)
-        if (result.isPresent()) {
-            // 중복된 닉네임이 있을 경우, 예외를 던져 처리하는 방법
-            throw new IllegalStateException("중복된 닉네임이 존재합니다.");
-        }
+        Optional<SafeMember> result = safeMemberRepository.findBySocialId(kakaoUserInfo.getId());
         
         //기존 회원의 경우 DTO로 변환한 뒤 반환
         if(result.isPresent()){
@@ -190,6 +184,7 @@ public class MemberServiceImpl implements MemberService {
                 .password(passwordEncoder.encode(tempPassword))
                 .nickName(nickname)
                 .social(true)
+                .socialId(id)
                 .build();
         member.addRole(MemberRole.USER);
         return member;
@@ -199,12 +194,23 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void modifyMember(SafeMemberDTO safeMemberDTO) {
 
-        Optional<SafeMember> result = safeMemberRepository.findByNickName(safeMemberDTO.getNickName());
+        // socialId가 null인 경우 수정하지 않음
+        if (safeMemberDTO.getSocialId() == null) {
+            log.info("NULL값은 수정하지 않음");
+            return;
+        }
 
-        SafeMember member = result.orElseThrow();
-        member.setName(safeMemberDTO.getName());
-        member.setPassword(passwordEncoder.encode(safeMemberDTO.getPassword()));
-        member.setSocial(false);
-        safeMemberRepository.save(member);
+        Optional<SafeMember> result = safeMemberRepository.findBySocialId(safeMemberDTO.getSocialId());
+
+        // socialId가 존재하는 회원만 수정
+        if (result.isPresent()) {
+            SafeMember member = result.get();
+            member.setName(safeMemberDTO.getName());
+            member.setPassword(passwordEncoder.encode(safeMemberDTO.getPassword()));
+            member.setSocial(false);
+            safeMemberRepository.save(member);
+
+            System.out.println("Member updated: " + member);
+        }
     }
 }

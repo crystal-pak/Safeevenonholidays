@@ -8,7 +8,8 @@ const initState = {
     email: '',
     password: '',
     nickName : '',
-    name : ''
+    name : '',
+    socialId : ''
   }
 
 const KakaoModifyComponent = () => {

@@ -37,6 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 member.getName(),
                 member.getNickName(),
                 member.isSocial(),
+                member.getSocialId(),
                 member.getMemberRoleList()
                         .stream()
                         .map(memberRole -> memberRole.name()).collect(Collectors.toList()));

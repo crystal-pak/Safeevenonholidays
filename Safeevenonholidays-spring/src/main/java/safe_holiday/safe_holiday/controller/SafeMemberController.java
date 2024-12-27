@@ -1,6 +1,7 @@
 package safe_holiday.safe_holiday.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import safe_holiday.safe_holiday.dto.InfoDTO;
 import safe_holiday.safe_holiday.dto.PageRequestDTO;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/member")
 public class SafeMemberController {
 
@@ -71,7 +73,7 @@ public class SafeMemberController {
 
     //카카오 회원가입 후 추가 정보 기입
     @PutMapping("/modify")
-    public Map<String, String> modify(@RequestBody SafeMemberDTO safeMemberDTO) {
+    public Map<String, String> kakaoModify(@RequestBody SafeMemberDTO safeMemberDTO) {
         memberService.modifyMember(safeMemberDTO);
         return Map.of("RESULT", "modified");
     }

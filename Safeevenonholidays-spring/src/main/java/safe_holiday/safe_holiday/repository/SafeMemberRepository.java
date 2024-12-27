@@ -18,6 +18,6 @@ public interface SafeMemberRepository extends JpaRepository<SafeMember, Long>, M
     //사용자 이메일로 조회
     Optional<SafeMember> findByEmail(String email);
 
-    //사용자 닉네임으로 조회
-    Optional<SafeMember> findByNickName(String nickName);
+    //사용자 소셜ID로 조회
+    Optional<SafeMember> findBySocialId(String socialId);
 }

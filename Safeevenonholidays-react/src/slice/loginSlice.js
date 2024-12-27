@@ -12,8 +12,8 @@ const loadMemberCookie = () => {
     const memberInfo = getCookie("member")
 
     //닉네임 처리
-    if (memberInfo && memberInfo.nickName) {
-        memberInfo.nickName = decodeURIComponent(memberInfo.nickName)
+    if (memberInfo && memberInfo.socialId) {
+        memberInfo.socialId = decodeURIComponent(memberInfo.socialId)
     }
     return memberInfo
 }
@@ -32,6 +32,7 @@ const loginSlice = createSlice({
             console.log("login...")
             //소셜로그인 회원이면
             const payload = action.payload
+            console.log("로그인정보?", action.payload)
             setCookie("member", JSON.stringify(payload), 1)
             return payload
             // const data = action.payload

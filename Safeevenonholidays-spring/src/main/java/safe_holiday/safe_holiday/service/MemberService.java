@@ -35,6 +35,7 @@ public interface MemberService {
                 .name(safeMember.getName())
                 .nickName(safeMember.getNickName())
                 .social(safeMember.isSocial())
+                .socialId(safeMember.getSocialId())
                 .password(safeMember.getPassword())
                 .roleNames(safeMember.getMemberRoleList().stream().map(memberRole -> memberRole.name()).collect(Collectors.toList()))
                 .build();
@@ -48,6 +49,7 @@ public interface MemberService {
                 .name(safeMemberDTO.getName())
                 .nickName(safeMemberDTO.getNickName())
                 .social(safeMemberDTO.isSocial())
+                .socialId(safeMemberDTO.getSocialId())
                 .password(safeMemberDTO.getPassword())
                 .build();
         return safeMember;
