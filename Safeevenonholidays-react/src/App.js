@@ -53,12 +53,12 @@ function App() {
         </Route>
         
         <Route path="/hospital/">
-          <Route path="search" element={<HospitalSearch />} />
+          <Route path="list" element={<HospitalSearch />} />
           <Route path="detail/:id" element={<HospitalDetail />} />
         </Route>
         
         <Route path="/pharmacy/">
-          <Route path="search" element={<PharmacySearch />} />
+          <Route path="list" element={<PharmacySearch />} />
           <Route path="detail/:id" element={<PharmacyDetail />} />
         </Route>
 
