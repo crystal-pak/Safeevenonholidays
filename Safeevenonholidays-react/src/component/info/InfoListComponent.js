@@ -32,13 +32,13 @@ const InfoListComponent = () => {
 
   return (
     <>
-      <Table striped bordered hover>
+      <Table bordered hover>
       <thead className='text-center'>
         <tr>
-          <th>글번호</th>
-          <th className='w-75'>제목</th>
-          <th>작성자</th>
-          <th>날짜</th>
+          <th className='bg-primary bg-opacity-10'>번호</th>
+          <th className='bg-primary bg-opacity-10 w-75'>제목</th>
+          <th className='bg-primary bg-opacity-10'>작성자</th>
+          <th className='bg-primary bg-opacity-10'>날짜</th>
         </tr>
       </thead>
       <tbody>

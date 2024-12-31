@@ -4,7 +4,7 @@ import InfoListComponent from '../component/info/InfoListComponent'
 const InfoList = () => {
   return (
     <>
-      <h2>자료실</h2>
+      <h2 className="my-4">자료실</h2>
       <InfoListComponent />
     </>
   )
