@@ -7,7 +7,6 @@ const InfoModify = () => {
 
   return (
     <>
-      <h2>자료실 수정</h2>
       <InfoModifyComponent id={id} />
     </>
   )

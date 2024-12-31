@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Card, Container, Pagination, Row } from 'react-bootstrap'
-import "../styles/mypage.css";
+import "../styles/common.css";
 
 const MyReviews = () => {
     const reivews = [

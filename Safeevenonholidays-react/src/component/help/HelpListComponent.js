@@ -1,60 +1,72 @@
-import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Button, Container, Table } from 'react-bootstrap'
+import { getList } from './../../api/helpApi';
+import useCustomMove from './../../hooks/useCustomMove';
+import PageComponent from './../common/PageComponent';
 
-const HelpList = () => {
-  const [questions, setQuestions] = useState([]);
-  const [page, setPage] = useState(1);
+const initState = {
+  dtoList: [],
+  pageNumList: [],
+  pageRequestDTO: null,
+  prev: false,
+  next: false,
+  totalCount: 0,
+  prevPage: 0,
+  nextPage: 0,
+  totalPage: 0,
+  current: 0
+}
 
-  // 데이터 가져오기
+const HelpListComponent = () => {
+  const { page, size, list, refresh, detail, add } = useCustomMove()
+  const [serverData, setServerDate] = useState(initState)
+  const loginState = useSelector(state => state.loginSlice)
+
   useEffect(() => {
-    fetch(`/api/question/list?page=${page}&size=10`)
-      .then((response) => response.json())
-      .then((data) => setQuestions(data.dtoList))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [page]);
+    getList({ page, size }).then(data => {
+      console.log(data)
+      setServerDate(data)
+    })
+  }, [page, size, refresh])
 
   return (
-    <div className="container mt-4">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th className='bg-primary bg-opacity-10'>번호</th>
-            <th className='bg-primary bg-opacity-10 w-75'>제목</th>
-            <th className='bg-primary bg-opacity-10'>작성자</th>
-            <th className='bg-primary bg-opacity-10'>작성일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {questions.map((question, index) => (
-            <tr key={question.id}>
-              <td>{index + 1}</td>
-              <td>{question.subject}</td>
-              <td>{question.author?.name || "익명"}</td>
-              <td>{question.createDate}</td>
+    <>
+      <Container className="mt-4 mb-4">
+        <p className="title fw-bold">QnA 페이지</p>
+        <Table className="text-start mt-5">
+          <thead className='text-center'>
+            <tr>
+              <th>글번호</th>
+              <th className='w-50'>제목</th>
+              <th>작성자</th>
+              <th>날짜</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* 페이지네이션 */}
-      <nav>
-        <ul className="pagination justify-content-center">
-          {[...Array(10)].map((_, i) => (
-            <li
-              key={i}
-              className={`page-item ${page === i + 1 ? "active" : ""}`}
-            >
-              <button
-                className="page-link"
-                onClick={() => setPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
-  );
-};
+          </thead>
+          <tbody>
+            {serverData.dtoList.map((question) => (
+              <tr>
+                <td className='text-center'>{question.id}</td>
+                <td
+                  onClick={() => detail(question.id)}
+                  style={{ cursor: 'pointer' }}
+                >{question.subject}</td>
+                <td className='text-center'>{question.author.name}</td>
+                <td className='text-center'>{question.createDate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <div className='text-end'>
+          <Button onClick={add}>글작성</Button>
+        </div>
+        <PageComponent serverData={serverData} list={list} />
 
-export default HelpList;
+      </Container>
+
+    </>
+
+  )
+}
+
+export default HelpListComponent

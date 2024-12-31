@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Pagination, Container } from 'react-bootstrap';
-import "../styles/mypage.css";
+import "../styles/common.css";
 
 const MyFavorites = () => {
     const favorite = [

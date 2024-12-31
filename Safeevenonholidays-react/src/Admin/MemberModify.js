@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap';
-import "../styles/mypage.css";
+import "../styles/common.css";
 import { useParams } from 'react-router-dom';
 import { deleteOneByAdmin, getOne, putOne } from '../api/memberApi';
 import useCustomLogin from '../hooks/useCustomLogin';
@@ -60,7 +60,7 @@ const MemberModify = () => {
   return (
     <Container fluid className='d-flex align-items-center justify-content-center'>
       <div className='mt-5 p-5'>
-        <p className='mypage-title text-center mt-5 mb-5'>회원정보수정</p>
+        <p className='title text-center mt-5 mb-5'>회원정보수정</p>
 
         <Form.Group className="mb-3 d-flex align-items-center">
           <Form.Label className='fw-bold w-25'>이름</Form.Label>
