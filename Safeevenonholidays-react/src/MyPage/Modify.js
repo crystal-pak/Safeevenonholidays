@@ -1,5 +1,5 @@
 import "../styles/common.css";
-import MyPageModifyComponent from '../component/mypage/MyPageModifyComponent';
+import MyPageModifyComponent from "../component/mypage/MyPageModifyComponent";
 
 const Modify = () => {
   return (
@@ -7,6 +7,6 @@ const Modify = () => {
       <MyPageModifyComponent />
     </>
   );
-}
+};
 
 export default Modify;

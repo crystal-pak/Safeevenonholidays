@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import HospitalDetailComponent from "../component/hospital/HospitalDetailComponent";
 
 const HospitalDetail = () => {
   return (
-    <div>HospitalDetail</div>
-  )
-}
+    <>
+      <div className="p-3">
+        <HospitalDetailComponent />
+      </div>
+    </>
+  );
+};
 
-export default HospitalDetail
+export default HospitalDetail;

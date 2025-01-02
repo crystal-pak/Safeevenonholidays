@@ -27,7 +27,8 @@
   outline: none !important;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -53,7 +54,7 @@ main {
   margin-right: 0;
   padding-left: 0;
   padding-right: 0;
-  margin-top: auto; 
+  margin-top: auto;
 }
 .footer p {
   margin-right: 0;
@@ -66,6 +67,7 @@ main {
   font-weight: bold;
 }
 
-.footer p+p {
+.footer p + p {
   margin-left: 10px;
 }
+
