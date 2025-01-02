@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Button, Form, Container } from "react-bootstrap";
 import { deleteOne, putOne } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { logout } from "../../slice/loginSlice";
 
 const initState = {
   name: "",
@@ -32,8 +31,9 @@ const MyPageModifyComponent = () => {
 
   const handleClickModify = () => {
     putOne(member).then((result) => {
-      setResult("Modified");
-      moveToPath("/mypage");
+      setResult("Modified")
+      alert("수정이 완료 되었습니다.")
+      moveToPath("/mypage")
     });
   };
 

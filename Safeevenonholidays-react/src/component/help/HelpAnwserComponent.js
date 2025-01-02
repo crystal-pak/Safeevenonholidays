@@ -23,13 +23,15 @@ const HelpAnwserComponent = ({id, question}) => {
   }, [id]);
 
   const handleChangeAnswer = (e) => {
-    answer[e.target.name] = e.target.value
-    setAnswer({ ...answer })
+    const { name, value } = e.target
+    setAnswer((prevAnswer) => ({
+        ...prevAnswer,
+        [name]: value,
+    }))
     }
 
   const handleClickAdd = () => {
     postAddAnswer(id, answer).then(result => {
-        setAnswer(initState); // 입력 초기화
         setResult(null);
         alert('답변이 정상적으로 등록되었습니다.');
 
@@ -37,6 +39,7 @@ const HelpAnwserComponent = ({id, question}) => {
         getListAnswers(id).then(data => {
             console.log("새로고침된 API 응답 데이터:", data)
             setAnswers(data)
+            setAnswer(initState) // 입력 초기화
         }).catch(e => {
             console.error('답변 목록을 다시 가져오는 중 에러:', e)
         })
