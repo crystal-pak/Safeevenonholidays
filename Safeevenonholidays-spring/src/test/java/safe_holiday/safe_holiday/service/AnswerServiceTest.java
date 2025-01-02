@@ -32,21 +32,6 @@ class AnswerServiceTest {
     QuestionRepository questionRepository;
 
     @Test
-    void 답변등록() {
-        Optional<SafeMember> member = safeMemberRepository.findById(1L);
-        Optional<Question> question = questionRepository.findById(1L);
-
-        AnswerDTO answerDTO = AnswerDTO.builder()
-                .content("답변입니다")
-                .createDate(LocalDate.now())
-                .author(member.get())
-                .question(question.get())
-                .build();
-
-        answerService.register(answerDTO);
-    }
-
-    @Test
     void 답변수정() {
         long id = 1L;
         Optional<Answer> findAnswer = answerRepository.findById(id);

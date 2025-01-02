@@ -11,6 +11,7 @@ import safe_holiday.safe_holiday.dto.QuestionDTO;
 import safe_holiday.safe_holiday.repository.QuestionRepository;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ class QuestionServiceTest {
                     .subject("제목" + i)
                     .content("내용" + i)
                     .author(member.get())
-                    .createDate(LocalDateTime.now())
+                    .createDate(LocalDate.now())
                     .build();
 
             questionService.register(questionDTO);
@@ -53,7 +54,7 @@ class QuestionServiceTest {
         Question question = findQuestion.orElseThrow();
         question.setSubject("수정");
         question.setContent("수정");
-        question.setModifyDate(LocalDateTime.now());
+        question.setModifyDate(LocalDate.now());
 
         questionRepository.save(question);
     }
