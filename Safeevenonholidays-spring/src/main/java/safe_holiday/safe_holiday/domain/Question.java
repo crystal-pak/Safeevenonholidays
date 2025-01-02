@@ -1,5 +1,6 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +37,8 @@ public class Question {
     @JoinColumn(name = "member_id")
     private SafeMember author;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 삭제 시 답변도 삭제
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY) // 질문 삭제 시 답변도 삭제
+    @JsonManagedReference
     private List<Answer> answerList;
 
     public void setSubject(String subject) {

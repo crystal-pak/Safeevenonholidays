@@ -14,19 +14,7 @@ const HelpAnwserComponent = ({id}) => {
   useEffect(() => {
     getListAnswers(id).then(data => {
         console.log("API 응답 데이터 확인: ", data);
-  
-      if (Array.isArray(data)) {
-        setAnswers(data);  // 배열이면 그대로 사용
-      } else if (data && data.answers) {
-        setAnswers(data.answers);  // 객체의 answers 배열을 처리
-      } else if (data && typeof data === 'object') {
-        // 객체일 경우 값을 배열로 변환
-        setAnswers(Object.values(data));
-      } else {
-        console.error("잘못된 데이터 형식");
-      }
-    }).catch(e => {
-      console.error("답변 리스트 조회 에러", e);
+        setAnswers(data)
     })
   }, [id]);
 
@@ -51,11 +39,14 @@ const HelpAnwserComponent = ({id}) => {
     <>
     <div>
         <h2 className='fw-bold'>답변 ({answers.length})</h2>
-        {answers.map((answer, index) => {
-          <div key={index} className='border rounded' style={{ height: 500 }}>
-            <p className='p-3'>{answer.content}</p>
-          </div>
-        })}
+        {answers.map((answer) => (
+        <div key={answer.id} className="border rounded mb-3 p-3">
+        <p>{answer.content}</p>
+        <small className="text-muted">작성자: {answer.author.name}</small>
+        <br />
+        <small className="text-muted">작성일: {answer.createDate}</small>
+        </div>
+        ))}
     </div>
 
     <div>

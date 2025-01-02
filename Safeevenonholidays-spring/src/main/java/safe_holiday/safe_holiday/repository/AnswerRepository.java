@@ -2,6 +2,7 @@ package safe_holiday.safe_holiday.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import safe_holiday.safe_holiday.domain.Answer;
 import safe_holiday.safe_holiday.dto.AnswerDTO;
 
@@ -13,5 +14,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
             "JOIN FETCH a.author " +
             "JOIN FETCH a.question q " +
             "WHERE q.id = :questionId")
-    List<Answer> findByQuestionId(Long questionId);
+    List<Answer> findByQuestionId(@Param("questionId") Long questionId);
 }
