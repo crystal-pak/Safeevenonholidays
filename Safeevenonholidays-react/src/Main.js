@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../src/styles/main.css";
 import { Col, Container, Row } from "react-bootstrap";
 import ItemsCarousel from 'react-items-carousel';
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [numberOfCards, setNumberOfCards] = useState(4);
+    const navigate = useNavigate()
 
     const updateCardCount = () => {
         if (window.innerWidth <= 768) {
@@ -29,7 +31,23 @@ const Main = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [])
+
+    const handleClickHosSearch = () => {
+        navigate("/hospital/list")
+    }
+
+    const handleClickPharmSearch = () => {
+        navigate("/pharmacy/list")
+    }
+
+    const handleClickInfo = () => {
+        navigate("/info/list")
+    }
+
+    const handleClickHelp = () => {
+        navigate("/help/list")
+    }
 
     return (
         <>
@@ -48,13 +66,13 @@ const Main = () => {
                             </div>
                             <div className="col-md-6 d-flex flex-column">
                                 <div className="card mb-2 section1-card-right">
-                                    <div className="card-body">
+                                    <div role="button" onClick={handleClickHosSearch} className="card-body">
                                         <h5 className="card-title">병원 찾기</h5>
                                         <p className="card-text">가까운 병원을 찾아보세요.</p>
                                     </div>
                                 </div>
                                 <div className="card section1-card-right">
-                                    <div className="card-body">
+                                    <div role="button" onClick={handleClickPharmSearch} className="card-body">
                                         <h5 className="card-title">약국 찾기</h5>
                                         <p className="card-text">가까운 약국을 찾아보세요.</p>
                                     </div>
@@ -103,7 +121,7 @@ const Main = () => {
                     <div className="container mt-5">
                         <Row>
                             <Col>
-                                <div className="card section1-card-right">
+                                <div role="button" onClick={handleClickInfo} className="card section1-card-right">
                                     <div className="card-body">
                                         <h5 className="card-title">자료실</h5>
                                         <p className="card-text">응급 처치 요령</p>
@@ -112,7 +130,7 @@ const Main = () => {
                                 </div>
                             </Col>
                             <Col>
-                                <div className="card section1-card-right">
+                                <div role="button" onClick={handleClickHelp} className="card section1-card-right">
                                     <div className="card-body">
                                         <h5 className="card-title">고객지원</h5>
                                         <p className="card-text">Q&A</p>
