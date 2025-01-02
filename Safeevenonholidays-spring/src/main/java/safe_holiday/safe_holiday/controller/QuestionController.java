@@ -33,11 +33,11 @@ public class QuestionController {
     @PostMapping("/")
     public Map<String, Long> register(@RequestBody QuestionDTO questionDTO) {
         Long id = questionService.register(questionDTO);
-        return Map.of("id",id);
+        return Map.of("id", id);
     }
 
     //질문수정
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public Map<String, String> modify(@PathVariable("id") Long id,@RequestBody QuestionDTO questionDTO) {
         questionDTO.setId(id);
         questionService.modify(questionDTO);

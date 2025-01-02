@@ -5,6 +5,8 @@ import safe_holiday.safe_holiday.dto.PageRequestDTO;
 import safe_holiday.safe_holiday.dto.PageResponseDTO;
 import safe_holiday.safe_holiday.dto.QuestionDTO;
 
+import java.time.LocalDate;
+
 public interface QuestionService {
 
     //조회
@@ -26,8 +28,8 @@ public interface QuestionService {
                 .id(question.getId())
                 .subject(question.getSubject())
                 .content(question.getContent())
-                .createDate(question.getCreateDate())
-                .modifyDate(question.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(question.getAuthor())
                 .build();
 
@@ -39,8 +41,8 @@ public interface QuestionService {
                 .id(questionDTO.getId())
                 .subject(questionDTO.getSubject())
                 .content(questionDTO.getContent())
-                .createDate(questionDTO.getCreateDate())
-                .modifyDate(questionDTO.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(questionDTO.getAuthor())
                 .build();
 

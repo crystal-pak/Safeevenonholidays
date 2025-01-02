@@ -6,13 +6,13 @@ import { useSelector } from 'react-redux';
 
 const initState = {
   subject: "",
-  content: "",
+  content: ""
 }
 
 const HelpAddComponent = () => {
-  const [help, setHelp] = useState(initState);
-  const [result, setResult] = useState(null);
-  const { list } = useCustomMove();
+  const [help, setHelp] = useState(initState)
+  const [result, setResult] = useState(null)
+  const { list } = useCustomMove()
   const loginState = useSelector(state => state.loginSlice)
 
   const handleChangeHelp = (e) => {

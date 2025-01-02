@@ -38,7 +38,7 @@ const MyPageModifyComponent = () => {
   }
 
   const handleClickBack = () => {
-      moveToPath('/member/mypage')
+      moveToPath('/mypage')
   }
 
   const handleClickDelete = () => {

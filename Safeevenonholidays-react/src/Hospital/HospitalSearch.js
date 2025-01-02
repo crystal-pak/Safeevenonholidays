@@ -23,6 +23,7 @@ const HospitalSearch = () => {
   const [district, setDistrict] = useState("")
   const [departmentSearch, setDepartmentSearch] = useState("")
   const [hospitals, setHospitals] = useState([])
+  const [sortedHospitals, setSortedHospitals] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState("")
   const [userLocation, setUserLocation] = useState(null)
@@ -221,7 +222,7 @@ const handleSearch = async () => {
       );
       
       setHospitals(matchedHospitals)
-      console.log("검색된 병원 정보", hospitals)
+      console.log("검색된 병원 정보", matchedHospitals)
     } else {
       alert("병원 정보를 찾을 수 없습니다.");
       setHospitals([]); // 검색 결과가 없으면 목록 초기화
@@ -234,27 +235,6 @@ const handleSearch = async () => {
     setLoading(false);
   }
 };
-
-useEffect(() => {
-  if (hospitals.length > 0 && userLocation) {
-    // 병원 목록을 가져온 후 거리 계산 및 정렬
-    const hospitalsWithDistance = hospitals.map((item) => {
-      const hospitalLat = parseFloat(item.wgs84Lat);  // 병원의 위도
-      const hospitalLon = parseFloat(item.wgs84Lon); // 병원의 경도
-
-      const distance = userLocation
-        ? haversineDistance(userLocation.lat, userLocation.lon, hospitalLat, hospitalLon)
-        : null; // 사용자의 위치가 없을 경우 null 처리
-
-      return { ...item, distance }; // 병원 정보에 거리 추가
-    });
-
-    // 거리순으로 정렬
-    hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
-
-    setHospitals(hospitalsWithDistance); // 정렬된 병원 목록을 상태에 반영
-  }
-}, [hospitals, userLocation]);
 
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371;
@@ -269,12 +249,62 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
   return distance;
 };
 
-// useEffect(() => {
-//   getList({page, size}).then(data => {
-//    console.log("서버데이터?", data)
-//    setServerData(data)
-//   })
-// }, [page, size, refresh])
+// 시간을 "HH:MM" 형식에서 분 단위로 변환하는 함수
+function parseTime(time) {
+  if (typeof time !== "number") {
+    console.warn("Invalid time format:", time);
+    return null;
+  }
+   // 시간은 'HHMM' 형식이라 가정하고 처리
+   const hours = parseInt(time.substring(0, 2), 10);
+   const minutes = parseInt(time.substring(2, 4), 10);
+   return hours * 60 + minutes;
+}
+
+useEffect(() => {
+  if (hospitals.length > 0 && userLocation) {
+    // 병원 목록을 가져온 후 거리 계산 및 정렬
+    const hospitalsWithDistance = hospitals.map((item) => {
+      const hospitalLat = parseFloat(item.wgs84Lat);  // 병원의 위도
+      const hospitalLon = parseFloat(item.wgs84Lon); // 병원의 경도
+
+      const distance = haversineDistance(
+        userLocation.lat,
+        userLocation.lon,
+        hospitalLat,
+        hospitalLon
+      );
+
+    // startTime과 endTime을 문자열로 변환 후 처리
+    const startTime = item.dutyTime1s ? item.dutyTime1s.toString() : null;
+    const endTime = item.dutyTime1c ? item.dutyTime1c.toString() : null;
+
+    const start = startTime ? parseTime(startTime) : null;
+    const end = endTime ? parseTime(endTime) : null;
+
+    let status = "정보 없음";
+    if (start !== null && end !== null) {
+      const now = new Date();
+      const currentTime = now.getHours() * 60 + now.getMinutes();
+
+      if (currentTime >= start && currentTime < end) {
+        status = "진료 중";
+      } else {
+        status = "진료 마감";
+      }
+    }
+
+      return { ...item, distance, status }; // 병원 정보에 거리 추가
+    });
+
+    // 거리순으로 정렬
+    hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
+
+    setSortedHospitals(hospitalsWithDistance); // 정렬된 병원 목록을 별도의 상태로 저장
+  } else {
+    setSortedHospitals(hospitals); // 사용자의 위치가 없을 경우 기본 목록 유지
+  }
+}, [hospitals, userLocation]);
 
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: '700px' }}>
@@ -310,9 +340,9 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
       <Row>
         {loading ? (
           <p>로딩 중...</p>
-        ) : hospitals.length > 0 ? (
+        ) : sortedHospitals.length > 0 ? (
           <>
-            {hospitals.map((item) => (
+            {sortedHospitals.map((item) => (
             <Card className="text-center search-card">
               <Card.Body>
                 <div className="search-card-header">
@@ -338,6 +368,9 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
                   </Card.Text>
                 </div>
 
+                <Card.Text>
+                    {item.status}
+                  </Card.Text>
                 <Card.Img className="search-card-img" src="/images/heart-love.png" />
               </Card.Body>
             </Card>

@@ -20,13 +20,13 @@ const initState = {
 
 const HelpListComponent = () => {
   const { page, size, list, refresh, detail, add } = useCustomMove()
-  const [serverData, setServerDate] = useState(initState)
+  const [serverData, setServerData] = useState(initState)
   const loginState = useSelector(state => state.loginSlice)
 
   useEffect(() => {
     getList({ page, size }).then(data => {
       console.log(data)
-      setServerDate(data)
+      setServerData(data)
     })
   }, [page, size, refresh])
 
@@ -58,8 +58,12 @@ const HelpListComponent = () => {
           </tbody>
         </Table>
         <div className='text-end'>
-          <Button onClick={add}>글작성</Button>
-        </div>
+                  {loginState.roleNames.length > 0 ?
+                    <Button onClick={add}>글작성</Button>
+                    :
+                    <></>
+                  }
+                </div>
         <PageComponent serverData={serverData} list={list} />
 
       </Container>

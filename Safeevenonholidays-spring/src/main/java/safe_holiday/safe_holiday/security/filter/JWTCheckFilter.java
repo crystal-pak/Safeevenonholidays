@@ -45,6 +45,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true; // 필터 제외
         }
 
+        if (path.startsWith("/api/question") && request.getMethod().equals("GET")) {
+            return true; // 필터 제외
+        }
+
         log.info("체크 url {}", path);
         return false; //체크함
     }

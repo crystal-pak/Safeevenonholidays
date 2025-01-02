@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
-    private LocalDateTime modifyDate;
+    private LocalDate modifyDate;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -46,11 +47,11 @@ public class Question {
         this.content = content;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
-    public void setModifyDate(LocalDateTime modifyDate) {
+    public void setModifyDate(LocalDate modifyDate) {
         this.modifyDate = modifyDate;
     }
 
