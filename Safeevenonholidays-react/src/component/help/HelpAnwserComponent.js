@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { deleteOnAnswer, getListAnswers, postAddAnswer } from '../../api/helpApi'
 import { Form, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-import useCustomMove from '../../hooks/useCustomMove'
 import { useNavigate } from 'react-router-dom'
 
 const initState = {
     content: ""
   }
 
-const HelpAnwserComponent = ({id}) => {
+const HelpAnwserComponent = ({id, question}) => {
   const [answers, setAnswers] = useState([])
   const [answer, setAnswer] = useState(initState)
   const [result, setResult] = useState(null)
@@ -18,7 +17,7 @@ const HelpAnwserComponent = ({id}) => {
   
   useEffect(() => {
     getListAnswers(id).then(data => {
-        console.log("API 응답 데이터 확인: ", data);
+        console.log("API 응답 데이터 확인: ", data)
         setAnswers(data)
     })
   }, [id]);
@@ -64,7 +63,7 @@ const HelpAnwserComponent = ({id}) => {
   }
 
   const handleClickModify = (answer) => {
-    navigate(`/help/answer/modify/${answer.id}`)
+    navigate(`/help/answer/modify/${answer.id}`, { state: { question } })
   }
   
   return (

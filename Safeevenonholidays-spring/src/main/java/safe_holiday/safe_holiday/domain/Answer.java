@@ -1,6 +1,7 @@
 package safe_holiday.safe_holiday.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private SafeMember author;
 
     @ManyToOne(fetch = FetchType.LAZY)
