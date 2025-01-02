@@ -28,14 +28,16 @@ const HelpModifyComponent = ({ id }) => {
   const handleClickModify = () => {
     putOne(question).then(data => {
       console.log("질문 수정 결과 : ", data);
-      SetQuestion('Modified');
-      detail(id);
+      SetQuestion('Modified')
+      alert("수정 되었습니다.")
+      detail(id)
     })
   }
 
   const handleClickDelete = () => {
     deleteOne(id).then(data => {
-      setResult('Deleted');
+      setResult('Deleted')
+      alert("삭제 되었습니다.")
       list();
     })
   }
