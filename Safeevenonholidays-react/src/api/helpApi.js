@@ -49,7 +49,7 @@ export const getOneAnswer = async (id) => {
 
 // 여러 답변 조회
 export const getListAnswers = async (questionId) => {
-    const res = await jwtAxios.get(`${host}/list/${questionId}`)
+    const res = await axios.get(`${host}/list/${questionId}`)
     return res.data
 }
 
