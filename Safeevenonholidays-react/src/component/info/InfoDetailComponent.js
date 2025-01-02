@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useCustomMove from '../../hooks/useCustomMove'
 import { getOne } from '../../api/infoApi'
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 const initState = {
@@ -26,12 +26,13 @@ const InfoDetailComponent = ({id}) => {
   
   return (
     <>
+      <Container className="mt-5 mb-5">
         <h2 className='fw-bold'>{info.subject}</h2>
         <div className='d-flex'>
             <p style={{color: 'grey'}}>{info.createDate}</p>
             <p className='ms-3'>{info.author.name}</p>
         </div>
-        <div className='border rounded' style={{height: 500}}>
+        <div className='border rounded' >
             <p className='p-3'>{info.content}</p>
         </div>
         <div className='text-end my-3'>
@@ -42,6 +43,7 @@ const InfoDetailComponent = ({id}) => {
           }  
           <Button variant='secondary' onClick={() => list()}>목록보기</Button>
         </div>
+        </Container>
     </>
   )
 }

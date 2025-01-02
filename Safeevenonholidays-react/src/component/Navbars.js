@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../styles/layout.css";
 import { useSelector } from "react-redux";
@@ -40,9 +41,10 @@ const Navbars = () => {
               <Nav.Link href="/mypage">
                 마이페이지
               </Nav.Link>
-              <Nav.Link href="/info/list">
-                고객센터
-              </Nav.Link>
+           <NavDropdown title="고객센터" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/help/list">Q&A</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/info/list">자료실</NavDropdown.Item>
+            </NavDropdown>
             </>
             :
             <>
@@ -56,9 +58,10 @@ const Navbars = () => {
               <Nav.Link href="/member/signup">
                 회원가입
               </Nav.Link>
-              <Nav.Link href="/info/list">
-                고객센터
-              </Nav.Link>
+              <NavDropdown title="고객센터" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/help/list">Q&A</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/info/list">자료실</NavDropdown.Item>
+            </NavDropdown>
             </>
             }
             </Nav>

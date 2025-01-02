@@ -1,11 +1,13 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,15 +29,16 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
-    private LocalDateTime modifyDate;
+    private LocalDate modifyDate;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private SafeMember author;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 삭제 시 답변도 삭제
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY) // 질문 삭제 시 답변도 삭제
+    @JsonManagedReference
     private List<Answer> answerList;
 
     public void setSubject(String subject) {
@@ -46,11 +49,11 @@ public class Question {
         this.content = content;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
-    public void setModifyDate(LocalDateTime modifyDate) {
+    public void setModifyDate(LocalDate modifyDate) {
         this.modifyDate = modifyDate;
     }
 

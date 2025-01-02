@@ -7,7 +7,6 @@ const InfoDetail = () => {
 
   return (
     <>
-      <h2>자료실 상세</h2>
       <InfoDetailComponent id={id} />
     </>
   )

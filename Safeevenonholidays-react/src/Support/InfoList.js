@@ -4,8 +4,7 @@ import InfoListComponent from '../component/info/InfoListComponent'
 const InfoList = () => {
   return (
     <>
-      <h2>자료실</h2>
-      <InfoListComponent />
+        <InfoListComponent />
     </>
   )
 }

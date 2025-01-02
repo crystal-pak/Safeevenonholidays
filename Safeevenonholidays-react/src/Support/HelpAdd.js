@@ -1,8 +1,11 @@
 import React from 'react'
+import HelpAddComponent from '../component/help/HelpAddComponent';
 
 const HelpAdd = () => {
   return (
-    <div>HelpAdd</div>
+    <>
+    <HelpAddComponent />
+    </>
   )
 }
 

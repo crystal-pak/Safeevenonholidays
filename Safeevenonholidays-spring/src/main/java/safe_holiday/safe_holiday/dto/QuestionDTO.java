@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import safe_holiday.safe_holiday.domain.Answer;
 import safe_holiday.safe_holiday.domain.SafeMember;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class QuestionDTO {
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime modifyDate;
+    private LocalDate modifyDate;
 
     private SafeMember author;
 

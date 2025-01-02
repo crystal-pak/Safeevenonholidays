@@ -49,7 +49,7 @@ const MemberList = () => {
   return (
     <>
       <Container className="mt-4 mb-4">
-        <p className="mypage-title">회원 목록 페이지</p>
+        <p className="title">회원 목록 페이지</p>
         <Table className="text-center mt-5">
           <thead>
             <tr>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Button, Container } from 'react-bootstrap'
-import useCustomMove from '../../hooks/useCustomMove'
-import { getList } from '../../api/infoApi'
-import PageComponent from '../common/PageComponent'
 import { useSelector } from 'react-redux'
+import { Button, Container, Table } from 'react-bootstrap'
+import { getList } from './../../api/helpApi';
+import useCustomMove from './../../hooks/useCustomMove';
+import PageComponent from './../common/PageComponent';
 
 const initState = {
   dtoList: [],
@@ -18,7 +18,7 @@ const initState = {
   current: 0
 }
 
-const InfoListComponent = () => {
+const HelpListComponent = () => {
   const { page, size, list, refresh, detail, add } = useCustomMove()
   const [serverData, setServerData] = useState(initState)
   const loginState = useSelector(state => state.loginSlice)
@@ -33,7 +33,7 @@ const InfoListComponent = () => {
   return (
     <>
       <Container className="mt-4 mb-4">
-      <p className="title fw-bold">자료실 페이지</p>
+        <p className="title fw-bold">QnA 페이지</p>
         <Table className="text-start mt-5">
           <thead className='text-center'>
             <tr>
@@ -44,31 +44,33 @@ const InfoListComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {serverData.dtoList.map((item) => (
+            {serverData.dtoList.map((question) => (
               <tr>
-                <td className='text-center'>{item.id}</td>
+                <td className='text-center'>{question.id}</td>
                 <td
-                  onClick={() => detail(item.id)}
+                  onClick={() => detail(question.id)}
                   style={{ cursor: 'pointer' }}
-                >{item.subject}</td>
-                <td className='text-center'>{item.author.name}</td>
-                <td className='text-center'>{item.createDate}</td>
+                >{question.subject}</td>
+                <td className='text-center'>{question.author.name}</td>
+                <td className='text-center'>{question.createDate}</td>
               </tr>
             ))}
           </tbody>
         </Table>
         <div className='text-end'>
-          {loginState.roleNames.length > 1 ?
-            <Button onClick={add}>글작성</Button>
-            :
-            <></>
-          }
-        </div>
+                  {loginState.roleNames.length > 0 ?
+                    <Button onClick={add}>글작성</Button>
+                    :
+                    <></>
+                  }
+                </div>
         <PageComponent serverData={serverData} list={list} />
+
       </Container>
 
     </>
+
   )
 }
 
-export default InfoListComponent
+export default HelpListComponent

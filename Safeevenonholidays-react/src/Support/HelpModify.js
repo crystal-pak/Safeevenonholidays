@@ -1,8 +1,15 @@
 import React from 'react'
+import HelpModifyComponent from '../component/help/HelpModifyComponent'
+
+import { useParams } from 'react-router-dom'
 
 const HelpModify = () => {
+    const {id} = useParams()
+  
   return (
-    <div>HelpModify</div>
+    <>
+    <HelpModifyComponent id={id}/>
+    </>
   )
 }
 
