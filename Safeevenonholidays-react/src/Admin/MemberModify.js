@@ -23,6 +23,7 @@ const MemberModify = () => {
   useEffect(() => {
     getOne(id).then(data => {
       setMember({...data, password : '1234'})
+      console.log("member", member)
     }).catch(error => {
       console.error('회원 정보를 가져오는 데 실패했습니다.', error);
     })
@@ -36,12 +37,13 @@ const MemberModify = () => {
   const handleClickModify = () => {
     putOne(member)
     .then(() => {
-      setResult("Modified");
-      moveToPath('/mypage/member/list');
+      setResult("Modified")
+      alert("회원 정보 수정이 완료되었습니다.")
+      moveToPath('/mypage/member/list')
     })
     .catch((error) => {
-      console.error("회원 정보 수정 실패:", error);
-      alert("회원 정보 수정에 실패했습니다.");
+      console.error("회원 정보 수정 실패:", error)
+      alert("회원 정보 수정에 실패했습니다.")
     })
   }
 
