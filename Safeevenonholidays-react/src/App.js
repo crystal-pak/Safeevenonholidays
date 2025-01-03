@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "leaflet/dist/leaflet.css";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./component/Layout";

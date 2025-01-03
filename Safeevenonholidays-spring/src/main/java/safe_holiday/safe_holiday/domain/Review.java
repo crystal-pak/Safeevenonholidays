@@ -1,5 +1,7 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -8,8 +10,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -29,9 +33,9 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
-    private LocalDateTime modifyDate;
+    private LocalDate modifyDate;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -53,11 +57,11 @@ public class Review {
         this.content = content;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
-    public void setModifyDate(LocalDateTime modifyDate) {
+    public void setModifyDate(LocalDate modifyDate) {
         this.modifyDate = modifyDate;
     }
 

@@ -25,7 +25,8 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
-
+    deserialization:
+      fail-on-unknown-properties: false
 
 logging:
   level:

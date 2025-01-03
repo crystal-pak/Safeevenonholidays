@@ -9,6 +9,7 @@ import safe_holiday.safe_holiday.domain.Hospital;
 import safe_holiday.safe_holiday.domain.Pharmacy;
 import safe_holiday.safe_holiday.domain.SafeMember;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,10 +24,10 @@ public class ReviewDTO {
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime modifyDate;
+    private LocalDate modifyDate;
 
     private SafeMember author;
 

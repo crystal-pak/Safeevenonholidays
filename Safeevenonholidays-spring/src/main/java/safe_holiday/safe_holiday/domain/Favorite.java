@@ -1,6 +1,8 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -29,12 +32,10 @@ public class Favorite {
 
     @ManyToOne
     @JoinColumn(name = "hospital_id")
-    @JsonManagedReference
     private Hospital hospitalId;
 
     @ManyToOne
     @JoinColumn(name = "pharmacy_id")
-    @JsonManagedReference
     private Pharmacy pharmacyId;
 
     public void setFavorite(boolean favorite) {
