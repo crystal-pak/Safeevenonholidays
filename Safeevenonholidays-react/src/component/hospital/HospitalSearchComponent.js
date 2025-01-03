@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Container, Row, Col, Button, Card, Pagination } from "react-bootstrap"
 import FavoriteComponent from "../common/FavoriteComponent";
+import { useNavigate } from "react-router-dom";
 
 const HospitalSearchComponent = () => {
   const [city, setCity] = useState("")
@@ -494,6 +495,12 @@ const HospitalSearchComponent = () => {
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
   const currentPageHospitals = sortedHospitals.slice(startIndex, endIndex)
+  
+  const navigate = useNavigate()
+
+  const handleClick = (item) => {
+    navigate(`/hospital/detail/${item.hpid}`, {state: { item }})
+  }
 
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
@@ -555,7 +562,7 @@ const HospitalSearchComponent = () => {
                   <Row className='d-flex justify-content-between align-items-center'>
                     <Col>
                       <div className="search-card-header">
-                        <Card.Title className="search-card-title">{item.dutyName}</Card.Title>
+                        <Card.Title role='button' onClick={() => handleClick(item)} className="search-card-title">{item.dutyName}</Card.Title>
                         <Card.Text className="search-card-distanc">⭐</Card.Text>
                         <Card.Text className="search-card-rating">{item.rating}</Card.Text>
                       </div>
