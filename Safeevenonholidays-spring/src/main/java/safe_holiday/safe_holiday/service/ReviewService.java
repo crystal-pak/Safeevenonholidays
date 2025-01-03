@@ -1,12 +1,22 @@
 package safe_holiday.safe_holiday.service;
 
+import org.springframework.security.core.parameters.P;
+import safe_holiday.safe_holiday.domain.Hospital;
+import safe_holiday.safe_holiday.domain.Pharmacy;
 import safe_holiday.safe_holiday.domain.Review;
 import safe_holiday.safe_holiday.dto.ReviewDTO;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public interface ReviewService {
 
     //조회
     ReviewDTO get(Long id);
+
+    List<ReviewDTO> getReviewsByHospitalId(String hospitalId);
+
+    List<ReviewDTO> getReviewsByPharmacyId(String pharmacyId);
 
     //등록
     Long register(ReviewDTO reviewDTO);
@@ -22,8 +32,8 @@ public interface ReviewService {
                 .id(review.getId())
                 .rating(review.getRating())
                 .content(review.getContent())
-                .createDate(review.getCreateDate())
-                .modifyDate(review.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(review.getAuthor())
                 .hospitalId(review.getHospitalId())
                 .pharmacyId(review.getPharmacyId())
@@ -36,8 +46,8 @@ public interface ReviewService {
                 .id(reviewDTO.getId())
                 .rating(reviewDTO.getRating())
                 .content(reviewDTO.getContent())
-                .createDate(reviewDTO.getCreateDate())
-                .modifyDate(reviewDTO.getModifyDate())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .author(reviewDTO.getAuthor())
                 .hospitalId(reviewDTO.getHospitalId())
                 .pharmacyId(reviewDTO.getPharmacyId())
