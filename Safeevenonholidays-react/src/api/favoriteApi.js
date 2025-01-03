@@ -1,4 +1,3 @@
-import jwtAxios from '../util/jwtUtil'
 import axios from 'axios'
 
 export const API_SERVER_HOST = 'http://localhost:8080'
