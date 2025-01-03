@@ -1,33 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import useCustomMove from "../../hooks/useCustomMove";
-import PageComponent from "../common/PageComponent";
-
-const initState = {
-  dtoList: [],
-  pageNumList: [],
-  pageRequestDTO: null,
-  prev: false,
-  next: false,
-  totalCount: 0,
-  prevPage: 0,
-  nextPage: 0,
-  totalPage: 0,
-  current: 0,
-};
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { Container, Row, Col, Button, Card, Pagination } from "react-bootstrap"
+import { deleteOne, postAdd } from "../../api/favoriteApi";
+import FavoriteComponent from "../common/FavoriteComponent";
 
 const HospitalSearchComponent = () => {
-  const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
-  const [departmentSearch, setDepartmentSearch] = useState("");
-  const [hospitals, setHospitals] = useState([]);
-  const [sortedHospitals, setSortedHospitals] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [userLocation, setUserLocation] = useState(null);
-  const { page, size, list, refresh, detail } = useCustomMove();
-  const [serverData, setServerData] = useState(initState);
+  const [city, setCity] = useState("")
+  const [district, setDistrict] = useState("")
+  const [departmentSearch, setDepartmentSearch] = useState("")
+  const [hospitals, setHospitals] = useState([])
+  const [sortedHospitals, setSortedHospitals] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [selectedDepartment, setSelectedDepartment] = useState("")
+  const [userLocation, setUserLocation] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10 // 한 페이지당 보여줄 데이터 개수
+  const [totalItems, setTotalItems] = useState(0) // 전체 데이터 개수
 
   // 시도 데이터
   const cities = [
@@ -334,19 +322,19 @@ const HospitalSearchComponent = () => {
 
   // 시도가 변경될 때마다 구 선택 초기화
   useEffect(() => {
-    setDistrict("");
-  }, [city]);
+    setDistrict("")
+  }, [city])
 
   // 시군구가 변경될 때마다 진료과목 선택 초기화
   useEffect(() => {
-    setDepartmentSearch("");
-  }, [district]);
+    setDepartmentSearch("")
+  }, [district])
 
   useEffect(() => {
     if (loading) {
-      setHospitals([]); // 로딩 중일 때 병원 목록 초기화
+      setHospitals([]) // 로딩 중일 때 병원 목록 초기화
     }
-  }, [loading]);
+  }, [loading])
 
   // 지역별 병원 검색
   const handleSearch = async () => {
@@ -355,9 +343,9 @@ const HospitalSearchComponent = () => {
       return;
     }
 
-    setLoading(true);
+    setLoading(true)
 
-    setSelectedDepartment(departments.find((dept) => dept.code === departmentSearch)?.name);
+    setSelectedDepartment(departments.find((dept) => dept.code === departmentSearch)?.name)
 
     const API_KEY =
       "Xcr9KCUMHCL1McVUfmx1J3+bvAyCQaKXKyzIz6/4ZJce9pDbPGXrq+sLzeEmPooR44q8iedR/yOO9ToRc18Rpw==";
@@ -368,28 +356,18 @@ const HospitalSearchComponent = () => {
       Q0: city,
       Q1: district,
       QD: departmentSearch,
-      numOfRows: size,
-      pageNo: page,
+      numOfRows: 500,
+      pageNo: 1,
       _type: "json",
     };
 
     try {
       const response = await axios.get(url, { params });
       if (response.data && response.data.response && response.data.response.body) {
-        const apiHospitals = response.data.response.body.items?.item || [];
+        const { items, totalCount } = response.data.response.body
 
-        // 백엔드에서 반환된 병원 데이터
-        const dbResponse = await axios.get("http://localhost:8080/api/hospital/");
-        const dbHospitals = dbResponse.data;
-        console.log("반환된 정보?", dbHospitals);
-
-        // API 데이터와 DB 데이터 매칭
-        const matchedHospitals = apiHospitals.filter((apiHospital) =>
-          dbHospitals.some((dbHospital) => dbHospital.hospitalId === apiHospital.hpid),
-        );
-
-        setHospitals(matchedHospitals);
-        console.log("검색된 병원 정보", matchedHospitals);
+        setHospitals(items?.item || [])
+        setTotalItems(totalCount) // 전체 아이템 수 저장
       } else {
         alert("병원 정보를 찾을 수 없습니다.");
         setHospitals([]); // 검색 결과가 없으면 목록 초기화
@@ -450,15 +428,15 @@ const HospitalSearchComponent = () => {
         const start = startTime ? parseTime(startTime) : null;
         const end = endTime ? parseTime(endTime) : null;
 
-        let status = "정보 없음";
+        let status = "정보없음";
         if (start !== null && end !== null) {
           const now = new Date();
           const currentTime = now.getHours() * 60 + now.getMinutes();
 
           if (currentTime >= start && currentTime < end) {
-            status = "진료 중";
+            status = "진료중";
           } else {
-            status = "진료 마감";
+            status = "진료마감";
           }
         }
 
@@ -473,6 +451,50 @@ const HospitalSearchComponent = () => {
       setSortedHospitals(hospitals); // 사용자의 위치가 없을 경우 기본 목록 유지
     }
   }, [hospitals, userLocation]);
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+    // 페이지네이션 렌더링 함수
+    const renderPagination = () => {
+      const totalPages = Math.ceil(totalItems / itemsPerPage)
+      const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1
+      const rangeEnd = Math.min(rangeStart + 9, totalPages)
+  
+      const pageNumbers = []
+      for (let i = rangeStart; i <= rangeEnd; i++) {
+        pageNumbers.push(i)
+      }
+
+    return (
+      <Pagination className='justify-content-center'>
+        <Pagination.Prev
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+        {pageNumbers.map((page) => (
+          <Pagination.Item
+            key={page}
+            active={page === currentPage}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
+    )
+  }
+
+  // 페이지에 보여줄 데이터만큼 슬라이싱
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentPageHospitals = sortedHospitals.slice(startIndex, endIndex)
 
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
@@ -515,8 +537,9 @@ const HospitalSearchComponent = () => {
             ))}
           </select>
         </Col>
-        <Col>
-          <Button className="search-button" onClick={handleSearch}>
+
+        <Col md={4}>
+          <Button className="search-button" onClick={() => handleSearch(1)}>
             검색
           </Button>
         </Col>
@@ -525,13 +548,13 @@ const HospitalSearchComponent = () => {
       <Row>
         {loading ? (
           <p>로딩 중...</p>
-        ) : sortedHospitals.length > 0 ? (
+        ) : currentPageHospitals.length > 0 ? (
           <>
-            {sortedHospitals.map((item) => (
+            {currentPageHospitals.map((item) => (
               <Card className="text-center search-card">
                 <Card.Body>
-                  <Row>
-                    <Col xs={12} sm={12} md={12} lg={12}>
+                  <Row className='d-flex justify-content-between align-items-center'>
+                    <Col>
                       <div className="search-card-header">
                         <Card.Title className="search-card-title">{item.dutyName}</Card.Title>
                         <Card.Text className="search-card-distanc">⭐</Card.Text>
@@ -551,20 +574,22 @@ const HospitalSearchComponent = () => {
                         </Card.Text>
                       </div>
                     </Col>
-                    <Col>
-                      <Card.Text className="search-card-status">{item.status}</Card.Text>
-                      <Card.Img className="search-card-img" src="/images/heart-love.png" />
+                    <Col className='d-flex justify-content-end'>
+                        <p className="m-0 me-2 fw-bold" style={{ 
+                            color: item.status === "진료중" ? "#0052CC" : "#7C7C7C"
+                          }}>{item.status}</p>
+                        <FavoriteComponent hospitalId={item.hpid} />
                     </Col>
                   </Row>
                 </Card.Body>
               </Card>
             ))}
+            {renderPagination()}
           </>
         ) : (
           <p>결과가 없습니다.</p>
         )}
       </Row>
-      <PageComponent serverData={serverData} list={list} />
     </Container>
   );
 };

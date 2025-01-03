@@ -18,10 +18,6 @@ import java.util.List;
 public class Pharmacy {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true) // UNIQUE 제약 조건으로 설정
     private String pharmacyId;
 
     private String pharmacyName;

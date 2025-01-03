@@ -40,6 +40,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true; //체크하지 않음
         }
 
+        if(path.startsWith("/api/favorite/")){
+            return true; //체크하지 않음
+        }
+
         // "/api/info"로 시작하는 경로 중 GET 메서드에 대해서만 필터를 제외
         if (path.startsWith("/api/info") && request.getMethod().equals("GET")) {
             return true; // 필터 제외

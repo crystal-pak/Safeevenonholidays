@@ -3,10 +3,12 @@ package safe_holiday.safe_holiday.service;
 import safe_holiday.safe_holiday.domain.Favorite;
 import safe_holiday.safe_holiday.dto.FavoriteDTO;
 
+import java.util.List;
+
 public interface FavoriteService {
 
     //조회
-    FavoriteDTO get(Long id);
+    List<FavoriteDTO> get(Long authorId);
 
     //등록
     Long register(FavoriteDTO favoriteDTO);

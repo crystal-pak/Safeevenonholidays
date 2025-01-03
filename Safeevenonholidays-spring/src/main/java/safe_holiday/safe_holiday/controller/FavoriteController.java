@@ -1,10 +1,12 @@
 package safe_holiday.safe_holiday.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import safe_holiday.safe_holiday.dto.FavoriteDTO;
 import safe_holiday.safe_holiday.service.FavoriteService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,16 +17,17 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     //조회
-    @GetMapping("/{id}")
-    public FavoriteDTO get(@PathVariable("id") Long id){
-        return favoriteService.get(id);
+    @GetMapping("/member/{authorId}")
+    public ResponseEntity<List<FavoriteDTO>> get(@PathVariable Long authorId) {
+        List<FavoriteDTO> favorites = favoriteService.get(authorId);
+        return ResponseEntity.ok(favorites);
     }
 
     //등록
     @PostMapping("/")
-    public Map<String, Long> register(@RequestBody FavoriteDTO favoriteDTO){
+    public ResponseEntity<Map<String, Object>> register(@RequestBody FavoriteDTO favoriteDTO) {
         Long id = favoriteService.register(favoriteDTO);
-        return Map.of("id", id);
+        return ResponseEntity.ok(Map.of("id", id)); // 저장된 ID를 명시적으로 반환
     }
 
     //삭제
