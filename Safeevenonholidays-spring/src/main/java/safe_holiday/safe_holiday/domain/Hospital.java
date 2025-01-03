@@ -1,5 +1,6 @@
 package safe_holiday.safe_holiday.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,6 @@ public class Hospital {
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "hospitalId", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Favorite> favoriteList = new ArrayList<>();
 }
