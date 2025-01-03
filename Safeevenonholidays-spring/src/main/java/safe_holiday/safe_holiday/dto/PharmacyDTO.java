@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PharmacyDTO {
-    private Long id;
 
     private String pharmacyId;
 

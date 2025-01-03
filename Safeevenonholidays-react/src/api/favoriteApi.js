@@ -6,8 +6,8 @@ export const API_SERVER_HOST = 'http://localhost:8080'
 const prefix = `${API_SERVER_HOST}/api/favorite`
 
 //특정번호 조회
-export const getOne = async(id) => {
-    const res = await axios.get(`${prefix}/${id}`)
+export const getOne = async(authorId) => {
+    const res = await axios.get(`${prefix}/member/${authorId}`)
     return res.data
 }
 

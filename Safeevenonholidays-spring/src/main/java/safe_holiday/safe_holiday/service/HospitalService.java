@@ -9,7 +9,6 @@ public interface HospitalService {
 
     default HospitalDTO entityToDTO(Hospital hospital){
         HospitalDTO hospitalDTO = HospitalDTO.builder()
-                .id(hospital.getId())
                 .hospitalId(hospital.getHospitalId())
                 .hospitalName(hospital.getHospitalName())
                 .build();
@@ -19,7 +18,6 @@ public interface HospitalService {
 
     default Hospital DTOToEntity(HospitalDTO hospitalDTO){
         Hospital hospital = Hospital.builder()
-                .id(hospitalDTO.getId())
                 .hospitalId(hospitalDTO.getHospitalId())
                 .hospitalName(hospitalDTO.getHospitalName())
                 .build();

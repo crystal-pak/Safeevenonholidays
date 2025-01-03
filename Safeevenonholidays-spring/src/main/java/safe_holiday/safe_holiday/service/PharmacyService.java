@@ -11,7 +11,6 @@ public interface PharmacyService {
 
     default PharmacyDTO entityToDTO(Pharmacy pharmacy){
         PharmacyDTO pharmacyDTO = PharmacyDTO.builder()
-                .id(pharmacy.getId())
                 .pharmacyId(pharmacy.getPharmacyId())
                 .pharmacyName(pharmacy.getPharmacyName())
                 .build();
@@ -21,7 +20,6 @@ public interface PharmacyService {
 
     default Pharmacy DTOToEntity(PharmacyDTO pharmacyDTO){
         Pharmacy pharmacy = Pharmacy.builder()
-                .id(pharmacyDTO.getId())
                 .pharmacyId(pharmacyDTO.getPharmacyId())
                 .pharmacyName(pharmacyDTO.getPharmacyName())
                 .build();
