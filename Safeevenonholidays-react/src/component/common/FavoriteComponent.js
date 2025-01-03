@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteOne, postAdd, getFavorites, getOne } from "../../api/favoriteApi"; // 즐겨찾기 API 추가
+import { deleteOne, postAdd, getOne } from "../../api/favoriteApi"; // 즐겨찾기 API 추가
 import { useSelector } from "react-redux";
 
 const FavoriteComponent = ({ hospitalId, pharmacyId }) => {
@@ -48,11 +48,10 @@ const FavoriteComponent = ({ hospitalId, pharmacyId }) => {
     setFavoriteId(null);
   }, [hospitalId, pharmacyId]);
 
-
   const handleFavoriteClick = async () => {
     // 로그인 상태 확인
     if (!loginState || !loginState.id) {
-        console.error("로그인이 필요한 서비스입니다.");
+        alert("로그인이 필요한 서비스입니다.");
         return <div>로그인이 필요합니다.</div>;
     }
 

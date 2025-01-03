@@ -27,7 +27,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     //조회
     @Override
     public List<FavoriteDTO> get(Long authorId) {
-        List<Favorite> favorites = favoriteRepository.findByAuthorId(authorId);
+        List<Favorite> favorites = favoriteRepository.findAllByAuthorId(authorId);
         return favorites.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
@@ -36,13 +36,18 @@ public class FavoriteServiceImpl implements FavoriteService {
     //등록
     @Override
     public Long register(FavoriteDTO favoriteDTO) {
-        // 병원 ID 확인 및 조회
-        if (favoriteDTO.getHospitalId() == null || favoriteDTO.getHospitalId().getHospitalId() == null) {
-            throw new IllegalArgumentException("병원 ID는 필수입니다.");
+        // 병원 또는 약국 ID 중 하나는 반드시 존재해야 함
+        if ((favoriteDTO.getHospitalId() == null || favoriteDTO.getHospitalId().getHospitalId() == null) &&
+                (favoriteDTO.getPharmacyId() == null || favoriteDTO.getPharmacyId().getPharmacyId() == null)) {
+            throw new IllegalArgumentException("병원 또는 약국 ID 중 하나는 필수입니다.");
         }
 
-        Hospital hospital = hospitalRepository.findByHospitalId(favoriteDTO.getHospitalId().getHospitalId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 병원이 존재하지 않습니다."));
+        // 병원 ID가 있는 경우 조회
+        Hospital hospital = null;
+        if (favoriteDTO.getHospitalId() != null && favoriteDTO.getHospitalId().getHospitalId() != null) {
+            hospital = hospitalRepository.findByHospitalId(favoriteDTO.getHospitalId().getHospitalId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 병원이 존재하지 않습니다."));
+        }
 
         // 약국 ID 확인 및 조회 (필요한 경우)
         Pharmacy pharmacy = null;

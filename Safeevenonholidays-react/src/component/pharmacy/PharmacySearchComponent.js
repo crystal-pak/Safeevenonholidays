@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import { Container, Row, Col, Button, Card, Pagination } from "react-bootstrap"
-import FavoriteComponent from "../common/FavoriteComponent";
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Pagination, Row, Col, Button, Container, Card } from 'react-bootstrap'
+import FavoriteComponent from '../common/FavoriteComponent'
 
-const HospitalSearchComponent = () => {
+const PharmacySearchComponent = () => {
   const [city, setCity] = useState("")
   const [district, setDistrict] = useState("")
-  const [departmentSearch, setDepartmentSearch] = useState("")
-  const [hospitals, setHospitals] = useState([])
-  const [sortedHospitals, setSortedHospitals] = useState([])
+  const [pharmacies, setPharmacies] = useState([])
+  const [sortedPharmacies, setSortedPharmacies] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState("")
   const [userLocation, setUserLocation] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10 // 한 페이지당 보여줄 데이터 개수
   const [totalItems, setTotalItems] = useState(0) // 전체 데이터 개수
-
+  
   // 시도 데이터
   const cities = [
     "서울특별시",
@@ -269,35 +268,6 @@ const HospitalSearchComponent = () => {
     제주특별자치도: ["제주시", "서귀포시"],
   };
 
-  // 진료과목 데이터
-  const departments = [
-    { code: "D001", name: "내과" },
-    { code: "D002", name: "소아청소년과" },
-    { code: "D003", name: "신경과" },
-    { code: "D004", name: "정신건강의학과" },
-    { code: "D005", name: "피부과" },
-    { code: "D006", name: "외과" },
-    { code: "D007", name: "흉부외과" },
-    { code: "D008", name: "정형외과" },
-    { code: "D009", name: "신경외과" },
-    { code: "D010", name: "성형외과" },
-    { code: "D011", name: "산부인과" },
-    { code: "D012", name: "안과" },
-    { code: "D013", name: "이비인후과" },
-    { code: "D014", name: "비뇨기과" },
-    { code: "D016", name: "재활의학과" },
-    { code: "D017", name: "마취통증의학과" },
-    { code: "D018", name: "영상의학과" },
-    { code: "D019", name: "치료방사선과" },
-    { code: "D020", name: "임상병리과" },
-    { code: "D021", name: "해부병리과" },
-    { code: "D022", name: "가정의학과" },
-    { code: "D023", name: "핵의학과" },
-    { code: "D024", name: "응급의학과" },
-    { code: "D026", name: "치과" },
-    { code: "D034", name: "구강악안면외과" },
-  ];
-
   // 위치 정보 가져오기
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -316,45 +286,37 @@ const HospitalSearchComponent = () => {
   };
 
   useEffect(() => {
-    getUserLocation();
-  }, []);
-
+      getUserLocation();
+    }, []);
+  
   // 시도가 변경될 때마다 구 선택 초기화
   useEffect(() => {
     setDistrict("")
   }, [city])
 
-  // 시군구가 변경될 때마다 진료과목 선택 초기화
   useEffect(() => {
-    setDepartmentSearch("")
-  }, [district])
+      if (loading) {
+        setPharmacies([]) // 로딩 중일 때 병원 목록 초기화
+      }
+    }, [loading])
 
-  useEffect(() => {
-    if (loading) {
-      setHospitals([]) // 로딩 중일 때 병원 목록 초기화
-    }
-  }, [loading])
-
-  // 지역별 병원 검색
+  // 지역별 약국 검색
   const handleSearch = async () => {
-    if (!city || !district || !departmentSearch) {
+    if (!city || !district) {
       alert("모든 필드를 입력해야 합니다.");
       return;
     }
 
     setLoading(true)
 
-    setSelectedDepartment(departments.find((dept) => dept.code === departmentSearch)?.name)
-
     const API_KEY =
       "Xcr9KCUMHCL1McVUfmx1J3+bvAyCQaKXKyzIz6/4ZJce9pDbPGXrq+sLzeEmPooR44q8iedR/yOO9ToRc18Rpw==";
     const url =
-      "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
+      "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire";
     const params = {
       serviceKey: API_KEY,
       Q0: city,
       Q1: district,
-      QD: departmentSearch,
       numOfRows: 500,
       pageNo: 1,
       _type: "json",
@@ -365,16 +327,16 @@ const HospitalSearchComponent = () => {
       if (response.data && response.data.response && response.data.response.body) {
         const { items, totalCount } = response.data.response.body
 
-        setHospitals(items?.item || [])
+        setPharmacies(items?.item || [])
         setTotalItems(totalCount) // 전체 아이템 수 저장
       } else {
-        alert("병원 정보를 찾을 수 없습니다.");
-        setHospitals([]); // 검색 결과가 없으면 목록 초기화
+        alert("약국 정보를 찾을 수 없습니다.");
+        setPharmacies([]); // 검색 결과가 없으면 목록 초기화
       }
     } catch (error) {
-      console.error("Error fetching hospital data:", error);
-      alert("병원 정보를 가져오는 데 오류가 발생했습니다.");
-      setHospitals([]); // 검색 결과가 없으면 목록 초기화
+      console.error("Error fetching pharmacy data:", error);
+      alert("약국 정보를 가져오는 데 오류가 발생했습니다.");
+      setPharmacies([]); // 검색 결과가 없으면 목록 초기화
     } finally {
       setLoading(false);
     }
@@ -407,17 +369,17 @@ const HospitalSearchComponent = () => {
   }
 
   useEffect(() => {
-    if (hospitals.length > 0 && userLocation) {
+    if (pharmacies.length > 0 && userLocation) {
       // 병원 목록을 가져온 후 거리 계산 및 정렬
-      const hospitalsWithDistance = hospitals.map((item) => {
-        const hospitalLat = parseFloat(item.wgs84Lat); // 병원의 위도
-        const hospitalLon = parseFloat(item.wgs84Lon); // 병원의 경도
+      const pharmaciesWithDistance = pharmacies.map((item) => {
+        const pharmacyLat = parseFloat(item.wgs84Lat); // 병원의 위도
+        const pharmacyLon = parseFloat(item.wgs84Lon); // 병원의 경도
 
         const distance = haversineDistance(
           userLocation.lat,
           userLocation.lon,
-          hospitalLat,
-          hospitalLon,
+          pharmacyLat,
+          pharmacyLon,
         );
 
         // startTime과 endTime을 문자열로 변환 후 처리
@@ -433,9 +395,9 @@ const HospitalSearchComponent = () => {
           const currentTime = now.getHours() * 60 + now.getMinutes();
 
           if (currentTime >= start && currentTime < end) {
-            status = "진료중";
+            status = "운영중";
           } else {
-            status = "진료마감";
+            status = "운영마감";
           }
         }
 
@@ -443,13 +405,13 @@ const HospitalSearchComponent = () => {
       });
 
       // 거리순으로 정렬
-      hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
+      pharmaciesWithDistance.sort((a, b) => a.distance - b.distance);
 
-      setSortedHospitals(hospitalsWithDistance); // 정렬된 병원 목록을 별도의 상태로 저장
+      setSortedPharmacies(pharmaciesWithDistance); // 정렬된 병원 목록을 별도의 상태로 저장
     } else {
-      setSortedHospitals(hospitals); // 사용자의 위치가 없을 경우 기본 목록 유지
+      setSortedPharmacies(pharmacies); // 사용자의 위치가 없을 경우 기본 목록 유지
     }
-  }, [hospitals, userLocation]);
+  }, [pharmacies, userLocation]);
 
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
@@ -493,12 +455,12 @@ const HospitalSearchComponent = () => {
   // 페이지에 보여줄 데이터만큼 슬라이싱
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
-  const currentPageHospitals = sortedHospitals.slice(startIndex, endIndex)
+  const currentPagePharmacies = sortedPharmacies.slice(startIndex, endIndex)
 
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
       <Row className="mb-5">
-        <h1 className="header">병원 검색</h1>
+        <h1 className="header">약국 검색</h1>
         <Col>
           <select className="select" value={city} onChange={(e) => setCity(e.target.value)}>
             <option value="">시도 선택</option>
@@ -522,19 +484,6 @@ const HospitalSearchComponent = () => {
               </option>
             ))}
           </select>
-
-          <select
-            className="select"
-            value={departmentSearch}
-            onChange={(e) => setDepartmentSearch(e.target.value)}
-          >
-            <option value="">진료과목 선택</option>
-            {departments.map((dept) => (
-              <option key={dept.code} value={dept.code}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
         </Col>
 
         <Col md={4}>
@@ -547,9 +496,9 @@ const HospitalSearchComponent = () => {
       <Row>
         {loading ? (
           <p>로딩 중...</p>
-        ) : currentPageHospitals.length > 0 ? (
+        ) : currentPagePharmacies.length > 0 ? (
           <>
-            {currentPageHospitals.map((item) => (
+            {currentPagePharmacies.map((item) => (
               <Card className="text-center search-card">
                 <Card.Body>
                   <Row className='d-flex justify-content-between align-items-center'>
@@ -568,16 +517,13 @@ const HospitalSearchComponent = () => {
                         <Card.Text className="search-card-content">
                           {item.dutyAddr.split(" ").slice(0, 2).join(" ")}
                         </Card.Text>
-                        <Card.Text className="search-card-content">
-                          · {selectedDepartment}
-                        </Card.Text>
                       </div>
                     </Col>
                     <Col className='d-flex justify-content-end'>
                         <p className="m-0 me-2 fw-bold" style={{ 
-                            color: item.status === "진료중" ? "#0052CC" : "#7C7C7C"
+                            color: item.status === "운영중" ? "#0052CC" : "#7C7C7C"
                           }}>{item.status}</p>
-                        <FavoriteComponent hospitalId={item.hpid} />
+                        <FavoriteComponent pharmacyId={item.hpid} />
                     </Col>
                   </Row>
                 </Card.Body>
@@ -590,7 +536,7 @@ const HospitalSearchComponent = () => {
         )}
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default HospitalSearchComponent;
+export default PharmacySearchComponent
