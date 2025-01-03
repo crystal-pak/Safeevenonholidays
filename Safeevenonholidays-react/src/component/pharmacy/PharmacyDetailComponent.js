@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from 'leaflet';
 import ReviewComponent from "../common/ReviewComponent";
 
-const HospitalDetailComponent = ({id, item}) => {
+const PharmacyDetailComponent = ({id, item}) => {
   const position = [
     parseFloat(item.wgs84Lat) || 37.5665, // 위도를 숫자로 변환하고 기본값 설정
     parseFloat(item.wgs84Lon) || 126.978, // 경도를 숫자로 변환하고 기본값 설정
@@ -25,7 +25,7 @@ const HospitalDetailComponent = ({id, item}) => {
           <h4 className="fw-bold m-0">{item.dutyName}</h4>
           <div className="d-flex">
             <p className="me-2">즐겨찾기</p>
-            <FavoriteComponent hospitalId={id} />
+            <FavoriteComponent pharmacyId={id} />
           </div>
         </div>
         <Row className="my-3 border-bottom">
@@ -69,10 +69,10 @@ const HospitalDetailComponent = ({id, item}) => {
           </Col>
         </Row>
   
-        <ReviewComponent hospitalId={id} />
+        <ReviewComponent pharmacyId={id} />
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default HospitalDetailComponent;
+export default PharmacyDetailComponent

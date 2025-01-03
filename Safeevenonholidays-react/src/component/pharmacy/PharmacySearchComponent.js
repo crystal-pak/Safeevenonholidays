@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Pagination, Row, Col, Button, Container, Card } from 'react-bootstrap'
 import FavoriteComponent from '../common/FavoriteComponent'
+import { useNavigate } from 'react-router-dom'
 
 const PharmacySearchComponent = () => {
   const [city, setCity] = useState("")
@@ -457,6 +458,12 @@ const PharmacySearchComponent = () => {
   const endIndex = startIndex + itemsPerPage
   const currentPagePharmacies = sortedPharmacies.slice(startIndex, endIndex)
 
+  const navigate = useNavigate()
+
+  const handleClick = (item) => {
+    navigate(`/pharmacy/detail/${item.hpid}`, {state: { item }})
+  }
+
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
       <Row className="mb-5">
@@ -504,7 +511,7 @@ const PharmacySearchComponent = () => {
                   <Row className='d-flex justify-content-between align-items-center'>
                     <Col>
                       <div className="search-card-header">
-                        <Card.Title className="search-card-title">{item.dutyName}</Card.Title>
+                        <Card.Title role='button' onClick={() => handleClick(item)} className="search-card-title">{item.dutyName}</Card.Title>
                         <Card.Text className="search-card-distanc">⭐</Card.Text>
                         <Card.Text className="search-card-rating">{item.rating}</Card.Text>
                       </div>
