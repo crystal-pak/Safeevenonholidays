@@ -14,6 +14,7 @@ import safe_holiday.safe_holiday.repository.PharmacyRepository;
 import safe_holiday.safe_holiday.repository.ReviewRepository;
 import safe_holiday.safe_holiday.repository.SafeMemberRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ class ReviewServiceTest {
                 .content("리뷰테스트")
                 .author(member.get())
                 .pharmacyId(pharmacy.get())
-                .createDate(LocalDateTime.now())
+                .createDate(LocalDate.now())
                 .build();
 
         reviewService.register(reviewDTO);
@@ -62,7 +63,7 @@ class ReviewServiceTest {
         Review review = findReview.orElseThrow();
         review.setRating(3);
         review.setContent("리뷰 수정");
-        review.setModifyDate(LocalDateTime.now());
+        review.setModifyDate(LocalDate.now());
 
         reviewRepository.save(review);
     }

@@ -53,6 +53,15 @@
   height: auto; /* 비율 유지 */
 }
 
+.card-img-bottom3 {
+  position: absolute;
+  margin: 20px;
+  bottom: 20px;
+  right: 20px;
+  width: 100px; /* 화면 크기에 따라 크기 조정 */
+  height: auto; /* 비율 유지 */
+}
+
 /* Main Section2 */
 .section2-container {
   padding: 3rem 1rem;

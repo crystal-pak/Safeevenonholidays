@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { deleteOnAnswer, getListAnswers, postAddAnswer } from '../../api/helpApi'
-import { Form, Button } from 'react-bootstrap'
+import { deleteOnAnswer, getListAnswers, postAddAnswer, putOne, putOneAnswer } from '../../api/helpApi'
+import { Form, Button, Modal } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,6 +14,7 @@ const HelpAnwserComponent = ({id, question}) => {
   const [result, setResult] = useState(null)
   const loginState = useSelector(state => state.loginSlice)
   const navigate = useNavigate()
+  const [editAnswer, setEditAnswer] = useState(null)
   
   useEffect(() => {
     getListAnswers(id).then(data => {
@@ -65,8 +66,15 @@ const HelpAnwserComponent = ({id, question}) => {
     })
   }
 
-  const handleClickModify = (answer) => {
-    navigate(`/help/answer/modify/${answer.id}`, { state: { question } })
+  // 리뷰 수정
+  const handleEditModify = async () => {
+    try {
+      await putOneAnswer(editAnswer); // 리뷰 수정 API 호출
+      setEditAnswer(null);
+      window.location.reload(); // 새로고침으로 업데이트
+    } catch (error) {
+      console.error("리뷰 수정 중 오류 발생:", error);
+    }
   }
   
   return (
@@ -80,11 +88,11 @@ const HelpAnwserComponent = ({id, question}) => {
             <div>
               <small className="text-muted">작성자: {answer.author?.name}</small>
               <br />
-              <small className="text-muted">작성일: {answer.createDate}</small>
+              <small className="text-muted">작성일: {answer.createDate[0]}년 {answer.createDate[1]}월 {answer.createDate[2]}일</small>
             </div>
             {loginState?.email === answer.author?.email || loginState.roleNames.length > 1 ?
               <div>
-              <Button variant='primary' className='me-2' onClick={() => handleClickModify(answer)}>수정</Button>
+              <Button variant='primary' className='me-2' onClick={() => setEditAnswer(answer)}>수정</Button>
               <Button variant='danger' onClick={() => handleClickDelete(answer.id)}>삭제</Button>
               </div>
             :
@@ -116,6 +124,33 @@ const HelpAnwserComponent = ({id, question}) => {
       </Form.Group>
     </div>
     }
+
+    {/* 리뷰 수정 모달 */}
+    {editAnswer && (
+        <Modal show={true} onHide={() => setEditAnswer(null)}>
+          <Modal.Header closeButton>
+            <Modal.Title>리뷰 수정</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <textarea
+              className="form-control my-3"
+              rows={3}
+              value={editAnswer.content}
+              onChange={(e) =>
+                setEditAnswer({ ...editAnswer, content: e.target.value })
+              }
+            ></textarea>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setEditAnswer(null)}>
+              취소
+            </Button>
+            <Button variant="primary" onClick={handleEditModify}>
+              저장
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        )}
     </>
   )
 }

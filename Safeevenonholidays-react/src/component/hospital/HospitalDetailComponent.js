@@ -1,22 +1,63 @@
-import React from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
+/* global kakao */
+import React, { useEffect, useRef } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import FavoriteComponent from "../common/FavoriteComponent"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from 'leaflet';
 import ReviewComponent from "../common/ReviewComponent";
 
 const HospitalDetailComponent = ({id, item}) => {
+  const mapRef = useRef(null);
+
+  // 위도와 경도를 숫자로 변환하고 기본값 설정
   const position = [
-    parseFloat(item.wgs84Lat) || 37.5665, // 위도를 숫자로 변환하고 기본값 설정
-    parseFloat(item.wgs84Lon) || 126.978, // 경도를 숫자로 변환하고 기본값 설정
+    parseFloat(item.wgs84Lat) || 37.5665, // 서울의 기본 위도
+    parseFloat(item.wgs84Lon) || 126.978, // 서울의 기본 경도
   ];
   
-  const customIcon = new L.Icon({
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    iconSize: [25, 41], // 아이콘 크기
-    iconAnchor: [12, 41], // 아이콘 기준점
-    popupAnchor: [0, -41], // 팝업 위치
-  });
+  // 카카오 지도 SDK를 동적으로 로드하는 함수
+  const loadKakaoMap = () => {
+    return new Promise((resolve, reject) => {
+      if (window.kakao && window.kakao.maps) {
+        resolve(window.kakao.maps); // 이미 로드된 경우 바로 반환
+      } else {
+        const script = document.createElement("script");
+        script.src =
+          "https://dapi.kakao.com/v2/maps/sdk.js?appkey=f7ad62ab6fae8e97fa02ac3ae1f34e40&libraries=services&autoload=false";
+        script.async = true;
+        script.onload = () => kakao.maps.load(() => resolve(kakao.maps));
+        script.onerror = () => reject(new Error("카카오 지도 API 로드 실패"));
+        document.head.appendChild(script);
+      }
+    });
+  };
+
+  // 지도 초기화
+  useEffect(() => {
+    loadKakaoMap().then((kakaoMaps) => {
+      if (mapRef.current) {
+        const mapContainer = mapRef.current; // 지도 표시할 div
+        const mapOptions = {
+          center: new kakaoMaps.LatLng(position[0], position[1]), // 중심 좌표
+          level: 3, // 확대 레벨
+        };
+
+        // 지도 생성
+        const map = new kakaoMaps.Map(mapContainer, mapOptions);
+
+        // 마커 생성
+        const marker = new kakaoMaps.Marker({
+          position: new kakaoMaps.LatLng(position[0], position[1]),
+        });
+        marker.setMap(map);
+
+        // 정보창 생성 및 표시
+        const infowindow = new kakaoMaps.InfoWindow({
+          content: `<div style="padding:5px;">${item.dutyName}</div>`,
+        });
+        infowindow.open(map, marker);
+      }
+    });
+  }, [position, item.dutyName]); // 의존성 배열에 위치와 약국 이름 추가
+
 
   return (
     <>
@@ -30,21 +71,10 @@ const HospitalDetailComponent = ({id, item}) => {
         </div>
         <Row className="my-3 border-bottom">
           <Col lg={6} className='mb-3'>
-              <MapContainer
-                center={position}
-                zoom={15}
-                style={{ width: "100%", height: "350px" }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <Marker position={position} icon={customIcon}>
-                  <Popup>
-                    {item.dutyName}
-                  </Popup>
-                </Marker>
-              </MapContainer>
+          <div
+              ref={mapRef}
+              style={{ width: "100%", height: "350px", borderRadius: "8px" }}
+            ></div>
           </Col>
           <Col lg={6}>
             <div>
