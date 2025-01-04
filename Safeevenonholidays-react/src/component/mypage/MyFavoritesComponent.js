@@ -1,109 +1,137 @@
-import React, { useState } from "react";
-import { Card, Row, Col, Pagination, Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col, Pagination, Container, Button } from "react-bootstrap";
 import "../../styles/common.css";
+import { useSelector } from "react-redux";
+import { getOne } from "../../api/favoriteApi";
+import FavoriteComponent from "../common/FavoriteComponent";
+import { useNavigate } from "react-router-dom";
+import { fetchHospitalDetails, fetchPharmacyDetails } from "../../api/publicApi";
 
-const MyFavoritesComponet = () => {
-  const favorite = [
-    { id: 1, name: "성남약국", category: "약국", addr: "경기도 성남시 수정구", distanc: "120m" },
-    { id: 2, name: "모란약국", category: "약국", addr: "경기도 성남시 수정구", distanc: "150m" },
-    {
-      id: 3,
-      name: "성남한의원",
-      category: "한의원",
-      addr: "경기도 성남시 수정구",
-      distanc: "90m",
-    },
-    {
-      id: 4,
-      name: "성남동피부과",
-      category: "피부과",
-      addr: "경기도 성남시 수정구",
-      distanc: "580m",
-    },
-    { id: 5, name: "모란동약국", category: "약국", addr: "경기도 성남시 수정구", distanc: "956m" },
-    {
-      id: 6,
-      name: "이젠이비인후과",
-      category: "이비인후과",
-      addr: "경기도 성남시 중원구",
-      distanc: "1km",
-    },
-    {
-      id: 7,
-      name: "아카데미병원",
-      category: "상급병원",
-      addr: "경기도 성남시 수정구",
-      distanc: "450m",
-    },
-    { id: 8, name: "리액트약국", category: "약국", addr: "경기도 성남시 수정구", distanc: "460m" },
-    { id: 9, name: "성탄절병원", category: "내과", addr: "경기도 성남시 수정구", distanc: "585m" },
-    { id: 10, name: "한의원", category: "병원", addr: "경기도 성남시 수정구", distanc: "15m" },
-    { id: 11, name: "서울약국", category: "약국", addr: "서울시 강남구", distanc: "5.8km" },
-    { id: 12, name: "가락병원", category: "병원", addr: "서울시 송파구", distanc: "4.2km" },
-    { id: 13, name: "청담한의원", category: "한의원", addr: "서울시 강남구", distanc: "5km" },
-    { id: 14, name: "강남피부과", category: "피부과", addr: "서울시 강남구", distanc: "4.9km" },
-  ];
+const MyFavoritesComponent = () => {
+  const [userFavorites, setUserFavorites] = useState([])
+  const loginState = useSelector((state) => state.loginSlice)
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate()
+  const itemsPerPage = 8; // 한 페이지에 표시할 항목 수
+  const paginationRange = 10; // 한 번에 표시할 페이지 번호 범위
+  
+  // 서버에서 즐겨찾기 데이터 가져오기
+  const fetchFavorites = async () => {
+    if (!loginState || !loginState.id) return;
 
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 변경 페이지
-  const itemsPerPage = 8; // 한 페이지에 표시할 항목 수 8개
+    try {
+      const favorites = await getOne(loginState.id); // 사용자 ID로 즐겨찾기 데이터 가져오기
 
-  const indexOfLastItem = currentPage * itemsPerPage; // 인덱스 끝
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 인덱스 시작
-  const currentItems = favorite.slice(indexOfFirstItem, indexOfLastItem);
+      // 병원 및 약국 상세 정보 추가
+      const updatedFavorites = await Promise.all(
+        favorites.map(async (favorite) => {
+          if (favorite.hospitalId) {
+            const hospitalDetails = await fetchHospitalDetails(favorite.hospitalId.hospitalId);
+            return { ...favorite, hospitalDetails };
+          } else if (favorite.pharmacyId) {
+            const pharmacyDetails = await fetchPharmacyDetails(favorite.pharmacyId.pharmacyId);
+            return { ...favorite, pharmacyDetails };
+          }
+          return favorite;
+        })
+      );
 
-  const totalPages = Math.ceil(favorite.length / itemsPerPage); // 총 페이지 수 계산
-  // 한 페이지에 표시할 항목 수를 itemPerPage로 나눈 후 Math.ceil로 올림
-
-  const handlePageChange = (pageNumber) => {
-    // 페이지 번호가 변경될 때 호출
-    setCurrentPage(pageNumber); // 새로운 페이지 번호 설정
+      setUserFavorites(updatedFavorites);
+      console.log("Updated Favorites 데이터 확인:", updatedFavorites);
+    } catch (error) {
+      console.error("즐겨찾기 데이터를 가져오는 중 오류 발생:", error);
+    }
   };
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [loginState]);
+
+  /// 현재 페이지에 표시할 데이터 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = userFavorites.slice(indexOfFirstItem, indexOfLastItem);
+
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(userFavorites.length / itemsPerPage);
+
+  // 페이지네이션 범위 계산
+  const startPage = Math.floor((currentPage - 1) / paginationRange) * paginationRange + 1;
+  const endPage = Math.min(startPage + paginationRange - 1, totalPages);
+
+  // 이전 및 다음 버튼 활성화 여부
+  const isPrevDisabled = currentPage <= 1;
+  const isNextDisabled = currentPage >= totalPages;
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
+
+  // 상세 페이지 이동 핸들러
+  const handleClickDetail = (favorite) => {
+    if (favorite.hospitalDetails) {
+      navigate(`/hospital/detail/${favorite.hospitalId.hospitalId}`, { state: { item: favorite.hospitalDetails } });
+    } else if (favorite.pharmacyDetails) {
+      navigate(`/pharmacy/detail/${favorite.pharmacyId.pharmacyId}`, { state: { item: favorite.pharmacyDetails } });
+    }
+  };
+
 
   return (
     <>
       <Container className="mt-4 mb-4">
         <p className="title">즐겨찾기 목록</p>
         <Row>
-          {currentItems.map((item) => (
-            <Col key={item.id} xs={12} sm={6} md={3}>
-              <Card className="text-center myfav-card">
+        {currentItems.map((favorite) => {
+          // 병원 또는 약국 이름 확인
+          const hospitalName = favorite.hospitalId?.hospitalName;
+          const pharmacyName = favorite.pharmacyId?.pharmacyName;
+
+          // 병원과 약국 이름이 모두 없는 경우 렌더링하지 않음
+          if (!hospitalName && !pharmacyName) return null;
+
+          return (
+            <Col key={favorite.id} xs={12} sm={6} md={3}>
+              <Card role='button' onClick={() => handleClickDetail(favorite)} className="text-center myfav-card">
                 <Card.Body>
-                  <div className="myfav-card-header">
-                    <Card.Title className="myfav-card-title">{item.name}</Card.Title>
-                    <Card.Img className="myfav-card-img" src="/images/heart-love.png" />
-                  </div>
-                  <Card.Text className="myfav-card-content">{item.addr}</Card.Text>
-                  <Card.Text className="myfav-card-content">{item.category}</Card.Text>
-                  <Card.Text className="myfav-card-distanc">{item.distanc}</Card.Text>
+                    <div className="d-flex">
+                      <Card.Title className="myfav-card-title me-2">{hospitalName || pharmacyName}</Card.Title>
+                      <FavoriteComponent
+                        hospitalId={favorite.hospitalId?.hospitalId}
+                        pharmacyId={favorite.pharmacyId?.pharmacyId}
+                      />
+                    </div>
+
+                    <Card.Text className='myfav-card-content'>{favorite.hospitalDetails?.dutyAddr || favorite.pharmacyDetails?.dutyAddr}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
-          ))}
+          )})}
         </Row>
-        <Pagination className="justify-content-center mt-5">
-          <Pagination.Prev
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          />
 
-          {[...Array(totalPages)].map((_, index) => (
+        {/* 페이지네이션 */}
+        <Pagination className="justify-content-center mt-4">
+          {/* 이전 버튼 */}
+          <Pagination.Prev disabled={isPrevDisabled} onClick={() => handlePageChange(currentPage - 1)} />
+
+          {/* 현재 범위의 페이지 번호 */}
+          {[...Array(endPage - startPage + 1).keys()].map((page) => (
             <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => handlePageChange(index + 1)}
+              key={startPage + page}
+              active={startPage + page === currentPage}
+              onClick={() => handlePageChange(startPage + page)}
             >
-              {index + 1}
+              {startPage + page}
             </Pagination.Item>
           ))}
 
-          <Pagination.Next
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          />
+          {/* 다음 버튼 */}
+          <Pagination.Next disabled={isNextDisabled} onClick={() => handlePageChange(currentPage + 1)} />
         </Pagination>
       </Container>
     </>
   );
 };
 
-export default MyFavoritesComponet;
+export default MyFavoritesComponent;
