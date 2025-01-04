@@ -28,7 +28,6 @@ import InfoAdd from "./Support/InfoAdd";
 import InfoModify from "./Support/InfoModify";
 import KakaoRedirectPage from "./UserAccount/KakaoRedirectPage";
 import KakaoModifyPage from "./UserAccount/KakaoModifyPage";
-import AnswerModify from "./Support/AnswerModify";
 
 function App() {
   return (
@@ -76,7 +75,6 @@ function App() {
           <Route path="add" element={<HelpAdd />} />
           <Route path="detail/:id" element={<HelpDetail />} />
           <Route path="modify/:id" element={<HelpModify />} />
-          <Route path="answer/modify/:id" element={<AnswerModify />} />
         </Route>
       </Route>
     </Routes>

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import safe_holiday.safe_holiday.domain.*;
+import safe_holiday.safe_holiday.dto.FavoriteDTO;
 import safe_holiday.safe_holiday.dto.ReviewDTO;
 import safe_holiday.safe_holiday.repository.InfoRepository;
 import safe_holiday.safe_holiday.repository.ReviewRepository;
@@ -23,10 +24,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     //조회
     @Override
-    public ReviewDTO get(Long id) {
-        Optional<Review> result = reviewRepository.findById(id);
-        Review review = result.orElseThrow();
-        return entityToDTO(review);
+    public List<ReviewDTO> get(Long authorId) {
+        List<Review> reviews = reviewRepository.findAllByAuthorId(authorId);
+        return reviews.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

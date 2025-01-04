@@ -12,7 +12,7 @@ import java.util.List;
 public interface ReviewService {
 
     //조회
-    ReviewDTO get(Long id);
+    List<ReviewDTO> get(Long authorId);
 
     List<ReviewDTO> getReviewsByHospitalId(String hospitalId);
 

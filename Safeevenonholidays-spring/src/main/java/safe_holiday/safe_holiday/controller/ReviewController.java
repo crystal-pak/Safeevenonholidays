@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import safe_holiday.safe_holiday.domain.Hospital;
 import safe_holiday.safe_holiday.domain.Pharmacy;
+import safe_holiday.safe_holiday.dto.FavoriteDTO;
 import safe_holiday.safe_holiday.dto.ReviewDTO;
 import safe_holiday.safe_holiday.service.ReviewService;
 
@@ -19,9 +20,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     //조회
-    @GetMapping("/{id}")
-    public ReviewDTO get(@PathVariable("id") Long id){
-        return reviewService.get(id);
+    @GetMapping("/member/{authorId}")
+    public ResponseEntity<List<ReviewDTO>> get(@PathVariable Long authorId) {
+        List<ReviewDTO> reviews = reviewService.get(authorId);
+        return ResponseEntity.ok(reviews);
     }
 
     // 병원 ID로 리뷰 조회
