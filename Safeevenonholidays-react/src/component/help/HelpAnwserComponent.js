@@ -32,6 +32,11 @@ const HelpAnwserComponent = ({id, question}) => {
     }
 
   const handleClickAdd = () => {
+    // 내용이 비어 있는지 확인
+    if (!answer.content.trim()) {
+      window.alert("내용을 입력해주세요.");
+      return;
+    }
     postAddAnswer(id, answer).then(result => {
         setResult(null);
         alert('답변이 정상적으로 등록되었습니다.');

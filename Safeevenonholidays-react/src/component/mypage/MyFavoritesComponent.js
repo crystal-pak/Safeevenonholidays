@@ -82,6 +82,10 @@ const MyFavoritesComponent = () => {
     <>
       <Container className="mt-4 mb-4">
         <p className="title">즐겨찾기 목록</p>
+        {userFavorites.length === 0 ? (
+        <p className="text-center mt-4">즐겨찾기 목록이 없습니다.</p>
+      ) : (
+        <>
         <Row>
         {currentItems.map((favorite) => {
           // 병원 또는 약국 이름 확인
@@ -93,10 +97,10 @@ const MyFavoritesComponent = () => {
 
           return (
             <Col key={favorite.id} xs={12} sm={6} md={3}>
-              <Card role='button' onClick={() => handleClickDetail(favorite)} className="text-center myfav-card">
+              <Card className="text-center myfav-card">
                 <Card.Body>
                     <div className="d-flex">
-                      <Card.Title className="myfav-card-title me-2">{hospitalName || pharmacyName}</Card.Title>
+                      <Card.Title role='button' onClick={() => handleClickDetail(favorite)} className="myfav-card-title me-2">{hospitalName || pharmacyName}</Card.Title>
                       <FavoriteComponent
                         hospitalId={favorite.hospitalId?.hospitalId}
                         pharmacyId={favorite.pharmacyId?.pharmacyId}
@@ -107,7 +111,8 @@ const MyFavoritesComponent = () => {
                 </Card.Body>
               </Card>
             </Col>
-          )})}
+          )
+          })}
         </Row>
 
         {/* 페이지네이션 */}
@@ -129,6 +134,8 @@ const MyFavoritesComponent = () => {
           {/* 다음 버튼 */}
           <Pagination.Next disabled={isNextDisabled} onClick={() => handlePageChange(currentPage + 1)} />
         </Pagination>
+        </>
+      )}
       </Container>
     </>
   );

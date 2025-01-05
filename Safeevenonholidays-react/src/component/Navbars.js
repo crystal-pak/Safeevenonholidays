@@ -66,7 +66,7 @@ const Navbars = () => {
       <Navbar collapseOnSelect expand="lg" className="bg-body-white navbar">
         <Container className="border-border border-2">
           <img src="/images/logo.png" alt="logo" className="logo" />
-          <Navbar.Brand href="/" className="ms-3">
+          <Navbar.Brand href="/" className="ms-3 fw-bold">
             휴일도안심
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -77,7 +77,7 @@ const Navbars = () => {
               {loginState.email ? 
             <>
               <Nav.Link className="current-location">
-                <i className="bi bi-geo-alt-fill icon"></i>
+                <i className="bi bi-geo-alt-fill icon" />
                 {dong}
               </Nav.Link>
               <Nav.Link onClick={handleClickLogout}>

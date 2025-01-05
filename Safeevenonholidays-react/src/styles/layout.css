@@ -9,11 +9,6 @@
 }
 
 .current-location {
-  color: #0052cc;
-  font-weight: bold;
-}
-
-.current-location:hover {
   color: #0052cc !important;
   font-weight: bold;
 }

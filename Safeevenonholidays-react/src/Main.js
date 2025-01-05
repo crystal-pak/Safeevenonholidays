@@ -88,7 +88,7 @@ const Main = () => {
                 WGS84_LON: location.longitude,
                 WGS84_LAT: location.latitude,
                 pageNo: 1,
-                numOfRows: 10,
+                numOfRows: 4,
                 ServiceKey: API_KEY,
               },
             }
@@ -121,7 +121,7 @@ const Main = () => {
                 WGS84_LON: location.longitude,
                 WGS84_LAT: location.latitude,
                 pageNo: 1,
-                numOfRows: 10,
+                numOfRows: 4,
                 ServiceKey: API_KEY,
               },
             }

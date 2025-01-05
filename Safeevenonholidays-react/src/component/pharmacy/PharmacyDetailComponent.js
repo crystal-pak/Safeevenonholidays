@@ -63,6 +63,21 @@ const PharmacyDetailComponent = ({id, item}) => {
     window.scrollTo(0, 0);
   }, []);
 
+  // 시간을 숫자로 변환하는 함수
+const convertToNumber = (time) => {
+  if (!time || isNaN(time)) return null; // 유효하지 않은 데이터 처리
+  return parseInt(time, 10); // 문자열을 정수로 변환
+};
+
+// 시간을 "HH:MM" 형식으로 변환하는 함수
+const formatTime = (time) => {
+  const numericTime = convertToNumber(time); // 숫자로 변환
+  if (!numericTime) return "정보 없음"; // 변환 실패 시 처리
+  const hours = String(Math.floor(numericTime / 100)).padStart(2, "0"); // 시 계산
+  const minutes = String(numericTime % 100).padStart(2, "0"); // 분 계산
+  return `${hours}:${minutes}`;
+};
+
   return (
     <>
       <Container className="border border-secodary p-3">
@@ -91,14 +106,14 @@ const PharmacyDetailComponent = ({id, item}) => {
             </div>
             <div className='mb-4'>
               <p className="mb-0 fw-bold">진료시간</p>
-              <p className="mb-0">월요일 : {item.dutyTime1s} ~ {item.dutyTime1c}</p>
-              <p className="mb-0">화요일 : {item.dutyTime2s} ~ {item.dutyTime2c}</p>
-              <p className="mb-0">수요일 : {item.dutyTime3s} ~ {item.dutyTime3c}</p>
-              <p className="mb-0">목요일 : {item.dutyTime4s} ~ {item.dutyTime4c}</p>
-              <p className="mb-0">금요일 : {item.dutyTime5s} ~ {item.dutyTime5c}</p>
-              <p className="mb-0">토요일 : {item.dutyTime6s} ~ {item.dutyTime6c}</p>
-              <p className="mb-0">일요일 : {item.dutyTime7s} ~ {item.dutyTime7c}</p>
-              <p className="mb-0">공휴일 : {item.dutyTime8s} ~ {item.dutyTime8c}</p>
+              <p className="mb-0">월요일 : {formatTime(item.dutyTime1s)} ~ {formatTime(item.dutyTime1c)}</p>
+              <p className="mb-0">화요일 : {formatTime(item.dutyTime2s)} ~ {formatTime(item.dutyTime2c)}</p>
+              <p className="mb-0">수요일 : {formatTime(item.dutyTime3s)} ~ {formatTime(item.dutyTime3c)}</p>
+              <p className="mb-0">목요일 : {formatTime(item.dutyTime4s)} ~ {formatTime(item.dutyTime4c)}</p>
+              <p className="mb-0">금요일 : {formatTime(item.dutyTime5s)} ~ {formatTime(item.dutyTime5c)}</p>
+              <p className="mb-0">토요일 : {formatTime(item.dutyTime6s)} ~ {formatTime(item.dutyTime6c)}</p>
+              <p className="mb-0">일요일 : {formatTime(item.dutyTime7s)} ~ {formatTime(item.dutyTime7c)}</p>
+              <p className="mb-0">공휴일 : {formatTime(item.dutyTime8s)} ~ {formatTime(item.dutyTime8c)}</p>
             </div>
           </Col>
         </Row>
