@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../src/styles/main.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import ItemsCarousel from 'react-items-carousel';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +12,7 @@ const Main = () => {
     const [location, setLocation] = useState({ latitude: null, longitude: null });
     const [hospitals, setHospitals] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     const updateCardCount = () => {
         if (window.innerWidth <= 768) {
@@ -76,6 +77,7 @@ const Main = () => {
   
    // 병원 정보 가져오기
    useEffect(() => {
+    setLoading(true)
     if (location.latitude && location.longitude) {
       const fetchHospitals = async () => {
         try {
@@ -97,6 +99,8 @@ const Main = () => {
           setHospitals(items);
         } catch (error) {
           console.error("Error fetching hospitals:", error);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -106,6 +110,7 @@ const Main = () => {
 
   // 약국 정보 가져오기
   useEffect(() => {
+    setLoading(true)
     if (location.latitude && location.longitude) {
       const fetchPharmacies = async () => {
         try {
@@ -124,6 +129,8 @@ const Main = () => {
           setPharmacies(response.data.response.body.items.item || []);
         } catch (error) {
           console.error("Error fetching pharmacies:", error);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -172,7 +179,10 @@ const Main = () => {
                         <h4 className="fw-bold">지금 걸어갈 수 있는 병원</h4>
                         <Row>
                             <Col>
-                                <ItemsCarousel
+                            { loading ? 
+                            <p>로딩 중...</p>
+                            :
+                            <ItemsCarousel
                                     requestToChangeActive={setActiveItemIndex}
                                     activeItemIndex={activeItemIndex}
                                     numberOfCards={numberOfCards}
@@ -185,13 +195,17 @@ const Main = () => {
                                         <p className='distance'>{hospital.distance} km</p>
                                     </div>
                                     ))}
-                                </ItemsCarousel>
+                            </ItemsCarousel>
+                            }    
                             </Col>
                         </Row>
                         <h4 className='fw-bold mt-5'>지금 걸어갈 수 있는 약국</h4>
                         <Row>
                             <Col>
-                                <ItemsCarousel
+                            { loading ? 
+                            <p>로딩 중...</p>
+                            :
+                            <ItemsCarousel
                                     requestToChangeActive={setActiveItemIndex}
                                     activeItemIndex={activeItemIndex}
                                     numberOfCards={numberOfCards}
@@ -205,6 +219,7 @@ const Main = () => {
                                     </div>
                                     ))}
                                 </ItemsCarousel>
+                            }                               
                             </Col>
                         </Row>
                     </div>
