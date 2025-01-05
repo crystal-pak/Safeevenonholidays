@@ -2,7 +2,12 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Pagination, Row, Col, Button, Container, Card } from 'react-bootstrap'
 import FavoriteComponent from '../common/FavoriteComponent'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useNavigationType } from 'react-router-dom'
+
+const useIsBackNavigation = () => {
+  const navigationType = useNavigationType();
+  return navigationType === "POP";
+}
 
 const PharmacySearchComponent = () => {
   const [city, setCity] = useState("")
@@ -15,7 +20,8 @@ const PharmacySearchComponent = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10 // 한 페이지당 보여줄 데이터 개수
   const [totalItems, setTotalItems] = useState(0) // 전체 데이터 개수
-  
+  const isBackNavigation = useIsBackNavigation()
+
   // 시도 데이터
   const cities = [
     "서울특별시",
@@ -464,26 +470,42 @@ const PharmacySearchComponent = () => {
     navigate(`/pharmacy/detail/${item.hpid}`, {state: { item }})
   }
 
+  useEffect(() => {
+    if (!isBackNavigation) {
+      setCity("");
+      setDistrict("");
+      setPharmacies([]);
+      setCurrentPage(1);
+      setTotalItems(0);
+    }
+  }, [isBackNavigation]);
+
   // 컴포넌트 마운트 시 저장된 상태 복원
   useEffect(() => {
     const savedState = sessionStorage.getItem("searchState");
-    if (savedState) {
+    if (savedState && isBackNavigation) {
       const state = JSON.parse(savedState);
-      setCity(state.city);
-      setDistrict(state.district);
-      setPharmacies(state.pharmacies);
-      setCurrentPage(state.currentPage);
-      setTotalItems(state.totalItems)
+      setCity(state.city || "");
+      setDistrict(state.district || "");
+      setPharmacies(state.pharmacies || []);
+      setCurrentPage(state.currentPage || 1);
+      setTotalItems(state.totalItems || 0)
     }
-  }, []);
+  }, [isBackNavigation]);
 
   // 상태 변경 시 저장
   useEffect(() => {
-    sessionStorage.setItem(
-      "searchState",
-      JSON.stringify({ city, district, pharmacies, currentPage, totalItems })
-    );
-  }, [city, district, pharmacies, currentPage, totalItems]);
+      sessionStorage.setItem(
+        "searchState",
+        JSON.stringify({
+          city,
+          district,
+          pharmacies,
+          currentPage,
+          totalItems,
+        })
+      );
+  }, [city, district, pharmacies, currentPage, totalItems])
 
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>

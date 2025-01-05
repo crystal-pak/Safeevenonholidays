@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Container, Row, Col, Button, Card, Pagination } from "react-bootstrap"
 import FavoriteComponent from "../common/FavoriteComponent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigationType } from "react-router-dom";
+
+const useIsBackNavigation = () => {
+  const navigationType = useNavigationType();
+  return navigationType === "POP";
+}
 
 const HospitalSearchComponent = () => {
   const [city, setCity] = useState("")
@@ -16,6 +21,7 @@ const HospitalSearchComponent = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10 // 한 페이지당 보여줄 데이터 개수
   const [totalItems, setTotalItems] = useState(0) // 전체 데이터 개수
+  const isBackNavigation = useIsBackNavigation()
 
   // 시도 데이터
   const cities = [
@@ -502,26 +508,46 @@ const HospitalSearchComponent = () => {
     navigate(`/hospital/detail/${item.hpid}`, {state: { item }})
   }
 
+  useEffect(() => {
+    if (!isBackNavigation) {
+      setCity("");
+      setDistrict("");
+      setDepartmentSearch("");
+      setHospitals([]);
+      setCurrentPage(1);
+      setTotalItems(0);
+    }
+  }, [isBackNavigation]);
+
   // 컴포넌트 마운트 시 저장된 상태 복원
   useEffect(() => {
     const savedState = sessionStorage.getItem("searchState");
-    if (savedState) {
+    if (savedState && isBackNavigation) {
       const state = JSON.parse(savedState);
-      setCity(state.city);
-      setDistrict(state.district);
-      setDepartmentSearch(state.departmentSearch)
-      setHospitals(state.hospitals);
-      setCurrentPage(state.currentPage);
-      setTotalItems(state.totalItems)
+      setCity(state.city || "")
+      setDistrict(state.district || "")
+      setDepartmentSearch(state.departmentSearch || "")
+      setSelectedDepartment(state.selectedDepartment || "")
+      setHospitals(state.hospitals || [])
+      setCurrentPage(state.currentPage || 1)
+      setTotalItems(state.totalItems || 0)
     }
-  }, []);
+  }, [isBackNavigation]);
 
   // 상태 변경 시 저장
   useEffect(() => {
-    sessionStorage.setItem(
-      "searchState",
-      JSON.stringify({ city, district, departmentSearch, hospitals, currentPage, totalItems })
-    );
+      sessionStorage.setItem(
+        "searchState",
+        JSON.stringify({
+          city,
+          district,
+          departmentSearch,
+          selectedDepartment,
+          hospitals,
+          currentPage,
+          totalItems,
+        })
+      );
   }, [city, district, departmentSearch, hospitals, currentPage, totalItems]);
 
   return (
