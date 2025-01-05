@@ -464,6 +464,27 @@ const PharmacySearchComponent = () => {
     navigate(`/pharmacy/detail/${item.hpid}`, {state: { item }})
   }
 
+  // 컴포넌트 마운트 시 저장된 상태 복원
+  useEffect(() => {
+    const savedState = sessionStorage.getItem("searchState");
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      setCity(state.city);
+      setDistrict(state.district);
+      setPharmacies(state.pharmacies);
+      setCurrentPage(state.currentPage);
+      setTotalItems(state.totalItems)
+    }
+  }, []);
+
+  // 상태 변경 시 저장
+  useEffect(() => {
+    sessionStorage.setItem(
+      "searchState",
+      JSON.stringify({ city, district, pharmacies, currentPage, totalItems })
+    );
+  }, [city, district, pharmacies, currentPage, totalItems]);
+
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
       <Row className="mb-5">

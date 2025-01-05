@@ -58,6 +58,10 @@ const HospitalDetailComponent = ({id, item}) => {
     });
   }, [position, item.dutyName]); // 의존성 배열에 위치와 약국 이름 추가
 
+  useEffect(() => {
+    // 상세 페이지에 진입할 때 스크롤 초기화
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
