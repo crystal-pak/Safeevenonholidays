@@ -238,3 +238,23 @@ margin-top: 10px;
   padding: 12px; 
 }
 }
+
+.password-input-wrapper {
+  position: relative;
+}
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* 오른쪽 끝으로 배치 */
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.password-toggle-btn:hover {
+  background: none; /* 호버 시 배경 제거 */
+}
+.password-toggle-btn:focus {
+  outline: none; /* 포커스 시 외곽선 제거 */
+}

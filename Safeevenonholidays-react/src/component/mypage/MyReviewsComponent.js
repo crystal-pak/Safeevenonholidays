@@ -76,6 +76,10 @@ const MyReviewsComponent = () => {
     <>
       <Container className="mt-4 mb-4">
         <p className="title">작성 리뷰 목록</p>
+        {userReviews.length === 0 ? (
+            <p className="text-center">작성한 리뷰가 없습니다.</p>
+          ) : (
+            <>
         <Row className="d-flex justify-content-center mt-5">
           {currentItems.map((item) => (
             <Card className="text-center myrev-card">
@@ -120,6 +124,8 @@ const MyReviewsComponent = () => {
           {/* 다음 버튼 */}
           <Pagination.Next disabled={isNextDisabled} onClick={() => handlePageChange(currentPage + 1)} />
         </Pagination>
+        </>
+          )}
       </Container>
     </>
   );

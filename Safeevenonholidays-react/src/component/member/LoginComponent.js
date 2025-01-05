@@ -17,7 +17,8 @@ const LoginComponent = () => {
     setLoginParam({ ...loginParam })
   }
 
-  const handleClickLogin = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     doLogin(loginParam).then(data => {
       if (data.error) {
         alert("이메일과 패스워드를 확인하세요")
@@ -41,6 +42,7 @@ const LoginComponent = () => {
       <div className='d-flex justify-content-center my-5'>
         <div className='card-login'>
           <h2>로그인</h2>
+          <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control 
@@ -63,11 +65,11 @@ const LoginComponent = () => {
 
           <Button 
             variant="primary" 
-            type="button" 
-            onClick={handleClickLogin}
+            type="submit"
           >
             로그인
           </Button>
+          </Form>
 
           <Row className='mt-3'>
             <Col>

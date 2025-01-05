@@ -1,6 +1,7 @@
 package safe_holiday.safe_holiday.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Getter @Setter
 @ToString
 @Builder(builderMethodName = "memberBuilder")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SafeMemberDTO extends User {
 
     private Long id;

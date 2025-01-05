@@ -51,6 +51,11 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
       alert("로그인이 필요한 서비스입니다.");
       return <div>로그인이 필요합니다.</div>;
     }
+     // 리뷰 내용 유효성 검사
+  if (!newReview.content.trim()) {
+    alert("리뷰 내용을 입력해주세요.");
+    return;
+  }
     try {
       const reviewObj = {
         ...newReview,
