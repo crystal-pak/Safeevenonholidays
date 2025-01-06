@@ -80,7 +80,7 @@ const formatTime = (time) => {
 
   return (
     <>
-      <Container className="border border-secodary p-3">
+      <Container className="border border-secodary rounded p-3">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4 className="fw-bold m-0">{item.dutyName}</h4>
           <div className="d-flex">

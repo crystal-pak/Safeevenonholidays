@@ -13,25 +13,25 @@ const ReviewComponent = ({ hospitalId, pharmacyId }) => {
   const loginState = useSelector((state) => state.loginSlice)
 
   // 병원 또는 약국 ID에 따라 리뷰 조회
-useEffect(() => {
-  const fetchReviews = async () => {
-    try {
-      if (hospitalId) {
-        // 병원 ID로 리뷰 조회
-        const response = await getReviewsByHospital(hospitalId);
-        setReviews(response || []);
-      } else if (pharmacyId) {
-        // 약국 ID로 리뷰 조회
-        const response = await getReviewsByPharmacy(pharmacyId);
-        setReviews(response || []);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        if (hospitalId) {
+          // 병원 ID로 리뷰 조회
+          const response = await getReviewsByHospital(hospitalId);
+          setReviews(response || []);
+        } else if (pharmacyId) {
+          // 약국 ID로 리뷰 조회
+          const response = await getReviewsByPharmacy(pharmacyId);
+          setReviews(response || []);
+        }
+      } catch (error) {
+        console.error("리뷰를 가져오는 중 오류 발생:", error);
       }
-    } catch (error) {
-      console.error("리뷰를 가져오는 중 오류 발생:", error);
     }
-  }
-  console.log("review", reviews)
-  fetchReviews();
-}, [hospitalId, pharmacyId])
+    console.log("review", reviews)
+    fetchReviews();
+  }, [hospitalId, pharmacyId])
 
 // 평균 평점 계산
 const averageRating =
@@ -52,10 +52,10 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
       return <div>로그인이 필요합니다.</div>;
     }
      // 리뷰 내용 유효성 검사
-  if (!newReview.content.trim()) {
-    alert("리뷰 내용을 입력해주세요.");
-    return;
-  }
+    if (!newReview.content.trim()) {
+      alert("리뷰 내용을 입력해주세요.");
+      return;
+    }
     try {
       const reviewObj = {
         ...newReview,
@@ -92,13 +92,21 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
     }
   }
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 576);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
       <div>
       {/* 평점 요약 섹션 */}
       <Row className='mb-5'>
         <h4 className="fw-bold">후기</h4>
-        <Col lg={9} md={8}>
+        <Col lg={9} md={8} sm={7} className='d-none d-sm-block'>
           {ratingCounts.map((count, index) => (
             <div key={index} className="d-flex align-items-center mt-2">
               <span>{5 - index}점</span>
@@ -118,14 +126,38 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
             </div>
           ))}
         </Col>
-        <Col className='d-flex flex-column justify-content-center ms-4'>
-          <div className='d-none d-md-block'>
-            <h1 className="ms-2 fw-bold">{averageRating.toFixed(1)} ({reviews.length})</h1>
+        { isMobile ? (
+          <Col className=''>
+          <div className='mx-auto d-flex justify-content-center align-items-center'>
             <div className="d-flex align-items-center">
-              <Rating value={averageRating} readOnly precision={0.1} /> 
+              <Rating value={averageRating} readOnly precision={0.1} sx={{
+                  fontSize: {
+                    xs: '60px' // 작은 화면 (mobile)
+                  },
+                }} /> 
+            </div>
+            <h1 className="ms-3 fw-bold text-center mb-0" style={{fontSize : "40px"}}>{averageRating.toFixed(1)} ({reviews.length})</h1>
+            
+          </div>
+          </Col>
+        )
+        :
+        (
+          <Col className='d-flex flex-column justify-content-center'>
+          <div className='mx-auto'>
+            <h1 className="ms-2 fw-bold text-center">{averageRating.toFixed(1)} ({reviews.length})</h1>
+            <div className="d-flex align-items-center">
+              <Rating value={averageRating} readOnly precision={0.1} sx={{
+                  fontSize: {
+                    xs: '30px', // 작은 화면 (mobile)
+                    sm: '30px', // 중간 화면 (tablet)
+                    md: '40px', // 큰 화면 (desktop)
+                  },
+                }} /> 
             </div>
           </div>
-        </Col>
+          </Col>
+        )}
       </Row>
 
       {/* 리뷰 리스트 */}
