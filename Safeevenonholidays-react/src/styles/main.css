@@ -2,6 +2,13 @@
 .section1-card-left {
   height: 81vh;
   padding: 20px;
+  box-shadow: none !important;
+}
+
+@media (max-width: 760px) {
+  .section1-card-left {
+    display: none;
+  }
 }
 
 .section1-card-right {
@@ -35,12 +42,22 @@
   color: #696969;
 }
 
+.card-title-left {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.card-text-left {
+  font-size: 1.5rem;
+  color: #696969;
+}
+
 .card-img-bottom {
   position: absolute;
   margin: 50px;
-  bottom: 10px;
-  right: 10px;
-  width: 100px; /* 화면 크기에 따라 크기 조정 */
+  bottom: -100px;
+  right: -100px;
+  width: 100%; /* 화면 크기에 따라 크기 조정 */
   height: auto; /* 비율 유지 */
 }
 
@@ -49,8 +66,8 @@
   margin: 50px;
   bottom: 10px;
   right: 10px;
-  width: 70px; /* 화면 크기에 따라 크기 조정 */
-  height: auto; /* 비율 유지 */
+  width: 70px;
+  height: auto;
 }
 
 .card-img-bottom3 {
@@ -60,6 +77,16 @@
   right: 20px;
   width: 100px; /* 화면 크기에 따라 크기 조정 */
   height: auto; /* 비율 유지 */
+}
+
+@media (max-width: 460px) {
+  .card-img-bottom,
+  .card-img-bottom2 {
+    height: 8vh;
+    width: 8vh;
+    bottom: -20px;
+    right: -30px;
+  }
 }
 
 /* Main Section2 */
@@ -92,3 +119,42 @@
   font-size: 1rem; /* 텍스트 크기 조정 */
   font-weight: bold;
 }
+
+/* Main Section3 */
+.section3-card {
+  height: 30vh;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.section3-card-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.section3-card-text {
+  font-size: 1.2rem;
+  color: #696969;
+}
+
+@media (min-width: 350px) and (max-width: 470px) {
+  .section2-card {
+    width: auto;
+    height: 196px;
+    aspect-ratio: auto;
+  }
+
+  .section3-card {
+    padding: 20px;
+  }
+
+  .section3-card-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .section3-card-text {
+    font-size: 0.9rem;
+  }
+}
+

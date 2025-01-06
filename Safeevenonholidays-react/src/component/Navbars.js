@@ -101,7 +101,7 @@ const Navbars = () => {
             {loginState.email ? (
               <>
                 {/* 현재 동 정보 (모바일용) */}
-                <Nav.Link className="current-location d-flex align-items-center d-md-none">
+                <Nav.Link className="current-location d-flex align-items-center d-none">
                   <i className="bi bi-geo-alt-fill icon me-1"></i>
                   {dong}
                 </Nav.Link>
@@ -119,7 +119,7 @@ const Navbars = () => {
             ) : (
               <>
                 {/* 현재 동 정보 (모바일용) */}
-                <Nav.Link className="current-location d-flex align-items-center d-md-none">
+                <Nav.Link className="current-location d-flex align-items-center d-none">
                   <i className="bi bi-geo-alt-fill icon me-1"></i>
                   {dong}
                 </Nav.Link>
