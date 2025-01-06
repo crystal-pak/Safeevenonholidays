@@ -8,7 +8,9 @@ const KakaoLoginComponent = () => {
   }
   return (
     <>
-    <Button variant='warning' onClick={goKakao} className='my-3'>카카오로 시작하기</Button>
+    <Button variant='warning' onClick={goKakao} className='my-3'>
+      <i class="bi bi-chat-fill me-2"></i>카카오로 시작하기
+    </Button>
     </>
   )
 }
