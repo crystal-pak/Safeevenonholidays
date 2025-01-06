@@ -28,27 +28,30 @@ const FindPwComponent = () => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>이메일 주소</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="w-100">
-          임시 비밀번호 요청
-        </Button>
-      </Form>
+      <div className="signup-container d-flex justify-content-center my-5">
+        <div className="card-login">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>이메일 주소</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="이메일을 입력하세요"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="w-100">
+              임시 비밀번호 요청
+            </Button>
+          </Form>
 
-      {/* 결과 메시지 표시 */}
-      {message && (
-        <Alert variant={error ? 'danger' : 'success'} className="mt-3">
-          {message}
-        </Alert>
-      )}
+          {message && (
+            <Alert variant={error ? 'danger' : 'success'} className="mt-3">
+              {message}
+            </Alert>
+          )}
+        </div>
+      </div>
     </>
   )
 }
