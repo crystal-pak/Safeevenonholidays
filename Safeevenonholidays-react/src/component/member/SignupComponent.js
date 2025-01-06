@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { postAdd } from '../../api/memberApi'
 import { Form, Button } from 'react-bootstrap'
 import useCustomLogin from '../../hooks/useCustomLogin'
-import KakaoSignupComponent from './KakaoSignupComponent'
 
 const initState = {
   name: "",
@@ -86,7 +85,6 @@ const SignupComponent = () => {
           <Button variant='secondary' type='button' onClick={handleClickHome} className='w-100 me-2'>취소</Button>
           <Button variant='primary' type='button' onClick={handleClickAdd} className='w-100'>회원가입</Button>        
         </div>
-        {/* <KakaoSignupComponent /> */}
       </div>
     </div>
   )
