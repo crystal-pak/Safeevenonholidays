@@ -64,56 +64,81 @@ const Navbars = () => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" className="bg-body-white navbar">
-        <Container className="border-border border-2">
-          <img src="/images/logo.png" alt="logo" className="logo" />
-          <Navbar.Brand href="/" className="ms-3 fw-bold">
-            휴일도안심
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto"></Nav>
+      <Container className="border-border border-2">
+        <div className="d-flex align-items-center w-100">
+          {/* 로고와 브랜드 */}
+          <div className="d-flex align-items-center">
+            <img src="/images/logo.png" alt="logo" className="logo" />
+            <Navbar.Brand href="/" className="ms-3 fw-bold">
+              휴일도안심
+            </Navbar.Brand>
 
-            <Nav>
-              {loginState.email ? 
-            <>
-              <Nav.Link className="current-location">
-                <i className="bi bi-geo-alt-fill icon" />
+            {/* 현재 동 정보 (md 이하에서 로고 바로 오른쪽에 표시) */}
+            <div className="d-md-flex d-lg-none" style={{fontSize : "1rem"}}>
+              <Nav.Link className="current-location d-flex align-items-center">
+                <i className="bi bi-geo-alt-fill icon me-1"></i>
                 {dong}
               </Nav.Link>
-              <Nav.Link onClick={handleClickLogout}>
-                로그아웃
-              </Nav.Link>
-              <Nav.Link href="/mypage">
-                마이페이지
-              </Nav.Link>
-           <NavDropdown title="고객센터" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/help/list">Q&A</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/info/list">자료실</NavDropdown.Item>
-            </NavDropdown>
-            </>
-            :
-            <>
-              <Nav.Link className="current-location">
-                <i className="bi bi-geo-alt-fill icon"></i>
-                {dong}
-              </Nav.Link>
-              <Nav.Link href="/member/login">
-                로그인
-              </Nav.Link>
-              <Nav.Link href="/member/signup">
-                회원가입
-              </Nav.Link>
-              <NavDropdown title="고객센터" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/help/list">Q&A</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/info/list">자료실</NavDropdown.Item>
-            </NavDropdown>
-            </>
-            }
-            </Nav>
+            </div>
+          </div>
 
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+          {/* 현재 동 정보 (lg 이상에서 오른쪽 끝에 표시) */}
+          <div className="d-none d-lg-block ms-auto me-2">
+            <Nav.Link className="current-location d-flex align-items-center">
+              <i className="bi bi-geo-alt-fill icon me-1"></i>
+              {dong}
+            </Nav.Link>
+          </div>
+
+          {/* Navbar Toggle (모바일용) */}
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" className='ms-auto' />
+        </div>
+
+        {/* Navbar Collapse */}
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto"></Nav>
+          <Nav className='text-nowrap'>
+            {loginState.email ? (
+              <>
+                {/* 현재 동 정보 (모바일용) */}
+                <Nav.Link className="current-location d-flex align-items-center d-md-none">
+                  <i className="bi bi-geo-alt-fill icon me-1"></i>
+                  {dong}
+                </Nav.Link>
+                <Nav.Link onClick={handleClickLogout}>로그아웃</Nav.Link>
+                <Nav.Link href="/mypage">마이페이지</Nav.Link>
+                <NavDropdown title="고객센터" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/help/list">
+                    Q&A
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/info/list">
+                    자료실
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <>
+                {/* 현재 동 정보 (모바일용) */}
+                <Nav.Link className="current-location d-flex align-items-center d-md-none">
+                  <i className="bi bi-geo-alt-fill icon me-1"></i>
+                  {dong}
+                </Nav.Link>
+                <Nav.Link href="/member/login">로그인</Nav.Link>
+                <Nav.Link href="/member/signup">회원가입</Nav.Link>
+                <NavDropdown title="고객센터" id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/help/list">
+                    Q&A
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/info/list">
+                    자료실
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
     </>
   );
 };
