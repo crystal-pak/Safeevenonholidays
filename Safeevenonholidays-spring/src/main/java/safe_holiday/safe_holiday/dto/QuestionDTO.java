@@ -1,6 +1,7 @@
 package safe_holiday.safe_holiday.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +20,10 @@ import java.util.List;
 public class QuestionDTO {
     private Long id;
 
+    @NotBlank(message = "제목을 입력해주세요.")
     private String subject;
 
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

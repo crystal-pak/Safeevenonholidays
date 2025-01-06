@@ -147,12 +147,12 @@ const Main = () => {
                             <div className="col-md-6">
                                 <div className="card section1-card-left">
                                     <div className="card-body">
-                                        <h5 className="card-title">휴일도 안심</h5>
-                                        <p className="card-text">내 위치에서 가까운
+                                        <h5 className="card-title-left">휴일도 안심</h5>
+                                        <p className="card-text-left">내 위치에서 가까운
                                         <br />
                                         의료시설을 찾아드립니다.</p>
                                     </div>
-                                    <img src='/images/blood.png' className="card-img-bottom" />
+                                    <img src='/images/main.png' className="card-img-bottom" />
                                 </div>
                             </div>
                             <div className="col-md-6 d-flex flex-column">
