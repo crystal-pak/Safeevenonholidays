@@ -53,21 +53,47 @@
   height: 100%;
 }
 
+.mypage-card-body2 {
+  padding: 1.2rem;
+}
+
 .card-img-bottom3 {
   position: absolute;
   margin: 20px;
   bottom: 20px;
   right: 20px;
   width: 5vw; /* 화면 크기에 따라 크기 조정 */
-  height: 5vh;
   height: auto; /* 비율 유지 */
 }
 
-@media (max-width: 760px) {
+@media (max-width: 375px) {
+  .mypage-card-body2 {
+    position: relative; 
+  }
+
   .card-img-bottom3 {
-    width: 5vh;
-    height: auto;
-    top: 35px;
+    position: absolute; 
+    bottom: -5vh;
+    right: -15px; 
+    transform: translateY(-50%); 
+    width: 4.5vh; 
+    height: auto; 
+  }
+
+  .mypage-card-title {
+    display: block; 
+    margin-right: 40px; 
+  }
+}
+
+@media (min-width: 376px) and (max-width: 995px) {
+  .card-img-bottom3 {
+    position: absolute;
+    margin: 20px;
+    bottom: 20px;
+    right: 20px;
+    width: 5.5vh; 
+    height: auto; 
   }
 }
 

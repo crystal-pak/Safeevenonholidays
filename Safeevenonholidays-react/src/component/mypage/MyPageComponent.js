@@ -35,7 +35,7 @@ const MyPageComponent = () => {
                 <div>
                   <img src="/images/user.png" alt="userprofile" className="img-fluid" />
                 </div>
-                <h5 className="mypage-card-title">{loginState.name}</h5>
+                <h5 className="mypage-card-title mr-0">{loginState.name}</h5>
                 <p className="mypage-card-text">{loginState.email}</p>
                 <Button
                   variant="primary"
@@ -49,7 +49,7 @@ const MyPageComponent = () => {
           </Col>
           <Col md={6} className="d-flex flex-column mb-3">
             <div role="button" onClick={handleClickFav} className="card mb-2 p-3 h-100">
-              <div className="card-body">
+              <div className="mypage-card-body2">
                 <h5 className="mypage-card-title">MY 즐겨찾기</h5>
                 <p className="mypage-card-text">내가 즐겨찾기한 병원 목록을 확인해보세요.</p>
                 <img src='/images/heart-mypage.png' className='card-img-bottom3' />
@@ -57,7 +57,7 @@ const MyPageComponent = () => {
             </div>
 
             <div role="button" onClick={handleClickReview} className="card p-3 h-100">
-              <div className="card-body">
+            <div className="mypage-card-body2">
                 <h5 className="mypage-card-title">MY 리뷰 관리</h5>
                 <p className="mypage-card-text">내가 남긴 리뷰 목록을 확인해보세요.</p>
                 <img src='/images/like.png' className='card-img-bottom3' />
@@ -66,7 +66,7 @@ const MyPageComponent = () => {
 
             {loginState.roleNames.length > 1 ? (
               <div role="button" onClick={handleClickMemberList} className="card mt-2 p-3 h-100">
-                <div className="card-body">
+              <div className="mypage-card-body2">
                   <h5 className="mypage-card-title">회원 목록</h5>
                   <p className="mypage-card-text">관리자 전용 회원 관리 페이지</p>
                   <img src='/images/user.png' className='card-img-bottom3' />
