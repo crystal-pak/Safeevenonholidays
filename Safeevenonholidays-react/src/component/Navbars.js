@@ -27,12 +27,17 @@ const Navbars = () => {
           fetchDongName(latitude, longitude);
         },
         (error) => {
-          console.error("위치 정보를 가져올 수 없습니다:", error);
-          setDong("위치 권한이 필요합니다."); // 기본값 설정
+          if (error.code === error.PERMISSION_DENIED) {
+            alert("위치 권한이 거부되었습니다. 브라우저 설정에서 권한을 허용해주세요.");
+            // 사용자가 위치 권한을 허용하도록 유도하는 메시지를 제공
+          } else {
+            console.error("위치 정보를 가져올 수 없습니다:", error);
+            setDong("위치 권한이 필요합니다.");
+          }
         }
       );
     } else {
-      setDong("Geolocation을 지원하지 않는 브라우저입니다."); // 기본값 설정
+      setDong("Geolocation을 지원하지 않는 브라우저입니다.");
     }
   }, []);
 
