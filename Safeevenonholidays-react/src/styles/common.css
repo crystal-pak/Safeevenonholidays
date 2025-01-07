@@ -16,7 +16,7 @@
 /* MyPage */
 @media (max-width: 768px) {
   .mypage-box {
-    margin-top: 1rem !important; 
+    margin-top: 1rem !important;
     margin-bottom: 1rem !important;
   }
 }
@@ -37,7 +37,7 @@
 }
 
 @media (max-width: 760px) {
-  .mypage-card-left  {
+  .mypage-card-left {
     height: 35vh;
     padding: 1rem;
   }
@@ -78,22 +78,21 @@
 
 .mypage-card-name,
 .mypage-card-email {
-  margin: 0; 
+  margin: 0;
   padding: 0;
 }
 
 @media (max-width: 768px) {
   .mypage-card-name {
-    margin-bottom: 0; 
+    margin-bottom: 0;
   }
-  
+
   .mypage-card-email {
     margin-top: 0;
     margin-bottom: 1rem;
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
   }
 }
-
 
 .card-img-bottom3 {
   position: absolute;
@@ -106,26 +105,26 @@
 
 @media (max-width: 375px) {
   .mypage-card-body2 {
-    position: relative; 
+    position: relative;
   }
 
   .card-img-bottom3 {
-    position: absolute; 
+    position: absolute;
     bottom: -5vh;
-    right: -15px; 
-    transform: translateY(-50%); 
-    width: 4.5vh; 
-    height: auto; 
+    right: -15px;
+    transform: translateY(-50%);
+    width: 4.5vh;
+    height: auto;
   }
 
   .mypage-card-title {
-    display: block; 
+    display: block;
   }
 
   .user-profile {
     height: 10vh;
     width: auto;
-  } 
+  }
 }
 
 @media (min-width: 376px) and (max-width: 995px) {
@@ -134,14 +133,14 @@
     margin: 20px;
     bottom: 20px;
     right: 20px;
-    width: 5.5vh; 
-    height: auto; 
+    width: 5.5vh;
+    height: auto;
   }
 
   .user-profile {
     height: 10vh;
     width: auto;
-  } 
+  }
 }
 
 /* My Favorites */
@@ -366,4 +365,52 @@
 }
 .password-toggle-btn:focus {
   outline: none; /* 포커스 시 외곽선 제거 */
+}
+
+.table-subject {
+  width: 50%;
+  font-weight: 500;
+}
+
+/* Help, Info Page */
+@media (max-width: 650px) {
+  .table-head,
+  .table-title-number,
+  .table-title-author {
+    display: none;
+  }
+
+  .subject-title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .subject-date {
+    font-size: 0.9rem;
+    color: #696969;
+    margin-top: 4px;
+  }
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  color: #888;
+  margin-left: 8px; /* 제목과 화살표 사이 간격 */
+}
+
+/* 모바일 화면에서 화살표 셀 */
+@media (max-width: 650px) {
+  .arrow-cell {
+    text-align: right; /* 가로 방향 정렬 */
+    vertical-align: middle; /* 세로 방향 중앙 정렬 */
+    width: 10%; /* 셀 너비 */
+  }
+
+  .arrow-icon {
+    font-size: 1.3rem;
+    color: #696969;
+    display: inline-block;
+    transform: scaleY(1.2);
+    opacity: 0.8;
+  }
 }
