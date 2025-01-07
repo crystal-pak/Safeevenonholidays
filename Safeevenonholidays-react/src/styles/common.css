@@ -14,6 +14,13 @@
 }
 
 /* MyPage */
+@media (max-width: 768px) {
+  .mypage-box {
+    margin-top: 1rem !important; 
+    margin-bottom: 1rem !important;
+  }
+}
+
 .title {
   font-size: 2rem;
   margin: 1rem 0;
@@ -30,8 +37,14 @@
 }
 
 @media (max-width: 760px) {
+  .mypage-card-left  {
+    height: 35vh;
+    padding: 1rem;
+  }
+
   .mypage-card-title {
     font-size: 1.5rem;
+    padding: 0.3rem !important;
   }
 
   .mypage-card-text {
@@ -51,7 +64,36 @@
   align-items: center;
   text-align: center;
   height: 100%;
+  padding: 1.25rem;
 }
+
+.mypage-card-body2 {
+  padding: 1.2rem;
+}
+
+.user-profile {
+  height: 30vh;
+  width: auto;
+}
+
+.mypage-card-name,
+.mypage-card-email {
+  margin: 0; 
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .mypage-card-name {
+    margin-bottom: 0; 
+  }
+  
+  .mypage-card-email {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 0.9rem; 
+  }
+}
+
 
 .card-img-bottom3 {
   position: absolute;
@@ -59,16 +101,47 @@
   bottom: 20px;
   right: 20px;
   width: 5vw; /* 화면 크기에 따라 크기 조정 */
-  height: 5vh;
   height: auto; /* 비율 유지 */
 }
 
-@media (max-width: 760px) {
-  .card-img-bottom3 {
-    width: 5vh;
-    height: auto;
-    top: 35px;
+@media (max-width: 375px) {
+  .mypage-card-body2 {
+    position: relative; 
   }
+
+  .card-img-bottom3 {
+    position: absolute; 
+    bottom: -5vh;
+    right: -15px; 
+    transform: translateY(-50%); 
+    width: 4.5vh; 
+    height: auto; 
+  }
+
+  .mypage-card-title {
+    display: block; 
+  }
+
+  .user-profile {
+    height: 10vh;
+    width: auto;
+  } 
+}
+
+@media (min-width: 376px) and (max-width: 995px) {
+  .card-img-bottom3 {
+    position: absolute;
+    margin: 20px;
+    bottom: 20px;
+    right: 20px;
+    width: 5.5vh; 
+    height: auto; 
+  }
+
+  .user-profile {
+    height: 10vh;
+    width: auto;
+  } 
 }
 
 /* My Favorites */

@@ -132,11 +132,11 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
             <div className="d-flex align-items-center">
               <Rating value={averageRating} readOnly precision={0.1} sx={{
                   fontSize: {
-                    xs: '60px' // 작은 화면 (mobile)
+                    xs: '35px' // 작은 화면 (mobile)
                   },
                 }} /> 
             </div>
-            <h1 className="ms-3 fw-bold text-center mb-0" style={{fontSize : "40px"}}>{averageRating.toFixed(1)} ({reviews.length})</h1>
+            <h1 className="ms-3 fw-bold text-center mb-0" style={{fontSize : "30px"}}>{averageRating.toFixed(1)} ({reviews.length})</h1>
             
           </div>
           </Col>

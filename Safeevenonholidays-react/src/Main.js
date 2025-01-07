@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../src/styles/main.css";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import ItemsCarousel from "react-items-carousel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -145,6 +145,30 @@ const Main = () => {
     }
   }, [location]);
 
+  // 병원/약국 상세 정보 가져오기 및 페이지 이동
+  const handleClickDetail = async (item, type) => {
+    try {
+      let details;
+      if (type === "hospital") {
+        const response = await axios.get(
+          `http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire`,
+          { params: { HPID: item.hpid, serviceKey: API_KEY, _type: "json" } }
+        );
+        details = response.data.response.body.items.item;
+      } else if (type === "pharmacy") {
+        const response = await axios.get(
+          `http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire`,
+          { params: { HPID: item.hpid, serviceKey: API_KEY, _type: "json" } }
+        );
+        details = response.data.response.body.items.item;
+      }
+
+      navigate(`/${type}/detail/${item.hpid}`, { state: { item: details } });
+    } catch (error) {
+      console.error(`${type} 상세 정보를 가져오는 중 오류 발생`, error);
+    }
+  };
+
   // 텍스트 자르기
   useEffect(() => {
     const truncateText = (text, maxLength) => {
@@ -236,7 +260,11 @@ const Main = () => {
             <Row>
               <Col>
                 {loading ? (
-                  <p>로딩 중...</p>
+                  <div className='d-flex justify-content-center align-items-center'>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  </div>
                 ) : (
                   <ItemsCarousel
                     requestToChangeActive={setActiveItemIndex}
@@ -246,7 +274,7 @@ const Main = () => {
                   >
                     {displayHospitals.map((hospital, index) => (
                       <div key={index} className="section2-card">
-                        <h5 className="fw-bold">{hospital.dutyName}</h5>
+                        <h5 role='button' onClick={() => handleClickDetail(hospital, "hospital")} className="fw-bold">{hospital.dutyName}</h5>
                         <p className="text-muted">{hospital.dutyAddr}</p>
                         <p className="distance">{hospital.distance} km</p>
                       </div>
@@ -259,7 +287,11 @@ const Main = () => {
             <Row>
               <Col>
                 {loading ? (
-                  <p>로딩 중...</p>
+                  <div className='d-flex justify-content-center align-items-center'>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  </div>
                 ) : (
                   <ItemsCarousel
                     requestToChangeActive={setActiveItemIndex}
@@ -269,7 +301,8 @@ const Main = () => {
                   >
                     {displayPharmacies.map((pharmacy, index) => (
                       <div key={index} className="section2-card">
-                        <h5 className="fw-bold">{pharmacy.dutyName}</h5>
+                        <h5 role='button' onClick={() =>
+                          handleClickDetail(pharmacy, "pharmacy")} className="fw-bold">{pharmacy.dutyName}</h5>
                         <p className="text-muted">{pharmacy.dutyAddr}</p>
                         <p className="distance">{pharmacy.distance} km</p>
                       </div>
