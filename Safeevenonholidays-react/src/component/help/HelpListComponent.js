@@ -33,7 +33,7 @@ const HelpListComponent = () => {
   return (
     <>
       <Container className="mt-4 mb-4">
-        <p className="title fw-bold">QnA 페이지</p>
+      <p className="title fw-bold text-center col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">QnA 페이지</p>
         <Table className="text-start mt-5">
           <thead className='text-center'>
             <tr>

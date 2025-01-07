@@ -87,6 +87,6 @@ main {
 /* 모바일 크기 (576px 이하) */
 @media (max-width: 576px) {
   .footer p {
-    font-size: 12px; /* 더 작은 글자 크기 */
+    font-size: 9px; /* 더 작은 글자 크기 */
   }
 }
