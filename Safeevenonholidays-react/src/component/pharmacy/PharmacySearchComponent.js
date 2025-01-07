@@ -681,7 +681,7 @@ const PharmacySearchComponent = () => {
                       </div>
                     </Col>
                     <Col className='d-flex justify-content-end'>
-                        <p className="m-0 me-2 fw-bold" style={{ 
+                        <p className="m-0 me-2 fw-bold text-nowrap" style={{ 
                             color: item.status === "운영중" ? "#0052CC" : "#7C7C7C"
                           }}>{item.status}</p>
                         <FavoriteComponent pharmacyId={item.hpid} />
