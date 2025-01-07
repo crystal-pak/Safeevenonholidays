@@ -44,9 +44,9 @@ const InfoListComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {serverData.dtoList.map((item) => (
+            {serverData.dtoList.map((item, index) => (
               <tr>
-                <td className='text-center'>{item.id}</td>
+                <td className='text-center'>{serverData.totalCount - ((page - 1) * size + index)}</td>
                 <td
                   onClick={() => detail(item.id)}
                   style={{ cursor: 'pointer' }}
