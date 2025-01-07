@@ -79,8 +79,8 @@ const MyFavoritesComponent = () => {
 
   return (
     <>
-      <Container className="mt-4 mb-4">
-        <p className="title">즐겨찾기 목록</p>
+      <Container className="mt-5 mb-5">
+        <p className="title text-center fw-bold">즐겨찾기 목록</p>
         {userFavorites.length === 0 ? (
         <p className="text-center mt-4">즐겨찾기 목록이 없습니다.</p>
       ) : (
