@@ -26,17 +26,17 @@ const MyPageComponent = () => {
 
   return (
     <>
-      <div className="container mt-5 mb-5">
+      <div className="container mypage-box mt-5 mb-5">
         <Row>
           <Col md={6} className="mb-3">
             <div className="card mypage-card-left">
               <h5 className="mypage-card-title p-4">내 프로필</h5>
-              <div className="card-body mypage-card-body">
+              <div className="mypage-card-body m-0 p-0">
                 <div>
-                  <img src="/images/user.png" alt="userprofile" className="img-fluid" />
+                  <img src="/images/user.png" alt="userprofile" className="user-profile" />
                 </div>
-                <h5 className="mypage-card-title mr-0">{loginState.name}</h5>
-                <p className="mypage-card-text">{loginState.email}</p>
+                <p className="mypage-card-name">{loginState.name}</p>
+                <p className="mypage-card-email">{loginState.email}</p>
                 <Button
                   variant="primary"
                   className="position-absolute bottom-0 end-0 mb-3 me-3 w-25"
