@@ -1,15 +1,15 @@
 /* Login Page */
 .kakao-button {
-  background-color: #FEE500;
+  background-color: #fee500;
   color: #000000;
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .kakao-button:hover {
-  background-color: #FEE500; 
-  color: #000000; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+  background-color: #fee500;
+  color: #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   border: none;
 }
 
@@ -19,13 +19,29 @@
   margin: 1rem 0;
 }
 
+.mypage-card-left {
+  height: 75vh;
+  padding: 20px;
+}
+
 .mypage-card-title {
-  font-weight: bold;
   font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 760px) {
+  .mypage-card-title {
+    font-size: 1.5rem;
+  }
+
+  .mypage-card-text {
+    font-size: 0.8rem !important;
+  }
 }
 
 .mypage-card-text {
   font-weight: 100;
+  font-size: 1rem;
 }
 
 .mypage-card-body {
@@ -35,6 +51,24 @@
   align-items: center;
   text-align: center;
   height: 100%;
+}
+
+.card-img-bottom3 {
+  position: absolute;
+  margin: 20px;
+  bottom: 20px;
+  right: 20px;
+  width: 5vw; /* 화면 크기에 따라 크기 조정 */
+  height: 5vh;
+  height: auto; /* 비율 유지 */
+}
+
+@media (max-width: 760px) {
+  .card-img-bottom3 {
+    width: 5vh;
+    height: auto;
+    top: 35px;
+  }
 }
 
 /* My Favorites */
@@ -50,7 +84,7 @@
 }
 
 .myfav-card-content {
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 /* MyReviews */
@@ -174,7 +208,7 @@
   margin-bottom: 0;
   display: flex;
   align-items: center;
-}   
+}
 
 .search-card-content {
   text-align: start;
@@ -207,38 +241,38 @@
 
 /* LoginComponent */
 .card-login {
-width: 100%;
-max-width: 400px; 
-margin: 0 auto; 
-padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .card-login .form-control {
-height: 40px;
-margin-bottom: 15px;
+  height: 40px;
+  margin-bottom: 15px;
 }
 
 .card-login .btn {
-width: 100%;
-padding: 10px;
-font-size: 16px; 
-margin-bottom: 10px; 
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .card-login .row {
-margin-top: 10px;
+  margin-top: 10px;
 }
 
 @media (max-width: 576px) {
-.card-login .form-control {
-  height: 35px;
-  font-size: 14px; 
-}
+  .card-login .form-control {
+    height: 35px;
+    font-size: 14px;
+  }
 
-.card-login .btn {
-  font-size: 14px; 
-  padding: 12px; 
-}
+  .card-login .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
 }
 
 .password-input-wrapper {

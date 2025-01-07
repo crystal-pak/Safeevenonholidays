@@ -1,4 +1,19 @@
 /* Main Section1 */
+.mo-banner {
+  background-color: #0052cc;
+  color: white;
+  padding: 1.2vh;
+  font-weight: bold;
+  text-wrap: nowrap;
+  font-size: 3vw;
+}
+
+@media (min-width: 760px) {
+  .mo-banner {
+    display: none;
+  }
+}
+
 .section1-card-left {
   height: 81vh;
   padding: 20px;
@@ -25,6 +40,8 @@
 
 .card-body {
   padding: 1.25rem;
+  position: relative;
+  z-index: 2;
 }
 
 .card-title,
@@ -59,24 +76,16 @@
   right: -100px;
   width: 100%; /* 화면 크기에 따라 크기 조정 */
   height: auto; /* 비율 유지 */
+  z-index: 1;
 }
 
 .card-img-bottom2 {
   position: absolute;
-  margin: 50px;
+  margin: 20px;
   bottom: 10px;
   right: 10px;
   width: 70px;
   height: auto;
-}
-
-.card-img-bottom3 {
-  position: absolute;
-  margin: 20px;
-  bottom: 20px;
-  right: 20px;
-  width: 100px; /* 화면 크기에 따라 크기 조정 */
-  height: auto; /* 비율 유지 */
 }
 
 @media (max-width: 460px) {
@@ -86,6 +95,7 @@
     width: 8vh;
     bottom: -20px;
     right: -30px;
+    margin: 50px;
   }
 }
 
@@ -157,4 +167,3 @@
     font-size: 0.9rem;
   }
 }
-

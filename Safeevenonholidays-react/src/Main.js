@@ -13,7 +13,10 @@ const Main = () => {
   const [hospitals, setHospitals] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
   const [loading, setLoading] = useState(false);
+  //텍스트 자르기
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [displayHospitals, setDisplayHospitals] = useState([]);
+  const [displayPharmacies, setDisplayPharmacies] = useState([]);
 
   const updateCardCount = () => {
     if (window.innerWidth <= 470) {
@@ -144,35 +147,54 @@ const Main = () => {
 
   // 텍스트 자르기
   useEffect(() => {
-    function truncateText(selector, maxLength) {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach((element) => {
-        // 원본 텍스트를 저장하고, 이미 저장된 데이터가 있을 경우 그것을 사용
-        const originalText = element.getAttribute("data-original-text") || element.textContent;
+    const truncateText = (text, maxLength) => {
+      if (!text) return "";
+      return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+    };
 
-        // 텍스트를 잘랐을 때, 잘린 텍스트는 data-original-text에 저장
-        if (!element.getAttribute("data-original-text")) {
-          element.setAttribute("data-original-text", originalText);
-        }
+    const updateDisplayData = () => {
+      if (windowWidth <= 950) {
+        // 작은 화면: 텍스트를 자름
+        setDisplayHospitals(
+          hospitals.map((hospital) => ({
+            ...hospital,
+            dutyName: truncateText(hospital.dutyName, 30),
+            dutyAddr: truncateText(hospital.dutyAddr, 30),
+          })),
+        );
+        setDisplayPharmacies(
+          pharmacies.map((pharmacy) => ({
+            ...pharmacy,
+            dutyName: truncateText(pharmacy.dutyName, 30),
+            dutyAddr: truncateText(pharmacy.dutyAddr, 30),
+          })),
+        );
+      } else {
+        // 큰 화면: 원본 텍스트 표시
+        setDisplayHospitals(hospitals);
+        setDisplayPharmacies(pharmacies);
+      }
+    };
 
-        if (windowWidth <= 950) {
-          // windowWidth가 950 이하일 때만 텍스트 자르기
-          if (originalText.length > maxLength) {
-            element.textContent = originalText.slice(0, maxLength) + "...";
-          }
-        } else {
-          element.textContent = originalText; // windowWidth가 950 이상일 때 원본 텍스트로 복원
-        }
-      });
-    }
-
-    truncateText(".section2-card h5", 30);
-    truncateText(".section2-card p", 35);
+    updateDisplayData();
   }, [windowWidth, hospitals, pharmacies]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
-      <div className="">
+      <div>
+        <div className="mo-banner text-center">🏥 휴일도 안심, 언제 어디서나 안전한 의료시설</div>
         <section className="section">
           <div className="container mt-5">
             <Row>
@@ -222,7 +244,7 @@ const Main = () => {
                     numberOfCards={numberOfCards}
                     gutter={20}
                   >
-                    {hospitals.map((hospital, index) => (
+                    {displayHospitals.map((hospital, index) => (
                       <div key={index} className="section2-card">
                         <h5 className="fw-bold">{hospital.dutyName}</h5>
                         <p className="text-muted">{hospital.dutyAddr}</p>
@@ -245,7 +267,7 @@ const Main = () => {
                     numberOfCards={numberOfCards}
                     gutter={20}
                   >
-                    {pharmacies.map((pharmacy, index) => (
+                    {displayPharmacies.map((pharmacy, index) => (
                       <div key={index} className="section2-card">
                         <h5 className="fw-bold">{pharmacy.dutyName}</h5>
                         <p className="text-muted">{pharmacy.dutyAddr}</p>
@@ -261,8 +283,8 @@ const Main = () => {
         <section className="section">
           <div className="container mt-5 mb-5">
             <Row>
-              <Col>
-                <div role="button" onClick={handleClickInfo} className="card">
+              <Col xs={12} lg={6}>
+                <div role="button" onClick={handleClickInfo} className="card mb-3">
                   <div className="section3-card">
                     <h5 className="section3-card-title">자료실</h5>
                     <p className="section3-card-text">
@@ -274,7 +296,7 @@ const Main = () => {
                   </div>
                 </div>
               </Col>
-              <Col>
+              <Col xs={12} lg={6}>
                 <div role="button" onClick={handleClickHelp} className="card">
                   <div className="section3-card">
                     <h5 className="section3-card-title">고객지원</h5>
@@ -292,4 +314,3 @@ const Main = () => {
 };
 
 export default Main;
-
