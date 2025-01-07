@@ -18,7 +18,6 @@ const Main = () => {
   const [displayHospitals, setDisplayHospitals] = useState([]);
   const [displayPharmacies, setDisplayPharmacies] = useState([]);
 
-
   const updateCardCount = () => {
     if (window.innerWidth <= 470) {
       setNumberOfCards(1);
@@ -152,7 +151,7 @@ const Main = () => {
       if (!text) return "";
       return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     };
-  
+
     const updateDisplayData = () => {
       if (windowWidth <= 950) {
         // 작은 화면: 텍스트를 자름
@@ -161,14 +160,14 @@ const Main = () => {
             ...hospital,
             dutyName: truncateText(hospital.dutyName, 30),
             dutyAddr: truncateText(hospital.dutyAddr, 30),
-          }))
+          })),
         );
         setDisplayPharmacies(
           pharmacies.map((pharmacy) => ({
             ...pharmacy,
             dutyName: truncateText(pharmacy.dutyName, 30),
             dutyAddr: truncateText(pharmacy.dutyAddr, 30),
-          }))
+          })),
         );
       } else {
         // 큰 화면: 원본 텍스트 표시
@@ -176,29 +175,26 @@ const Main = () => {
         setDisplayPharmacies(pharmacies);
       }
     };
-  
+
     updateDisplayData();
   }, [windowWidth, hospitals, pharmacies]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-  
+
     window.addEventListener("resize", handleResize);
-  
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  
   return (
     <>
       <div>
-        <div className="mo-banner text-center">
-        🏥 휴일도 안심, 언제 어디서나 안전한 의료시설
-        </div>
+        <div className="mo-banner text-center">🏥 휴일도 안심, 언제 어디서나 안전한 의료시설</div>
         <section className="section">
           <div className="container mt-5">
             <Row>
@@ -287,7 +283,7 @@ const Main = () => {
         <section className="section">
           <div className="container mt-5 mb-5">
             <Row>
-            <Col xs={12} lg={6}>
+              <Col xs={12} lg={6}>
                 <div role="button" onClick={handleClickInfo} className="card mb-3">
                   <div className="section3-card">
                     <h5 className="section3-card-title">자료실</h5>
@@ -318,4 +314,3 @@ const Main = () => {
 };
 
 export default Main;
-

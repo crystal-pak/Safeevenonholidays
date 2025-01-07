@@ -40,7 +40,7 @@
 
 .card-body {
   padding: 1.25rem;
-  position: relative; 
+  position: relative;
   z-index: 2;
 }
 
@@ -167,4 +167,3 @@
     font-size: 0.9rem;
   }
 }
-
