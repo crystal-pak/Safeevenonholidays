@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Pagination, Container, Button } from "react-bootstrap";
+import { Card, Row, Col, Pagination, Container, Spinner } from "react-bootstrap";
 import "../../styles/common.css";
 import { useSelector } from "react-redux";
 import { getOne } from "../../api/favoriteApi";
@@ -9,6 +9,7 @@ import { fetchHospitalDetails, fetchPharmacyDetails } from "../../api/publicApi"
 
 const MyFavoritesComponent = () => {
   const [userFavorites, setUserFavorites] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const loginState = useSelector((state) => state.loginSlice)
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ const MyFavoritesComponent = () => {
   const fetchFavorites = async () => {
     if (!loginState || !loginState.id) return;
 
+    setIsLoading(true)
     try {
       const favorites = await getOne(loginState.id); // 사용자 ID로 즐겨찾기 데이터 가져오기
 
@@ -40,6 +42,8 @@ const MyFavoritesComponent = () => {
       console.log("Updated Favorites 데이터 확인:", updatedFavorites);
     } catch (error) {
       console.error("즐겨찾기 데이터를 가져오는 중 오류 발생:", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -81,7 +85,14 @@ const MyFavoritesComponent = () => {
     <>
       <Container className="mt-5 mb-5">
         <p className="title text-center fw-bold">즐겨찾기 목록</p>
-        {userFavorites.length === 0 ? (
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) :
+        userFavorites.length === 0 ? (
         <p className="text-center mt-4">즐겨찾기 목록이 없습니다.</p>
       ) : (
         <>
