@@ -172,10 +172,10 @@ const ratingCounts = [5, 4, 3, 2, 1].map(
               <Rating value={review.rating} readOnly size="small" />
             </div>
 
-            <div className='d-flex justify-content-between mt-3'>
+            <div className='mt-3'>
               <p>{review.content}</p>
               {loginState.email == review.author.email ? 
-                  <div>
+                  <div className='text-end'>
                   <Button variant="primary" className="me-2" onClick={() => setEditReview(review)}>
                     수정
                   </Button>

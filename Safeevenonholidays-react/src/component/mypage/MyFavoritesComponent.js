@@ -77,7 +77,6 @@ const MyFavoritesComponent = () => {
     }
   };
 
-
   return (
     <>
       <Container className="mt-4 mb-4">
