@@ -48,7 +48,7 @@ const HelpDetailComponent = ({ id }) => {
         </div>
 
         <div>
-          <HelpAnwserComponent id={id} question={question} />
+          <HelpAnwserComponent id={id} question={question.author.email} />
         </div>
       </Container>
     </>
