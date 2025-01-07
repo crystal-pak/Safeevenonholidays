@@ -30,11 +30,7 @@ const MyPageModifyComponent = () => {
   };
 
   const handleClickModify = () => {
-    putOne(member).then((result) => {
-      setResult("Modified")
-      alert("수정이 완료 되었습니다.")
-      moveToPath("/mypage")
-    });
+    putOne(member).then((result) => {});
   };
 
   const handleClickBack = () => {
@@ -52,11 +48,11 @@ const MyPageModifyComponent = () => {
 
   return (
     <>
-    <div className="signup-container d-flex justify-content-center my-5">
-    <div className='card-login'>
-    <h2 className='text-center bold-text mt-4'>개인정보수정</h2>
+      <div className="signup-container d-flex justify-content-center my-5">
+        <div className="card-login">
+          <h2 className="text-center bold-text mt-4">개인정보수정</h2>
 
-          <Form.Group className='mb-3'>
+          <Form.Group className="mb-3">
             <Form.Label className="w-25">이름</Form.Label>
             <Form.Control
               type="text"
@@ -91,7 +87,7 @@ const MyPageModifyComponent = () => {
             </div>
           </Form.Group>
 
-          <div className='d-flex'>
+          <div className="d-flex">
             <Button
               variant="primary"
               type="button"
@@ -100,31 +96,20 @@ const MyPageModifyComponent = () => {
             >
               수정
             </Button>
-            <Button
-              variant="secondary"
-              type="button"
-              className="w-100"
-              onClick={handleClickBack}
-            >
+            <Button variant="secondary" type="button" className="w-100" onClick={handleClickBack}>
               취소
             </Button>
           </div>
 
           <div className="text-center">
-            <Button
-              variant="danger"
-              type="button"
-              className="w-100"
-              onClick={handleClickDelete}
-            >
+            <Button variant="danger" type="button" className="w-100" onClick={handleClickDelete}>
               회원탈퇴
             </Button>
           </div>
         </div>
-        </div>
+      </div>
     </>
   );
 };
 
 export default MyPageModifyComponent;
-
