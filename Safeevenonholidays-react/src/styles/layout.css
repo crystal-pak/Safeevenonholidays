@@ -50,7 +50,9 @@ main {
   padding-left: 0;
   padding-right: 0;
   margin-top: auto;
+  overflow-x: hidden;
 }
+
 .footer p {
   margin-right: 0;
   display: inline;

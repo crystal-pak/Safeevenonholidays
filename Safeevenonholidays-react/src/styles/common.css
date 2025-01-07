@@ -19,13 +19,29 @@
   margin: 1rem 0;
 }
 
+.mypage-card-left {
+  height: 75vh;
+  padding: 20px;
+}
+
 .mypage-card-title {
-  font-weight: bold;
   font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 760px) {
+  .mypage-card-title {
+    font-size: 1.5rem;
+  }
+
+  .mypage-card-text {
+    font-size: 0.8rem !important;
+  }
 }
 
 .mypage-card-text {
   font-weight: 100;
+  font-size: 1rem;
 }
 
 .mypage-card-body {
@@ -35,6 +51,24 @@
   align-items: center;
   text-align: center;
   height: 100%;
+}
+
+.card-img-bottom3 {
+  position: absolute;
+  margin: 20px;
+  bottom: 20px;
+  right: 20px;
+  width: 5vw; /* 화면 크기에 따라 크기 조정 */
+  height: 5vh;
+  height: auto; /* 비율 유지 */
+}
+
+@media (max-width: 760px) {
+  .card-img-bottom3 {
+    width: 5vh; 
+    height: auto; 
+    top: 35px;
+  }
 }
 
 /* My Favorites */

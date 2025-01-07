@@ -26,10 +26,10 @@ const MyPageComponent = () => {
 
   return (
     <>
-      <div className="container mt-4 mb-4">
+      <div className="container mt-5 mb-5">
         <Row>
-          <Col md={6}>
-            <div className="card section1-card-left mb-md-0 mb-3">
+          <Col md={6} className="mb-3">
+            <div className="card mypage-card-left">
               <h5 className="mypage-card-title p-4">내 프로필</h5>
               <div className="card-body mypage-card-body">
                 <div>
@@ -47,8 +47,7 @@ const MyPageComponent = () => {
               </div>
             </div>
           </Col>
-
-          <Col md={6} className="d-flex flex-column">
+          <Col md={6} className="d-flex flex-column mb-3">
             <div role="button" onClick={handleClickFav} className="card mb-2 p-3 h-100">
               <div className="card-body">
                 <h5 className="mypage-card-title">MY 즐겨찾기</h5>
