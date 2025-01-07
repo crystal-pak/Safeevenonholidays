@@ -44,9 +44,9 @@ const HelpListComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {serverData.dtoList.map((question) => (
+            {serverData.dtoList.map((question, index) => (
               <tr>
-                <td className='text-center'>{question.id}</td>
+                <td className='text-center'>{serverData.totalCount - ((page - 1) * size + index)}</td>
                 <td
                   onClick={() => detail(question.id)}
                   style={{ cursor: 'pointer' }}

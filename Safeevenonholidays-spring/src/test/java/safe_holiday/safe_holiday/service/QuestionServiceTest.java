@@ -31,10 +31,10 @@ class QuestionServiceTest {
     SafeMemberRepository safeMemberRepository;
 
     @Test
-    void 등록10개() {
-        Optional<SafeMember> member = safeMemberRepository.findById(1L);
+    void 등록200개() {
+        Optional<SafeMember> member = safeMemberRepository.findById(2L);
 
-        for(int i = 1; i<=10; i++) {
+        for(int i = 1; i<=200; i++) {
             QuestionDTO questionDTO = QuestionDTO.builder()
                     .subject("제목" + i)
                     .content("내용" + i)
