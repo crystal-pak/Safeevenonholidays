@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../src/styles/main.css";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import ItemsCarousel from "react-items-carousel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -260,7 +260,11 @@ const Main = () => {
             <Row>
               <Col>
                 {loading ? (
-                  <p>로딩 중...</p>
+                  <div className='d-flex justify-content-center align-items-center'>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  </div>
                 ) : (
                   <ItemsCarousel
                     requestToChangeActive={setActiveItemIndex}
@@ -283,7 +287,11 @@ const Main = () => {
             <Row>
               <Col>
                 {loading ? (
-                  <p>로딩 중...</p>
+                  <div className='d-flex justify-content-center align-items-center'>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  </div>
                 ) : (
                   <ItemsCarousel
                     requestToChangeActive={setActiveItemIndex}
