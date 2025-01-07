@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { Container, Row, Col, Button, Card, Pagination, Form } from "react-bootstrap"
+import { Container, Row, Col, Button, Card, Pagination, Form, Spinner } from "react-bootstrap"
 import FavoriteComponent from "../common/FavoriteComponent";
 import { useNavigate, useNavigationType } from "react-router-dom";
 import { getReviewsByHospital } from "../../api/reviewApi";
@@ -690,7 +690,11 @@ const HospitalSearchComponent = () => {
 
       <Row>
         {loading ? (
-          <p>로딩 중...</p>
+          <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          </div>
         ) : currentPageHospitals.length > 0 ? (
           <>
             {currentPageHospitals.map((item) => (
@@ -746,7 +750,7 @@ const HospitalSearchComponent = () => {
             <div className="mt-4">{renderPagination()}</div>
           </>
         ) : (
-          <p>가까운 병원을 검색해보세요. 휴일도 안심이 찾아드립니다.</p>
+          <p>원하는 지역의 병원을 검색해보세요. 휴일도 안심이 찾아드립니다.</p>
         )}
       </Row>
     </Container>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Pagination, Row, Col, Button, Container, Card, Form } from 'react-bootstrap'
+import { Pagination, Row, Col, Button, Container, Card, Form, Spinner } from 'react-bootstrap'
 import FavoriteComponent from '../common/FavoriteComponent'
 import { useNavigate, useNavigationType } from 'react-router-dom'
 import { getReviewsByPharmacy } from '../../api/reviewApi'
@@ -634,7 +634,11 @@ const PharmacySearchComponent = () => {
 
       <Row>
         {loading ? (
-          <p>로딩 중...</p>
+          <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          </div>
         ) : currentPagePharmacies.length > 0 ? (
           <>
             {currentPagePharmacies.map((item) => (
@@ -689,7 +693,7 @@ const PharmacySearchComponent = () => {
             <div className="mt-4">{renderPagination()}</div>
           </>
         ) : (
-          <p>가까운 약국을 검색해보세요. 휴일도 안심이 찾아드립니다.</p>
+          <p>원하는 지역의 약국을 검색해보세요. 휴일도 안심이 찾아드립니다.</p>
         )}
       </Row>
     </Container>
