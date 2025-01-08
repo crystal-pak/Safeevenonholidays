@@ -22,16 +22,14 @@ const InfoListComponent = () => {
   const { page, size, list, refresh, detail, add } = useCustomMove();
   const [serverData, setServerData] = useState(initState);
   const loginState = useSelector((state) => state.loginSlice);
-
   // 제목 텍스트 자르기
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [subject, setSubject] = useState([]);
 
   useEffect(() => {
     getList({ page, size }).then((data) => {
-      console.log(data);
       setServerData(data);
-      setSubject(data.dtoList); // 기본 데이터 설정
+      setSubject(data.dtoList);
     });
   }, [page, size, refresh]);
 
@@ -53,7 +51,7 @@ const InfoListComponent = () => {
     };
 
     updateDisplayData();
-  }, [windowWidth, subject]); // windowWidth와 subject에 의존
+  }, [windowWidth]); // windowWidth와 subject에 의존
 
   // 화면 크기 변경 감지
   useEffect(() => {
