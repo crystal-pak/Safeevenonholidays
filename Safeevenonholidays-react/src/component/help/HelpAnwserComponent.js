@@ -12,7 +12,7 @@ const HelpAnswerComponent = ({ id, question }) => {
   const [answer, setAnswer] = useState(initState);
   const loginState = useSelector(state => state.loginSlice);
   const [editAnswer, setEditAnswer] = useState(null);
-  console.log("question", question)
+
   useEffect(() => {
     getListAnswers(id).then(data => {
       console.log("API 응답 데이터 확인: ", data);
@@ -89,7 +89,7 @@ const HelpAnswerComponent = ({ id, question }) => {
             <p>{answer.content || "내용 없음"}</p>
             <div className='d-flex justify-content-between'>
               <div>
-                <small className="text-mute d-flex align-items-center">작성자:{answer.author?.name || "익명"} {answer.author.email == question ?  <span class="badge rounded-pill text-bg-primary ms-1">작성자</span> : <></>}</small>
+                <small className="text-mute d-flex align-items-center">작성자: {answer.author?.name || "익명"} {answer.author.email == question ?  <span class="badge rounded-pill text-bg-primary ms-1">작성자</span> : <></>}</small>
                 <small className="text-muted">
                   작성일: {answer.createDate ? `${answer.createDate[0]}년 ${answer.createDate[1]}월 ${answer.createDate[2]}일` : "알 수 없음"}
                 </small>

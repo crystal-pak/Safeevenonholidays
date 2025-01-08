@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Container, Table } from "react-bootstrap";
-import { getList } from "./../../api/helpApi";
+import { getList, getListAnswers } from "./../../api/helpApi";
 import useCustomMove from "./../../hooks/useCustomMove";
 import PageComponent from "./../common/PageComponent";
 
@@ -28,10 +28,32 @@ const HelpListComponent = () => {
 
   useEffect(() => {
     getList({ page, size }).then((data) => {
-      console.log(data);
       setServerData(data);
     });
   }, [page, size, refresh]);
+
+  useEffect(() => {
+    if (Array.isArray(serverData.dtoList) && serverData.dtoList.length > 0) {
+      const fetchAnswerCounts = async () => {
+        const updatedQuestions = await Promise.all(
+          serverData.dtoList.map(async (question) => {
+            try {
+              // 각 질문의 답변 리스트 가져오기
+              const answers = await getListAnswers(question.id);
+              console.log("answer", answers)
+              return { ...question, answerCount: answers.length }; // answerCount 추가
+            } catch (error) {
+              console.error(`Error fetching answers for question ID ${question.id}:`, error);
+              return { ...question, answerCount: 0 }; // 오류 시 기본값 설정
+            }
+          })
+        );
+        setSubject(updatedQuestions); // 업데이트된 데이터 설정
+      };
+  
+      fetchAnswerCounts();
+    }
+  }, [serverData.dtoList]);
 
   // 제목 텍스트 자르기
   useEffect(() => {
@@ -92,7 +114,10 @@ const HelpListComponent = () => {
                   style={{ cursor: "pointer" }}
                   className="table-subject"
                 >
-                  <div className="subject-title">{question.subject}</div>
+                  <div className="subject-title">
+                    {question.subject} 
+                    {question.answerCount > 0 && ` [${question.answerCount}]`}
+                  </div>
                   {windowWidth <= 650 && <div className="subject-date">{question.createDate}</div>}
                 </td>
                 {windowWidth > 650 && (
@@ -104,7 +129,7 @@ const HelpListComponent = () => {
 
                 {windowWidth <= 650 && (
                   <td className="arrow-cell" onClick={() => detail(question.id)}>
-                    <span className="arrow-icon">&gt;</span>
+                    <span role='button' className="arrow-icon">&gt;</span>
                   </td>
                 )}
               </tr>

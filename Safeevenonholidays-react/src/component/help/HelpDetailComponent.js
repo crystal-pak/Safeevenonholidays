@@ -22,7 +22,6 @@ const HelpDetailComponent = ({ id }) => {
   useEffect(() => {
     getOne(id).then(data => {
       setQuestion(data)
-      console.log("게시글 정보 : ", data)
     });
   }, [id])
 
