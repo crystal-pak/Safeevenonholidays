@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Container, Pagination, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Container, Row, Spinner } from "react-bootstrap";
 import "../../styles/common.css";
 import { deleteOne, getOne } from "../../api/reviewApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchHospitalDetails, fetchPharmacyDetails } from "../../api/publicApi";
+import ResponsivePagination from "react-responsive-pagination";
 
 const MyReviewsComponent = () => {
   const [userReviews, setUserReviews] = useState([])
@@ -111,7 +112,7 @@ const MyReviewsComponent = () => {
     fetchReviews();
   }, [loginState]);
 
-  /// 현재 페이지에 표시할 데이터 계산
+  //// 현재 페이지에 표시할 데이터 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = userReviews.slice(indexOfFirstItem, indexOfLastItem);
@@ -119,18 +120,10 @@ const MyReviewsComponent = () => {
   // 총 페이지 수 계산
   const totalPages = Math.ceil(userReviews.length / itemsPerPage);
 
-  // 페이지네이션 범위 계산
-  const startPage = Math.floor((currentPage - 1) / paginationRange) * paginationRange + 1;
-  const endPage = Math.min(startPage + paginationRange - 1, totalPages);
-
-  // 이전 및 다음 버튼 활성화 여부
-  const isPrevDisabled = currentPage <= 1;
-  const isNextDisabled = currentPage >= totalPages;
-
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  }
+  };
 
   // 리뷰 삭제 핸들러
   const handleClickDelete = async (id) => {
@@ -199,26 +192,15 @@ const MyReviewsComponent = () => {
             </Row>
 
         {/* 페이지네이션 */}
-        <Pagination className="justify-content-center mt-4">
-          {/* 이전 버튼 */}
-          <Pagination.Prev disabled={isPrevDisabled} onClick={() => handlePageChange(currentPage - 1)} />
-
-          {/* 현재 범위의 페이지 번호 */}
-          {[...Array(endPage - startPage + 1).keys()].map((page) => (
-            <Pagination.Item
-              key={startPage + page}
-              active={startPage + page === currentPage}
-              onClick={() => handlePageChange(startPage + page)}
-            >
-              {startPage + page}
-            </Pagination.Item>
-          ))}
-
-          {/* 다음 버튼 */}
-          <Pagination.Next disabled={isNextDisabled} onClick={() => handlePageChange(currentPage + 1)} />
-        </Pagination>
+        <div className='mt-3'>
+          <ResponsivePagination
+            current={currentPage} // 현재 페이지 번호
+            total={totalPages} // 전체 페이지 수
+            onPageChange={handlePageChange} // 페이지 변경 핸들러
+          />
+        </div>
         </>
-          )}
+      )}
       </Container>
     </>
   );

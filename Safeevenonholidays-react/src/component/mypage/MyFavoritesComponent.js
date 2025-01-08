@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Pagination, Container, Spinner } from "react-bootstrap";
+import { Card, Row, Col, Container, Spinner } from "react-bootstrap";
 import "../../styles/common.css";
 import { useSelector } from "react-redux";
 import { getOne } from "../../api/favoriteApi";
 import FavoriteComponent from "../common/FavoriteComponent";
 import { useNavigate } from "react-router-dom";
 import { fetchHospitalDetails, fetchPharmacyDetails } from "../../api/publicApi";
+import ResponsivePagination from "react-responsive-pagination";
 
 const MyFavoritesComponent = () => {
   const [userFavorites, setUserFavorites] = useState([])
@@ -14,7 +15,6 @@ const MyFavoritesComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate()
   const itemsPerPage = 8; // 한 페이지에 표시할 항목 수
-  const paginationRange = 10; // 한 번에 표시할 페이지 번호 범위
   
   // 서버에서 즐겨찾기 데이터 가져오기
   const fetchFavorites = async () => {
@@ -51,7 +51,7 @@ const MyFavoritesComponent = () => {
     fetchFavorites();
   }, [loginState]);
 
-  /// 현재 페이지에 표시할 데이터 계산
+  // 현재 페이지에 표시할 데이터 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = userFavorites.slice(indexOfFirstItem, indexOfLastItem);
@@ -59,18 +59,10 @@ const MyFavoritesComponent = () => {
   // 총 페이지 수 계산
   const totalPages = Math.ceil(userFavorites.length / itemsPerPage);
 
-  // 페이지네이션 범위 계산
-  const startPage = Math.floor((currentPage - 1) / paginationRange) * paginationRange + 1;
-  const endPage = Math.min(startPage + paginationRange - 1, totalPages);
-
-  // 이전 및 다음 버튼 활성화 여부
-  const isPrevDisabled = currentPage <= 1;
-  const isNextDisabled = currentPage >= totalPages;
-
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  }
+  };
 
   // 상세 페이지 이동 핸들러
   const handleClickDetail = (favorite) => {
@@ -126,24 +118,13 @@ const MyFavoritesComponent = () => {
         </Row>
 
         {/* 페이지네이션 */}
-        <Pagination className="justify-content-center mt-4">
-          {/* 이전 버튼 */}
-          <Pagination.Prev disabled={isPrevDisabled} onClick={() => handlePageChange(currentPage - 1)} />
-
-          {/* 현재 범위의 페이지 번호 */}
-          {[...Array(endPage - startPage + 1).keys()].map((page) => (
-            <Pagination.Item
-              key={startPage + page}
-              active={startPage + page === currentPage}
-              onClick={() => handlePageChange(startPage + page)}
-            >
-              {startPage + page}
-            </Pagination.Item>
-          ))}
-
-          {/* 다음 버튼 */}
-          <Pagination.Next disabled={isNextDisabled} onClick={() => handlePageChange(currentPage + 1)} />
-        </Pagination>
+        <div className='mt-3'>
+          <ResponsivePagination
+            current={currentPage} // 현재 페이지 번호
+            total={totalPages} // 전체 페이지 수
+            onPageChange={handlePageChange} // 페이지 변경 핸들러
+          />
+        </div>
         </>
       )}
       </Container>
