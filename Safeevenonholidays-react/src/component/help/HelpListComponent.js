@@ -37,7 +37,7 @@ const HelpListComponent = () => {
       setServerData(data);
     });
   }, [page, size, refresh]);
-  
+
   useEffect(() => {
     if (Array.isArray(serverData.dtoList) && serverData.dtoList.length > 0) {
       const fetchAnswerCounts = async () => {
@@ -50,35 +50,34 @@ const HelpListComponent = () => {
               console.error(`Error fetching answers for question ID ${question.id}:`, error);
               return { ...question, answerCount: 0 }; // 오류 시 기본값 설정
             }
-          })
+          }),
         );
         setSubject(updatedQuestions); // 업데이트된 데이터 설정
       };
-  
+
       fetchAnswerCounts();
     }
   }, [serverData.dtoList]);
-  
+
   // 제목 텍스트 자르기 로직 수정
   useEffect(() => {
     const truncateText = (text, maxLength) => {
       if (!text) return "";
       return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     };
-  
+
     const updateDisplayData = () => {
       if (subject.length > 0) {
         const updatedSubjects = subject.map((question) => ({
           ...question,
-          subject: windowWidth <= 768 ? truncateText(question.subject, 20) : question.subject,
-        }));
+          subject: windowWidth <= 768 ? truncateText(question.subject, 15) : question.subject,
+        })); // 최대한 작은 화면에 맞추기 위해 15로 수정함
         setSubject(updatedSubjects);
       }
     };
-  
+
     updateDisplayData();
   }, [windowWidth]); // windowWidth만 의존성으로 추가
-  
 
   useEffect(() => {
     const handleResize = () => {
@@ -120,7 +119,7 @@ const HelpListComponent = () => {
                   className="table-subject"
                 >
                   <div className="subject-title">
-                    {question.subject} 
+                    {question.subject}
                     {question.answerCount > 0 && ` [${question.answerCount}]`}
                   </div>
                   {windowWidth <= 650 && <div className="subject-date">{question.createDate}</div>}
@@ -134,7 +133,9 @@ const HelpListComponent = () => {
 
                 {windowWidth <= 650 && (
                   <td className="arrow-cell" onClick={() => detail(question.id)}>
-                    <span role='button' className="arrow-icon">&gt;</span>
+                    <span role="button" className="arrow-icon">
+                      &gt;
+                    </span>
                   </td>
                 )}
               </tr>
