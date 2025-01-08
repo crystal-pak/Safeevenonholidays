@@ -326,7 +326,7 @@ const PharmacySearchComponent = () => {
       serviceKey: API_KEY,
       Q0: city,
       Q1: district,
-      numOfRows: 500,
+      numOfRows: totalItems,
       pageNo: 1,
       _type: "json",
     };
@@ -492,7 +492,7 @@ const PharmacySearchComponent = () => {
       const totalPages = Math.ceil(totalItems / itemsPerPage)
       const rangeStart = Math.floor((currentPage - 1) / 10) * 10 + 1
       const rangeEnd = Math.min(rangeStart + 9, totalPages)
-  
+      
       const pageNumbers = []
       for (let i = rangeStart; i <= rangeEnd; i++) {
         pageNumbers.push(i)

@@ -29,12 +29,7 @@ const HelpListComponent = () => {
   useEffect(() => {
     getList({ page, size }).then((data) => {
       setServerData(data);
-    });
-  }, [page, size, refresh]);
-
-  useEffect(() => {
-    getList({ page, size }).then((data) => {
-      setServerData(data);
+      console.log("serverData", serverData)
     });
   }, [page, size, refresh]);
   
