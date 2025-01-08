@@ -1,30 +1,22 @@
-import React from 'react'
-import { Pagination } from 'react-bootstrap'
+import React from 'react';
+import ResponsivePagination from 'react-responsive-pagination';
 
-const PageComponent = ({serverData, list}) => {
-  console.log("현재페이지" + serverData.current)
+const PageComponent = ({ serverData, list }) => {
+  const handlePageChange = (page) => {
+    list({ page }); // 페이지 변경 시 서버 요청
+  };
 
   return (
-    <> 
-    <Pagination className='justify-content-center'>
-        {serverData.prev?
-        <Pagination.Prev
-            onClick = {() => list({page : serverData.prevPage})}
-        /> : <></>}
-    
-        {serverData.pageNumList.map((item) => (
-            <Pagination.Item
-                active = {serverData.current === item}
-                onClick = {() => list({page : item})}
-            >{item}</Pagination.Item>
-        ))}
-        
-        {serverData.next? <Pagination.Next
-            onClick = {() => list({page : serverData.nextPage})}
-        /> : <></>}
-    </Pagination>
-    </>
-  )
-}
+    <div className="justify-content-center mt-3">
+      {serverData.totalPage > 1 && ( // 전체 페이지가 1개 이상일 때만 페이지네이션 표시
+        <ResponsivePagination
+          current={serverData.current} // 현재 페이지 번호
+          total={serverData.totalPage} // 전체 페이지 수
+          onPageChange={handlePageChange} // 페이지 변경 핸들러
+        />
+      )}
+    </div>
+  );
+};
 
-export default PageComponent
+export default PageComponent;

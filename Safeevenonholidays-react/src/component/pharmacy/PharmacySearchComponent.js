@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Pagination, Row, Col, Button, Container, Card, Form, Spinner } from 'react-bootstrap'
+import { Row, Col, Button, Container, Card, Form, Spinner } from 'react-bootstrap'
 import FavoriteComponent from '../common/FavoriteComponent'
 import { useNavigate, useNavigationType } from 'react-router-dom'
 import { getReviewsByPharmacy } from '../../api/reviewApi'
+import ResponsivePagination from 'react-responsive-pagination';
 
 const useIsBackNavigation = () => {
   const navigationType = useNavigationType();
@@ -498,25 +499,13 @@ const PharmacySearchComponent = () => {
       }
 
     return (
-      <Pagination className='justify-content-center'>
-        <Pagination.Prev
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-        {pageNumbers.map((page) => (
-          <Pagination.Item
-            key={page}
-            active={page === currentPage}
-            onClick={() => handlePageChange(page)}
-          >
-            {page}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
+      <div className="justify-content-center">
+      <ResponsivePagination
+        current={currentPage} // 현재 페이지
+        total={totalPages} // 전체 페이지 수
+        onPageChange={handlePageChange} // 페이지 변경 핸들러
+      />
+      </div>
     )
   }
 
