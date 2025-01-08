@@ -220,7 +220,7 @@ const Main = () => {
       <div>
         <div className="mo-banner text-center">🏥 휴일도 안심, 언제 어디서나 안전한 의료시설</div>
         <section className="section">
-          <div className="container mt-5">
+          <div className="container mt-5 section1-m">
             <Row>
               <div className="col-md-6">
                 <div className="card section1-card-left">
@@ -236,7 +236,7 @@ const Main = () => {
                 </div>
               </div>
               <div className="col-md-6 d-flex flex-column">
-                <div className="card mb-2 section1-card-right">
+                <div className="card section1-card-right">
                   <div role="button" onClick={handleClickHosSearch} className="card-body">
                     <h5 className="card-title">병원 찾기</h5>
                     <p className="card-text">가까운 병원을 찾아보세요.</p>
@@ -254,7 +254,7 @@ const Main = () => {
             </Row>
           </div>
         </section>
-        <section className="section mt-5" style={{ backgroundColor: "#F9FAFB" }}>
+        <section className="section" style={{ backgroundColor: "#F9FAFB" }}>
           <div className="container section2-container">
             <h4 className="fw-bold">지금 걸어갈 수 있는 병원</h4>
             <Row>
@@ -314,13 +314,13 @@ const Main = () => {
           </div>
         </section>
         <section className="section">
-          <div className="container mt-5 mb-5">
+          <div className="container mt-5 mb-4">
             <Row>
-              <Col xs={12} lg={6}>
-                <div role="button" onClick={handleClickInfo} className="card mb-3">
-                  <div className="section3-card">
-                    <h5 className="section3-card-title">자료실</h5>
-                    <p className="section3-card-text">
+              <Col xs={12} md={6} lg={6}>
+                <div className="card section1-card-right">
+                  <div role="button" onClick={handleClickInfo} className="card-body">
+                    <h5 className="card-title">자료실</h5>
+                    <p className="card-text">
                       응급 처치 요령
                       <br />
                       감염병 예방
@@ -329,11 +329,11 @@ const Main = () => {
                   </div>
                 </div>
               </Col>
-              <Col xs={12} lg={6}>
-                <div role="button" onClick={handleClickHelp} className="card">
-                  <div className="section3-card">
-                    <h5 className="section3-card-title">고객지원</h5>
-                    <p className="section3-card-text">Q&A</p>
+              <Col xs={12} md={6} lg={6}>
+                <div className="card section1-card-right">
+                  <div role="button" onClick={handleClickHelp} className="card-body">
+                    <h5 className="card-title">고객지원</h5>
+                    <p className="card-text">Q&A</p>
                     <img src="/images/health.png" className="card-img-bottom2" />
                   </div>
                 </div>
