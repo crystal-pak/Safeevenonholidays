@@ -33,14 +33,18 @@ const HelpListComponent = () => {
   }, [page, size, refresh]);
 
   useEffect(() => {
+    getList({ page, size }).then((data) => {
+      setServerData(data);
+    });
+  }, [page, size, refresh]);
+  
+  useEffect(() => {
     if (Array.isArray(serverData.dtoList) && serverData.dtoList.length > 0) {
       const fetchAnswerCounts = async () => {
         const updatedQuestions = await Promise.all(
           serverData.dtoList.map(async (question) => {
             try {
-              // 각 질문의 답변 리스트 가져오기
               const answers = await getListAnswers(question.id);
-              console.log("answer", answers)
               return { ...question, answerCount: answers.length }; // answerCount 추가
             } catch (error) {
               console.error(`Error fetching answers for question ID ${question.id}:`, error);
@@ -54,26 +58,27 @@ const HelpListComponent = () => {
       fetchAnswerCounts();
     }
   }, [serverData.dtoList]);
-
-  // 제목 텍스트 자르기
+  
+  // 제목 텍스트 자르기 로직 수정
   useEffect(() => {
     const truncateText = (text, maxLength) => {
       if (!text) return "";
       return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     };
-
+  
     const updateDisplayData = () => {
-      if (serverData.dtoList.length > 0) {
-        const truncatedSubjects = serverData.dtoList.map((question) => ({
+      if (subject.length > 0) {
+        const updatedSubjects = subject.map((question) => ({
           ...question,
           subject: windowWidth <= 768 ? truncateText(question.subject, 20) : question.subject,
         }));
-        setSubject(truncatedSubjects);
+        setSubject(updatedSubjects);
       }
     };
-
+  
     updateDisplayData();
-  }, [serverData, windowWidth]);
+  }, [windowWidth]); // windowWidth만 의존성으로 추가
+  
 
   useEffect(() => {
     const handleResize = () => {
