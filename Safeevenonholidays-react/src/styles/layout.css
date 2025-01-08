@@ -50,7 +50,9 @@ main {
   padding-left: 0;
   padding-right: 0;
   margin-top: auto;
+  overflow-x: hidden;
 }
+
 .footer p {
   margin-right: 0;
   display: inline;
@@ -66,3 +68,25 @@ main {
   margin-left: 10px;
 }
 
+.footer {
+  padding: 10px 0; /* 위아래 여백 */
+}
+
+.footer p {
+  font-size: 16px; /* 기본 글자 크기 */
+  margin: 0; /* 글자 간 여백 제거 */
+}
+
+/* 태블릿 크기 (768px 이하) */
+@media (max-width: 768px) {
+  .footer p {
+    font-size: 14px; /* 글자 크기 줄임 */
+  }
+}
+
+/* 모바일 크기 (576px 이하) */
+@media (max-width: 576px) {
+  .footer p {
+    font-size: 9px; /* 더 작은 글자 크기 */
+  }
+}

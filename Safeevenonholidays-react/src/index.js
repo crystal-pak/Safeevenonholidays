@@ -7,6 +7,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import store from './store';
 
+// ResizeObserver 에러 무시 코드 추가
+if (typeof window !== 'undefined') {
+  const observerErrorHandler = (e) => {
+    if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+      e.stopImmediatePropagation();
+    }
+  };
+  window.addEventListener('error', observerErrorHandler);
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>

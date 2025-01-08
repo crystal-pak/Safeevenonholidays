@@ -46,10 +46,10 @@ class InfoServiceTest {
 
     @Test
     @WithMockUser(username = "admin@email.com")
-    void 등록100개() {
-        Optional<SafeMember> member = safeMemberRepository.findById(9L);
+    void 등록200개() {
+        Optional<SafeMember> member = safeMemberRepository.findById(33L);
 
-        for(int i = 1; i<=100; i++) {
+        for(int i = 1; i<=200; i++) {
             InfoDTO infoDTO = InfoDTO.builder()
                     .subject("제목" + i)
                     .content("내용" + i)

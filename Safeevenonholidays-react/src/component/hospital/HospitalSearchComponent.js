@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { Container, Row, Col, Button, Card, Pagination } from "react-bootstrap"
+import { Container, Row, Col, Button, Card, Form, Spinner } from "react-bootstrap"
 import FavoriteComponent from "../common/FavoriteComponent";
 import { useNavigate, useNavigationType } from "react-router-dom";
+import { getReviewsByHospital } from "../../api/reviewApi";
+import ResponsivePagination from 'react-responsive-pagination';
 
 const useIsBackNavigation = () => {
   const navigationType = useNavigationType();
@@ -22,6 +24,7 @@ const HospitalSearchComponent = () => {
   const itemsPerPage = 10 // 한 페이지당 보여줄 데이터 개수
   const [totalItems, setTotalItems] = useState(0) // 전체 데이터 개수
   const isBackNavigation = useIsBackNavigation()
+  const [reviews, setReviews] = useState([])
 
   // 시도 데이터
   const cities = [
@@ -362,7 +365,7 @@ const HospitalSearchComponent = () => {
       Q0: city,
       Q1: district,
       QD: departmentSearch,
-      numOfRows: 500,
+      numOfRows: totalItems,
       pageNo: 1,
       _type: "json",
     };
@@ -414,49 +417,109 @@ const HospitalSearchComponent = () => {
   }
 
   useEffect(() => {
-    if (hospitals.length > 0 && userLocation) {
-      // 병원 목록을 가져온 후 거리 계산 및 정렬
-      const hospitalsWithDistance = hospitals.map((item) => {
-        const hospitalLat = parseFloat(item.wgs84Lat); // 병원의 위도
-        const hospitalLon = parseFloat(item.wgs84Lon); // 병원의 경도
-
-        const distance = haversineDistance(
-          userLocation.lat,
-          userLocation.lon,
-          hospitalLat,
-          hospitalLon,
-        );
-
-        // startTime과 endTime을 문자열로 변환 후 처리
-        const startTime = item.dutyTime1s ? item.dutyTime1s.toString() : null;
-        const endTime = item.dutyTime1c ? item.dutyTime1c.toString() : null;
-
-        const start = startTime ? parseTime(startTime) : null;
-        const end = endTime ? parseTime(endTime) : null;
-
-        let status = "정보없음";
-        if (start !== null && end !== null) {
-          const now = new Date();
-          const currentTime = now.getHours() * 60 + now.getMinutes();
-
-          if (currentTime >= start && currentTime < end) {
-            status = "진료중";
-          } else {
-            status = "진료마감";
+    const fetchHolidays = async () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const formattedToday = today.toISOString().split("T")[0].replace(/-/g, ""); // YYYYMMDD 형식
+  
+      // 공공데이터포털 API 호출
+      const serviceKey = "Xcr9KCUMHCL1McVUfmx1J3%2BbvAyCQaKXKyzIz6%2F4ZJce9pDbPGXrq%2BsLzeEmPooR44q8iedR%2FyOO9ToRc18Rpw%3D%3D"; // 발급받은 API 키
+      const url = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?ServiceKey=${serviceKey}&solYear=${year}&numOfRows=100`;
+  
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+  
+        // XML 파싱
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "text/xml");
+        const items = xmlDoc.getElementsByTagName("item");
+  
+        // 오늘이 공휴일인지 확인
+        let isHoliday = false;
+        for (let i = 0; i < items.length; i++) {
+          const locdate = items[i].getElementsByTagName("locdate")[0].textContent;
+          if (locdate === formattedToday) {
+            isHoliday = true;
+            break;
           }
         }
-
-        return { ...item, distance, status }; // 병원 정보에 거리 추가
-      });
-
-      // 거리순으로 정렬
-      hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
-
-      setSortedHospitals(hospitalsWithDistance); // 정렬된 병원 목록을 별도의 상태로 저장
-    } else {
-      setSortedHospitals(hospitals); // 사용자의 위치가 없을 경우 기본 목록 유지
-    }
-  }, [hospitals, userLocation]);
+  
+        // 병원 상태 계산
+        calculateHospitalStatus(isHoliday);
+      } catch (error) {
+        console.error("공휴일 API 호출 오류:", error);
+      }
+    };
+  
+    const calculateHospitalStatus = (isHoliday) => {
+      if (hospitals.length > 0 && userLocation) {
+        const hospitalsWithDistance = hospitals.map((item) => {
+          const hospitalLat = parseFloat(item.wgs84Lat);
+          const hospitalLon = parseFloat(item.wgs84Lon);
+  
+          const distance = haversineDistance(
+            userLocation.lat,
+            userLocation.lon,
+            hospitalLat,
+            hospitalLon
+          );
+  
+          let status = "정보없음";
+          const now = new Date();
+          const currentTime = now.getHours() * 60 + now.getMinutes();
+  
+          if (isHoliday) {
+            // 공휴일 진료시간 계산
+            const holidayStart = item.dutyTime8s ? parseTime(item.dutyTime8s.toString()) : null;
+            const holidayEnd = item.dutyTime8c ? parseTime(item.dutyTime8c.toString()) : null;
+  
+            if (holidayStart !== null && holidayEnd !== null) {
+              status =
+                currentTime >= holidayStart && currentTime < holidayEnd
+                  ? "진료중"
+                  : "진료마감";
+            }
+          } else {
+            // 평일/주말 진료시간 계산
+            const dayMapping = {
+              0: { start: item.dutyTime7s, end: item.dutyTime7c }, // 일요일
+              1: { start: item.dutyTime1s, end: item.dutyTime1c }, // 월요일
+              2: { start: item.dutyTime2s, end: item.dutyTime2c }, // 화요일
+              3: { start: item.dutyTime3s, end: item.dutyTime3c }, // 수요일
+              4: { start: item.dutyTime4s, end: item.dutyTime4c }, // 목요일
+              5: { start: item.dutyTime5s, end: item.dutyTime5c }, // 금요일
+              6: { start: item.dutyTime6s, end: item.dutyTime6c }, // 토요일
+            };
+  
+            const currentDay = now.getDay();
+            if (currentDay in dayMapping) {
+              const start =
+                dayMapping[currentDay].start &&
+                parseTime(dayMapping[currentDay].start.toString());
+              const end =
+                dayMapping[currentDay].end &&
+                parseTime(dayMapping[currentDay].end.toString());
+  
+              if (start !== null && end !== null) {
+                status =
+                  currentTime >= start && currentTime < end ? "진료중" : "진료마감";
+              }
+            }
+          }
+  
+          return { ...item, distance, status };
+        });
+  
+        hospitalsWithDistance.sort((a, b) => a.distance - b.distance);
+        setSortedHospitals(hospitalsWithDistance);
+      } else {
+        setSortedHospitals(hospitals);
+      }
+    };
+  
+    fetchHolidays();
+  }, [hospitals, userLocation]);  
 
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
@@ -475,25 +538,13 @@ const HospitalSearchComponent = () => {
       }
 
     return (
-      <Pagination className='justify-content-center'>
-        <Pagination.Prev
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-        {pageNumbers.map((page) => (
-          <Pagination.Item
-            key={page}
-            active={page === currentPage}
-            onClick={() => handlePageChange(page)}
-          >
-            {page}
-          </Pagination.Item>
-        ))}
-        <Pagination.Next
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
+      <div className="justify-content-center">
+      <ResponsivePagination
+        current={currentPage} // 현재 페이지
+        total={totalPages} // 전체 페이지 수
+        onPageChange={handlePageChange} // 페이지 변경 핸들러
+      />
+      </div>
     )
   }
 
@@ -550,46 +601,73 @@ const HospitalSearchComponent = () => {
       );
   }, [city, district, departmentSearch, hospitals, currentPage, totalItems]);
 
+  // 병원 ID에 따라 리뷰 조회
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        if (currentPageHospitals.length > 0) {
+          const reviewsData = await Promise.all(
+            currentPageHospitals.map(async (hospital) => {
+              const response = await getReviewsByHospital(hospital.hpid);
+              return response || [];
+            })
+          );
+          const flattenedReviews = reviewsData.flat();
+          // 이전 상태와 비교하여 중복 업데이트 방지
+          setReviews((prevReviews) =>
+            JSON.stringify(prevReviews) !== JSON.stringify(flattenedReviews)
+              ? flattenedReviews
+              : prevReviews
+          );
+          console.log("reviews", reviews)
+        }
+      } catch (error) {
+        console.error("리뷰를 가져오는 중 오류 발생:", error);
+      }
+    };
+  
+    fetchReviews();
+  }, [currentPageHospitals]);
+
   return (
     <Container className="mt-4 mb-4 p-5" style={{ maxWidth: "700px" }}>
       <Row className="mb-5">
-        <h1 className="header">병원 검색</h1>
-        <Col>
-          <select className="select" value={city} onChange={(e) => setCity(e.target.value)}>
-            <option value="">시도 선택</option>
-            {cities.map((city, index) => (
-              <option key={index} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+        <h2 className='fw-bold mb-4'>지역별 병원 검색</h2>
+        <Col className='d-flex mb-3 mb-md-0'>
+            <Form.Select className="me-2" value={city} onChange={(e) => setCity(e.target.value)}>
+              <option value="">시/도</option>
+              {cities.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </Form.Select>
 
-          <select
-            className="select"
-            value={district}
-            onChange={(e) => setDistrict(e.target.value)}
-            disabled={!city}
-          >
-            <option value="">시군구 선택</option>
-            {(districts[city] || []).map((district, index) => (
-              <option key={index} value={district}>
-                {district}
-              </option>
-            ))}
-          </select>
+            <Form.Select
+              className="me-2"
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+              disabled={!city}
+            >
+              <option value="">시/군/구</option>
+              {(districts[city] || []).map((district, index) => (
+                <option key={index} value={district}>
+                  {district}
+                </option>
+              ))}
+            </Form.Select>
 
-          <select
-            className="select"
-            value={departmentSearch}
-            onChange={(e) => setDepartmentSearch(e.target.value)}
-          >
-            <option value="">진료과목 선택</option>
-            {departments.map((dept) => (
-              <option key={dept.code} value={dept.code}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
+            <Form.Select
+              value={departmentSearch}
+              onChange={(e) => setDepartmentSearch(e.target.value)}
+            >
+              <option value="">진료과</option>
+              {departments.map((dept) => (
+                <option key={dept.code} value={dept.code}>
+                  {dept.name}
+                </option>
+              ))}
+            </Form.Select>
         </Col>
 
         <Col md={4}>
@@ -601,35 +679,55 @@ const HospitalSearchComponent = () => {
 
       <Row>
         {loading ? (
-          <p>로딩 중...</p>
+          <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          </div>
         ) : currentPageHospitals.length > 0 ? (
           <>
             {currentPageHospitals.map((item) => (
               <Card className="text-center search-card">
                 <Card.Body>
                   <Row className='d-flex justify-content-between align-items-center'>
-                    <Col>
+                    <Col className='text-nowrap'>
                       <div className="search-card-header">
                         <Card.Title role='button' onClick={() => handleClick(item)} className="search-card-title">{item.dutyName}</Card.Title>
-                        <Card.Text className="search-card-distanc">⭐</Card.Text>
-                        <Card.Text className="search-card-rating">{item.rating}</Card.Text>
+                        <Card.Text className="search-card-distanc me-1">★</Card.Text>
+                        <Card.Text className="search-card-rating"> {(() => {
+                          const hospitalReviews = reviews.filter((review) => {
+                            // 병원 ID의 데이터 구조에 따라 조건 분기
+                            if (typeof review.hospitalId === "object" && review.hospitalId !== null) {
+                              return String(review.hospitalId.hospitalId) === String(item.hpid);
+                            }
+                            return String(review.hospitalId) === String(item.hpid);
+                          });
+
+                          if (hospitalReviews.length === 0) return "수집중";
+
+                          const averageRating =
+                            hospitalReviews.reduce((sum, review) => sum + review.rating, 0) /
+                            hospitalReviews.length;
+
+                          return `${averageRating.toFixed(1)} (${hospitalReviews.length})`;
+                        })()}
+                        </Card.Text>
                       </div>
-                      <div style={{ display: "flex", gap: "10px" }}>
-                        <Card.Text className="search-card-distanc">
+                      <div className="d-flex text-nowrap">
+                        <Card.Text className="search-card-distanc me-2">
                           {item.distance
                             ? `${item.distance.toFixed(2)} km`
                             : "위치를 찾을 수 없습니다."}
                         </Card.Text>
-                        <Card.Text className="search-card-content">
+                        <Card.Text className="search-card-content me-1">
                           {item.dutyAddr.split(" ").slice(0, 2).join(" ")}
                         </Card.Text>
-                        <Card.Text className="search-card-content">
-                          · {selectedDepartment}
+                        <Card.Text className="search-card-content">· {selectedDepartment}
                         </Card.Text>
                       </div>
                     </Col>
                     <Col className='d-flex justify-content-end'>
-                        <p className="m-0 me-2 fw-bold" style={{ 
+                        <p className="m-0 me-2 fw-bold text-nowrap" style={{ 
                             color: item.status === "진료중" ? "#0052CC" : "#7C7C7C"
                           }}>{item.status}</p>
                         <FavoriteComponent hospitalId={item.hpid} />
@@ -638,10 +736,10 @@ const HospitalSearchComponent = () => {
                 </Card.Body>
               </Card>
             ))}
-            {renderPagination()}
+            <div className="mt-4">{renderPagination()}</div>
           </>
         ) : (
-          <p>결과가 없습니다.</p>
+          <p>원하는 지역의 병원을 검색해보세요. 휴일도 안심이 찾아드립니다.</p>
         )}
       </Row>
     </Container>

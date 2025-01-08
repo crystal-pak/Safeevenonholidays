@@ -22,7 +22,6 @@ const HelpDetailComponent = ({ id }) => {
   useEffect(() => {
     getOne(id).then(data => {
       setQuestion(data)
-      console.log("게시글 정보 : ", data)
     });
   }, [id])
 
@@ -31,7 +30,7 @@ const HelpDetailComponent = ({ id }) => {
 
   return (
     <>
-      <Container className='p-5'>
+      <Container className="mt-5 mb-5">
         <h2 className='fw-bold'>{question.subject}</h2>
         <div className='d-flex'>
           <p style={{ color: 'grey' }}>{question.createDate}</p>
@@ -42,13 +41,13 @@ const HelpDetailComponent = ({ id }) => {
         </div>
         <div className='text-end my-3'>
           {canEdit || loginState.roleNames.length > 1 ? (
-            <Button variant='primary' className='me-3' onClick={() => modify(id)}>수정</Button>
+            <Button variant='primary' className='me-3' onClick={() => modify(id)}>수정 / 삭제</Button>
           ) : null}
           <Button variant='secondary' onClick={() => list()}>목록보기</Button>
         </div>
 
         <div>
-          <HelpAnwserComponent id={id} question={question} />
+          <HelpAnwserComponent id={id} question={question.author.email} />
         </div>
       </Container>
     </>

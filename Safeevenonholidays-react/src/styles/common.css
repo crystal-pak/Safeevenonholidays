@@ -1,31 +1,60 @@
 /* Login Page */
 .kakao-button {
-  background-color: #FEE500;
+  background-color: #fee500;
   color: #000000;
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .kakao-button:hover {
-  background-color: #FEE500; 
-  color: #000000; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+  background-color: #fee500;
+  color: #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   border: none;
 }
 
 /* MyPage */
+@media (max-width: 768px) {
+  .mypage-box {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
 .title {
   font-size: 2rem;
   margin: 1rem 0;
 }
 
+.mypage-card-left {
+  height: 75vh;
+  padding: 20px;
+}
+
 .mypage-card-title {
-  font-weight: bold;
   font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 760px) {
+  .mypage-card-left {
+    height: 35vh;
+    padding: 1rem;
+  }
+
+  .mypage-card-title {
+    font-size: 1.5rem;
+    padding: 0.3rem !important;
+  }
+
+  .mypage-card-text {
+    font-size: 0.8rem !important;
+  }
 }
 
 .mypage-card-text {
   font-weight: 100;
+  font-size: 1rem;
 }
 
 .mypage-card-body {
@@ -34,7 +63,83 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100%;
+  height: 70%;
+}
+
+.mypage-card-body2 {
+  padding: 1.2rem;
+}
+
+.user-profile {
+  height: 25vh;
+  width: auto;
+}
+
+.mypage-card-name,
+.mypage-card-email {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .mypage-card-name {
+    margin-bottom: 0;
+  }
+
+  .mypage-card-email {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.card-img-bottom3 {
+  position: absolute;
+  margin: 20px;
+  bottom: 20px;
+  right: 20px;
+  width: 5vw; /* 화면 크기에 따라 크기 조정 */
+  height: auto; /* 비율 유지 */
+}
+
+@media (max-width: 375px) {
+  .mypage-card-body2 {
+    position: relative;
+  }
+
+  .card-img-bottom3 {
+    position: absolute;
+    bottom: -5vh;
+    right: -15px;
+    transform: translateY(-50%);
+    width: 4.5vh;
+    height: auto;
+  }
+
+  .mypage-card-title {
+    display: block;
+  }
+
+  .user-profile {
+    height: 10vh;
+    width: auto;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 995px) {
+  .card-img-bottom3 {
+    position: absolute;
+    margin: 20px;
+    bottom: 20px;
+    right: 20px;
+    width: 5.5vh;
+    height: auto;
+  }
+
+  .user-profile {
+    height: 13vh;
+    width: auto;
+  }
 }
 
 /* My Favorites */
@@ -44,13 +149,58 @@
   padding: 10px;
 }
 
+/* 태블릿 화면(768px 이하)에서 카드 스타일 조정 */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .myfav-card {
+    aspect-ratio: 1 / 1; /* 태블릿에서도 1:1 비율 유지 */
+    margin-bottom: 1rem;
+  }
+  .myfav-card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+  
+  .myfav-card-content {
+    font-size: 1rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+}
+
+/* 모바일 화면(768px 이하)에서 카드 높이 조정 */
+@media (max-width: 768px) {
+  .myfav-card {
+    width: 100%;
+    aspect-ratio: unset; /* aspect-ratio를 제거 */
+    height: auto; /* 높이를 내용에 맞게 조정 */
+  }
+  .myfav-card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+  
+  .myfav-card-content {
+    font-size: 1rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+}
+
 .myfav-card-title {
   font-weight: bold;
   font-size: 1.5rem;
 }
 
 .myfav-card-content {
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 /* MyReviews */
@@ -132,9 +282,9 @@
 .search-button {
   width: 100%;
   height: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  border-radius: 25px;
-  font-size: 2rem;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  font-size: 1.3rem;
 }
 
 .search-card {
@@ -170,9 +320,11 @@
   text-align: start;
   font-weight: bold;
   font-size: 1rem;
-  margin-right: 10px;
+  margin-right: 5px;
   margin-bottom: 0;
-}   
+  display: flex;
+  align-items: center;
+}
 
 .search-card-content {
   text-align: start;
@@ -185,7 +337,7 @@
 .search-card-distanc {
   font-weight: bold;
   color: black;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   margin-bottom: 0;
   text-align: start;
 }
@@ -193,7 +345,7 @@
 .search-card-rating {
   font-weight: bold;
   color: black;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: start;
 }
 
@@ -205,38 +357,38 @@
 
 /* LoginComponent */
 .card-login {
-width: 100%;
-max-width: 400px; 
-margin: 0 auto; 
-padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .card-login .form-control {
-height: 40px;
-margin-bottom: 15px;
+  height: 40px;
+  margin-bottom: 15px;
 }
 
 .card-login .btn {
-width: 100%;
-padding: 10px;
-font-size: 16px; 
-margin-bottom: 10px; 
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .card-login .row {
-margin-top: 10px;
+  margin-top: 10px;
 }
 
 @media (max-width: 576px) {
-.card-login .form-control {
-  height: 35px;
-  font-size: 14px; 
-}
+  .card-login .form-control {
+    height: 35px;
+    font-size: 14px;
+  }
 
-.card-login .btn {
-  font-size: 14px; 
-  padding: 12px; 
-}
+  .card-login .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
 }
 
 .password-input-wrapper {
@@ -257,4 +409,52 @@ margin-top: 10px;
 }
 .password-toggle-btn:focus {
   outline: none; /* 포커스 시 외곽선 제거 */
+}
+
+.table-subject {
+  width: 50%;
+  font-weight: 500;
+}
+
+/* Help, Info Page */
+@media (max-width: 650px) {
+  .table-head,
+  .table-title-number,
+  .table-title-author {
+    display: none;
+  }
+
+  .subject-title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .subject-date {
+    font-size: 0.9rem;
+    color: #696969;
+    margin-top: 4px;
+  }
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  color: #888;
+  margin-left: 8px; /* 제목과 화살표 사이 간격 */
+}
+
+/* 모바일 화면에서 화살표 셀 */
+@media (max-width: 650px) {
+  .arrow-cell {
+    text-align: right; /* 가로 방향 정렬 */
+    vertical-align: middle; /* 세로 방향 중앙 정렬 */
+    width: 10%; /* 셀 너비 */
+  }
+
+  .arrow-icon {
+    font-size: 1.3rem;
+    color: #696969;
+    display: inline-block;
+    transform: scaleY(1.2);
+    opacity: 0.8;
+  }
 }
