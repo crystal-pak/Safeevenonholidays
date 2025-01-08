@@ -155,6 +155,20 @@
     aspect-ratio: 1 / 1; /* 태블릿에서도 1:1 비율 유지 */
     margin-bottom: 1rem;
   }
+  .myfav-card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+  
+  .myfav-card-content {
+    font-size: 1rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
 }
 
 /* 모바일 화면(768px 이하)에서 카드 높이 조정 */
@@ -164,21 +178,29 @@
     aspect-ratio: unset; /* aspect-ratio를 제거 */
     height: auto; /* 높이를 내용에 맞게 조정 */
   }
+  .myfav-card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
+  
+  .myfav-card-content {
+    font-size: 1rem;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+  }
 }
 
 .myfav-card-title {
   font-weight: bold;
   font-size: 1.5rem;
-  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis; /* 말줄임표(...) 표시 */
 }
 
 .myfav-card-content {
   font-size: 1rem;
-  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
-  text-overflow: ellipsis; /* 말줄임표(...) 표시 */
 }
 
 /* MyReviews */
