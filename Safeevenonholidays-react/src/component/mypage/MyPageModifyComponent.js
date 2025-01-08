@@ -30,7 +30,11 @@ const MyPageModifyComponent = () => {
   };
 
   const handleClickModify = () => {
-    putOne(member).then((result) => {});
+    putOne(member).then((result) => {
+      alert("회원 정보가 수정 되었습니다.");
+      setResult("Modified");
+      moveToPath("/mypage");
+    });
   };
 
   const handleClickBack = () => {
@@ -50,10 +54,10 @@ const MyPageModifyComponent = () => {
     <>
       <div className="signup-container d-flex justify-content-center my-5">
         <div className="card-login">
-          <h2 className="text-center bold-text mt-4">개인정보수정</h2>
+          <h2 className="text-center mt-4 fw-bold">개인정보수정</h2>
 
           <Form.Group className="mb-3">
-            <Form.Label className="w-25">이름</Form.Label>
+            <Form.Label className="w-25 fw-bold">이름</Form.Label>
             <Form.Control
               type="text"
               name="name"
@@ -64,7 +68,7 @@ const MyPageModifyComponent = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="w-25">아이디</Form.Label>
+            <Form.Label className="w-25 fw-bold">아이디</Form.Label>
             <Form.Control
               type="text"
               name="email"

@@ -365,7 +365,7 @@ const HospitalSearchComponent = () => {
       Q0: city,
       Q1: district,
       QD: departmentSearch,
-      numOfRows: totalItems,
+      numOfRows: 1000,
       pageNo: 1,
       _type: "json",
     };

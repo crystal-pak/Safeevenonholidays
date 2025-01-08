@@ -326,7 +326,7 @@ const PharmacySearchComponent = () => {
       serviceKey: API_KEY,
       Q0: city,
       Q1: district,
-      numOfRows: totalItems,
+      numOfRows: 1000,
       pageNo: 1,
       _type: "json",
     };
