@@ -31,12 +31,12 @@ const MyPageComponent = () => {
           <Col md={6} className="mb-3">
             <div className="card mypage-card-left">
               <h5 className="mypage-card-title p-4">내 프로필</h5>
-              <div className="mypage-card-body m-0 p-0">
+              <div className="mypage-card-body">
                 <div>
                   <img src="/images/user.png" alt="userprofile" className="user-profile" />
                 </div>
-                <p className="mypage-card-name">{loginState.name}</p>
-                <p className="mypage-card-email">{loginState.email}</p>
+                <h3 className="mypage-card-name fw-bold mt-2 mt-md-4 my-2">{loginState.name}</h3>
+                <h5 className="mypage-card-email">{loginState.email}</h5>
                 <Button
                   variant="primary"
                   className="position-absolute bottom-0 end-0 mb-3 me-3 w-25"

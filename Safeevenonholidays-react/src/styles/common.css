@@ -63,8 +63,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100%;
-  padding: 1.25rem;
+  height: 70%;
 }
 
 .mypage-card-body2 {
@@ -72,7 +71,7 @@
 }
 
 .user-profile {
-  height: 30vh;
+  height: 25vh;
   width: auto;
 }
 
@@ -138,7 +137,7 @@
   }
 
   .user-profile {
-    height: 10vh;
+    height: 13vh;
     width: auto;
   }
 }
@@ -150,13 +149,36 @@
   padding: 10px;
 }
 
+/* 태블릿 화면(768px 이하)에서 카드 스타일 조정 */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .myfav-card {
+    aspect-ratio: 1 / 1; /* 태블릿에서도 1:1 비율 유지 */
+    margin-bottom: 1rem;
+  }
+}
+
+/* 모바일 화면(768px 이하)에서 카드 높이 조정 */
+@media (max-width: 768px) {
+  .myfav-card {
+    width: 100%;
+    aspect-ratio: unset; /* aspect-ratio를 제거 */
+    height: auto; /* 높이를 내용에 맞게 조정 */
+  }
+}
+
 .myfav-card-title {
   font-weight: bold;
   font-size: 1.5rem;
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 말줄임표(...) 표시 */
 }
 
 .myfav-card-content {
   font-size: 1rem;
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 말줄임표(...) 표시 */
 }
 
 /* MyReviews */
