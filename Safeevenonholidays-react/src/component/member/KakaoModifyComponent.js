@@ -41,10 +41,11 @@ const KakaoModifyComponent = () => {
   return (
     <>
         <div className='d-flex justify-content-center my-5'>
-            <Card className='w-50 p-5 mt-5'>
+            <div className='card-login p-5 mt-5'>
+            <h2 className='text-center mb-4'>카카오 회원가입</h2>
                 <Form.Group className="mb-3" controlId="formBasicName">
                     <Form.Label>이름</Form.Label>
-                    <Form.Control type="text" name='name' value={member.name} onChange={handleChange} />
+                    <Form.Control type="text" name='name' value={member.name} onChange={handleChange} className='mb-0' />
                     <Form.Text className="text-muted">
                       이름을 입력해주세요.
                     </Form.Text>
@@ -52,7 +53,7 @@ const KakaoModifyComponent = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="text" name='email' value={member.email} readOnly />
+                    <Form.Control type="text" name='email' value={member.email} readOnly className='mb-0' />
                     <Form.Text className="text-muted">
                       이메일은 수정할 수 없습니다.
                     </Form.Text>
@@ -60,18 +61,18 @@ const KakaoModifyComponent = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name='pw' value={member.pw} onChange={handleChange} />
+                    <Form.Control type="password" name='pw' value={member.pw} onChange={handleChange}className='mb-0' />
                     <Form.Text className="text-muted">
                       기본설정은 1234 입니다.
                     </Form.Text>
                 </Form.Group>
                 
                 <div className='text-end'>
-                    <Button variant="info" type="button" onClick={handleClickModify}>
+                    <Button variant="primary" type="button" onClick={handleClickModify}>
                         가입
                     </Button>
                 </div>
-            </Card>
+            </div>
         </div>
     </>
   )
