@@ -39,6 +39,114 @@ class SafeMemberRepositoryTest {
     }
 
     @Test
+    void 카카오사용자추가() {
+        String password = "password";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("kakao@email.com")
+                .password(encodedPassword)
+                .name("카카오 사용자")
+                .nickName("카카오 사용자")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
+    void 박수정추가() {
+        String password = "1234";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("1@email.com")
+                .password(encodedPassword)
+                .name("박수정")
+                .nickName("박수정")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
+    void 김다현추가() {
+        String password = "1234";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("2@email.com")
+                .password(encodedPassword)
+                .name("김다현")
+                .nickName("김다현")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
+    void 황서현추가() {
+        String password = "1234";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("3@email.com")
+                .password(encodedPassword)
+                .name("황서현")
+                .nickName("황서현")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
+    void 이동광추가() {
+        String password = "1234";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("4@email.com")
+                .password(encodedPassword)
+                .name("이동광")
+                .nickName("이동광")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
+    void 이승우추가() {
+        String password = "1234";
+        String encodedPassword = passwordEncoder.encode(password);
+
+        SafeMember member = SafeMember.builder()
+                .email("5@email.com")
+                .password(encodedPassword)
+                .name("이승우")
+                .nickName("이승우")
+                .social(false)
+                .build();
+
+        member.addRole(MemberRole.USER);
+
+        safeMemberRepository.save(member);
+    }
+
+    @Test
     void 일반회원10명추가() {
         for(int i = 1; i <= 10; i++) {
             String password = "password";

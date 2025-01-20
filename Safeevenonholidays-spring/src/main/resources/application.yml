@@ -2,9 +2,10 @@ spring:
   application:
     name: safe_holiday
   datasource:
-    url: jdbc:h2:tcp://localhost/~/testdb
-    driver-class-name: org.h2.Driver
-    username: sa
+    url: jdbc:mysql://awseb-e-pt7chkvyrq-stack-awsebrdsdatabase-12kwmm5wh3rg.cp66uy6emz8s.ap-northeast-2.rds.amazonaws.com:3306/testdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ebroot
+    password: 20000823
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,6 +28,9 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
     deserialization:
       fail-on-unknown-properties: false
+
+server:
+  port: 5000
 
 logging:
   level:
