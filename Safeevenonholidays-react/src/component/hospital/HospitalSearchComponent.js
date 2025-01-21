@@ -359,7 +359,7 @@ const HospitalSearchComponent = () => {
     const API_KEY =
       "Xcr9KCUMHCL1McVUfmx1J3+bvAyCQaKXKyzIz6/4ZJce9pDbPGXrq+sLzeEmPooR44q8iedR/yOO9ToRc18Rpw==";
     const url =
-      "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
+      "https://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
     const params = {
       serviceKey: API_KEY,
       Q0: city,
@@ -424,7 +424,7 @@ const HospitalSearchComponent = () => {
   
       // 공공데이터포털 API 호출
       const serviceKey = "Xcr9KCUMHCL1McVUfmx1J3%2BbvAyCQaKXKyzIz6%2F4ZJce9pDbPGXrq%2BsLzeEmPooR44q8iedR%2FyOO9ToRc18Rpw%3D%3D"; // 발급받은 API 키
-      const url = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?ServiceKey=${serviceKey}&solYear=${year}&numOfRows=100`;
+      const url = `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?ServiceKey=${serviceKey}&solYear=${year}&numOfRows=100`;
   
       try {
         const response = await fetch(url);

@@ -21,7 +21,7 @@ const MyPageComponent = () => {
   }
 
   const handleClickMemberList = () => {
-    navigate(`/mypage/member/list`)
+    navigate(`/mypage/list`)
   }
 
   return (

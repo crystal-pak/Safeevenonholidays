@@ -4,7 +4,7 @@ const API_KEY = "Xcr9KCUMHCL1McVUfmx1J3+bvAyCQaKXKyzIz6/4ZJce9pDbPGXrq+sLzeEmPoo
 
 // 병원 정보 가져오기
 export const fetchHospitalDetails = async (hospitalId) => {
-  const url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire";
+  const url = "https://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire";
   const params = {
     serviceKey: API_KEY,
     HPID: hospitalId,
@@ -25,7 +25,7 @@ export const fetchHospitalDetails = async (hospitalId) => {
 
 // 약국 정보 가져오기
 export const fetchPharmacyDetails = async (pharmacyId) => {
-  const url = "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire";
+  const url = "https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire";
   const params = {
     serviceKey: API_KEY,
     HPID: pharmacyId,

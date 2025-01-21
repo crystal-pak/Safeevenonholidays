@@ -49,7 +49,7 @@ function App() {
           <Route path="modify/:id" element={<Modify />} />
           <Route path="myreviews/:id" element={<MyReviews />} />
           <Route path="myfavorites/:id" element={<MyFavorites />} />
-          <Route path="member/list" element={<MemberList />} />
+          <Route path="list" element={<MemberList />} />
           <Route path="member/modify/:id" element={<MemberModify />} />
         </Route>
         

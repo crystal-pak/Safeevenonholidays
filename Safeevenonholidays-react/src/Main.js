@@ -89,7 +89,7 @@ const Main = () => {
       const fetchHospitals = async () => {
         try {
           const response = await axios.get(
-            `http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncLcinfoInqire`,
+            `https://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncLcinfoInqire`,
             {
               params: {
                 WGS84_LON: location.longitude,
@@ -122,7 +122,7 @@ const Main = () => {
       const fetchPharmacies = async () => {
         try {
           const response = await axios.get(
-            `http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire`,
+            `https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire`,
             {
               params: {
                 WGS84_LON: location.longitude,
@@ -151,13 +151,13 @@ const Main = () => {
       let details;
       if (type === "hospital") {
         const response = await axios.get(
-          `http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire`,
+          `https://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire`,
           { params: { HPID: item.hpid, serviceKey: API_KEY, _type: "json" } }
         );
         details = response.data.response.body.items.item;
       } else if (type === "pharmacy") {
         const response = await axios.get(
-          `http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire`,
+          `https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire`,
           { params: { HPID: item.hpid, serviceKey: API_KEY, _type: "json" } }
         );
         details = response.data.response.body.items.item;

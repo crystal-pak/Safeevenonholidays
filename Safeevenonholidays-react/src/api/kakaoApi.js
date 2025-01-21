@@ -5,7 +5,7 @@ import {API_SERVER_HOST} from './infoApi'
 const rest_api_key = `edbe314597786c5795e7516f6aa2b7d2`
 
 //REDIRECT URI
-const redirect_uri = `http://localhost:3000/member/kakao`
+const redirect_uri = `https://safeevenonholidays.shop/member/kakao`
 
 //인가 코드 받기
 const auth_code_path = `https://kauth.kakao.com/oauth/authorize`

@@ -55,6 +55,9 @@ public class CustomSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
+        // 특정 Origin 허용 (React 프론트엔드 도메인)
+        configuration.setAllowedOriginPatterns(Arrays.asList("https://safeevenonholidays.shop"));
+
         //모든 Origin 허용
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 

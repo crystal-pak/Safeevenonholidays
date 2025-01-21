@@ -1,7 +1,7 @@
 import jwtAxios from '../util/jwtUtil'
 import axios from 'axios'
 
-export const API_SERVER_HOST = 'http://localhost:8080'
+export const API_SERVER_HOST = 'https://api.safeevenonholidays.shop'
 
 const prefix = `${API_SERVER_HOST}/api/info`
 
